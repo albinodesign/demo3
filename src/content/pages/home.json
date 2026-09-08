@@ -1,7 +1,7 @@
 {
   "hero": {
-    "badge": "Meisterbetrieb aus Hannover",
-    "title": "Neue Fenster und Türen. An einem Tag montiert.",
+    "badge": "leck meine dicken eier",
+    "title": "ja du auch",
     "subtitle": "Fenster-Modernisierung, Haustüren und Einbruchschutz aus eigener deutscher Fertigung – mit 25 Jahren Garantie und Festpreisgarantie.",
     "ctaPrimary": "Kostenloses Angebot anfordern",
     "ctaSecondary": "Jetzt anrufen",
@@ -10,10 +10,26 @@
   },
   "trust": {
     "items": [
-      { "value": "25", "suffix": "Jahre", "label": "Garantie auf Fenster & Türen" },
-      { "value": "10.000+", "suffix": "", "label": "montierte Fenster in Hannover" },
-      { "value": "1", "suffix": "Tag", "label": "Montagezeit pro Auftrag" },
-      { "value": "100%", "suffix": "", "label": "Festpreis – ohne Nachforderungen" }
+      {
+        "value": "25",
+        "suffix": "Jahre",
+        "label": "Garantie auf Fenster & Türen"
+      },
+      {
+        "value": "10.000+",
+        "suffix": "",
+        "label": "montierte Fenster in Hannover"
+      },
+      {
+        "value": "1",
+        "suffix": "Tag",
+        "label": "Montagezeit pro Auftrag"
+      },
+      {
+        "value": "100%",
+        "suffix": "",
+        "label": "Festpreis – ohne Nachforderungen"
+      }
     ]
   },
   "services": {
