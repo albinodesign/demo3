@@ -1,0 +1,79 @@
+---
+import type { getPage, getSite } from '../../lib/content';
+import CheckCircleIcon from '../icons/CheckCircle.astro';
+import PhoneIcon from '../icons/Phone.astro';
+import ArrowRightIcon from '../icons/ArrowRight.astro';
+
+interface Props {
+  hero: Awaited<ReturnType<typeof getPage>>['hero'];
+  badges: string[];
+  cardText: string;
+  site: Awaited<ReturnType<typeof getSite>>;
+}
+
+const { hero, badges, cardText, site } = Astro.props;
+---
+
+<section data-cms-section="home.hero" class="bg-surface">
+  <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:py-24 lg:px-8">
+    <div>
+      <span
+        data-cms-field="home.hero.badge"
+        class="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary"
+      >
+        {hero.badge}
+      </span>
+      <h1
+        data-cms-field="home.hero.title"
+        class="mt-5 font-headline text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl"
+      >
+        {hero.title}
+      </h1>
+      <p data-cms-field="home.hero.subtitle" class="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted">
+        {hero.subtitle}
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a
+          href="/kontakt"
+          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-base font-semibold text-ink transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        >
+          <span data-cms-field="home.hero.ctaPrimary">{hero.ctaPrimary}</span>
+          <ArrowRightIcon class="h-4 w-4" />
+        </a>
+        <a
+          href={`tel:${site.phoneHref}`}
+          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border-2 border-primary px-6 py-3 text-base font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          <PhoneIcon class="h-4 w-4" />
+          <span data-cms-field="home.hero.ctaSecondary">{hero.ctaSecondary}</span>
+        </a>
+      </div>
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+        {badges.map((badge) => (
+          <li class="flex items-center gap-2 text-sm font-medium text-ink">
+            <CheckCircleIcon class="h-4 w-4 text-trust" />
+            {badge}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="relative">
+      <img
+        data-cms-field="home.hero.image"
+        src={hero.image}
+        alt={hero.imageAlt}
+        width="800"
+        height="600"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="w-full rounded-2xl shadow-xl"
+      />
+      <div class="absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-xl bg-white px-5 py-4 shadow-lg sm:flex">
+        <CheckCircleIcon class="h-8 w-8 text-trust" />
+        <p class="font-headline text-base font-bold text-ink">{cardText}</p>
+      </div>
+    </div>
+  </div>
+</section>

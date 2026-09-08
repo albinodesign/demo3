@@ -1,0 +1,58 @@
+---
+import type { getPage } from '../../lib/content';
+import WindowIcon from '../icons/Window.astro';
+import DoorIcon from '../icons/Door.astro';
+import ShieldIcon from '../icons/Shield.astro';
+import WrenchIcon from '../icons/Wrench.astro';
+import ArrowRightIcon from '../icons/ArrowRight.astro';
+
+interface Props {
+  services: Awaited<ReturnType<typeof getPage>>['services'];
+}
+
+const { services } = Astro.props;
+
+const icons = {
+  window: WindowIcon,
+  door: DoorIcon,
+  shield: ShieldIcon,
+  wrench: WrenchIcon,
+} as const;
+---
+
+<section data-cms-section="home.services" id="leistungen" class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="max-w-2xl">
+      <h2 data-cms-field="home.services.title" class="font-headline text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        {services.title}
+      </h2>
+      <p class="mt-4 text-lg text-ink-muted">{services.subtitle}</p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {services.items.map((item, i) => {
+        const Icon = icons[item.icon as keyof typeof icons];
+        return (
+          <a
+            href="/kontakt"
+            class="group flex flex-col rounded-2xl border border-gray-100 bg-surface p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white transition-colors group-hover:bg-accent group-hover:text-ink">
+              <Icon class="h-6 w-6" />
+            </span>
+            <h3 data-cms-field={`home.services.items.${i}.title`} class="mt-5 font-headline text-lg font-bold text-ink">
+              {item.title}
+            </h3>
+            <p data-cms-field={`home.services.items.${i}.description`} class="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">
+              {item.description}
+            </p>
+            <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:gap-2.5 transition-all">
+              Angebot anfordern
+              <ArrowRightIcon class="h-3.5 w-3.5" />
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</section>

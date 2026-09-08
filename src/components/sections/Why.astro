@@ -1,0 +1,46 @@
+---
+import type { getPage } from '../../lib/content';
+import AwardIcon from '../icons/Award.astro';
+import IndustryIcon from '../icons/Industry.astro';
+import CalendarDayIcon from '../icons/CalendarDay.astro';
+import TagIcon from '../icons/Tag.astro';
+
+interface Props {
+  why: Awaited<ReturnType<typeof getPage>>['why'];
+}
+
+const { why } = Astro.props;
+
+const icons = {
+  award: AwardIcon,
+  industry: IndustryIcon,
+  'calendar-day': CalendarDayIcon,
+  tag: TagIcon,
+} as const;
+---
+
+<section data-cms-section="home.why" id="warum" class="bg-surface">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 data-cms-field="home.why.title" class="font-headline text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        {why.title}
+      </h2>
+      <p data-cms-field="home.why.subtitle" class="mt-4 text-lg text-ink-muted">{why.subtitle}</p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {why.features.map((feature) => {
+        const Icon = icons[feature.icon as keyof typeof icons];
+        return (
+          <div class="rounded-2xl bg-white p-6 shadow-sm">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-trust/10 text-trust">
+              <Icon class="h-6 w-6" />
+            </span>
+            <h3 class="mt-5 font-headline text-lg font-bold text-ink">{feature.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-muted">{feature.text}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

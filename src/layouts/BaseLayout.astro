@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import interWoff2 from '../assets/fonts/inter-latin.woff2';
+import jakartaWoff2 from '../assets/fonts/plus-jakarta-sans-latin.woff2';
+import CookieBanner from '../components/CookieBanner.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jakartaWoff2} as="font" type="font/woff2" crossorigin />
+
+    <script is:inline>
+      if (window.self !== window.top) {
+        window.addEventListener('message', (event) => {
+          if (event.data?.type === 'CMS_FIELD_UPDATE') {
+            const el = document.querySelector(`[data-cms-field="${event.data.field}"]`);
+            if (el) {
+              if (el.tagName === 'IMG') el.src = event.data.value;
+              else el.innerText = event.data.value;
+            }
+          }
+        });
+      }
+    </script>
+  </head>
+  <body class="bg-white font-body text-ink antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+    >
+      Zum Inhalt springen
+    </a>
+    <slot />
+    <CookieBanner />
+  </body>
+</html>

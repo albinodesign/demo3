@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getSite } from '../lib/content';
+
+const site = await getSite();
+---
+
+<BaseLayout
+  title={`Datenschutzerklärung – ${site.name}`}
+  description={`Datenschutzerklärung der ${site.name} gemäß DSGVO.`}
+>
+  <Header />
+  <main id="main-content">
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <h1 class="font-headline text-4xl font-extrabold tracking-tight text-ink">Datenschutzerklärung</h1>
+
+      <section class="mt-10">
+        <h2 class="font-headline text-xl font-bold text-ink">1. Verantwortlicher</h2>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:
+        </p>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          {site.name}<br />
+          Inhaber: {site.owner} ({site.ownerTitle})<br />
+          {site.address.street}<br />
+          {site.address.zip} {site.address.city}<br />
+          Telefon: <a href={`tel:${site.phoneHref}`} class="text-primary underline">{site.phone}</a><br />
+          E-Mail: <a href={`mailto:${site.email}`} class="text-primary underline">{site.email}</a>
+        </p>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="font-headline text-xl font-bold text-ink">2. Allgemeine Hinweise zur Datenverarbeitung</h2>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstellung dieser Website, zur
+          Bearbeitung Ihrer Anfragen oder zur Erfüllung rechtlicher Pflichten erforderlich ist
+          (Art. 6 Abs. 1 lit. b, c, f DSGVO). Diese Website verwendet keine Tracking- oder
+          Analyse-Werkzeuge und lädt keine Inhalte von Drittanbieter-CDNs. Schriftarten und Icons werden
+          ausschließlich lokal von unserem Server geladen.
+        </p>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="font-headline text-xl font-bold text-ink">3. Server-Log-Dateien</h2>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          Beim Aufruf dieser Website werden durch den Hosting-Anbieter automatisch Informationen in
+          sogenannten Server-Log-Dateien gespeichert (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs,
+          abgerufene Datei, Browsertyp). Diese Daten sind technisch erforderlich, um die Website
+          anzuzeigen und deren Sicherheit zu gewährleisten (Art. 6 Abs. 1 lit. f DSGVO). Eine
+          Zusammenführung dieser Daten mit anderen Datenquellen erfolgt nicht.
+        </p>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="font-headline text-xl font-bold text-ink">4. Kontaktformular und E-Mail-Anfragen</h2>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          Wenn Sie uns über das Kontaktformular, per E-Mail oder telefonisch kontaktieren, verarbeiten wir
+          die von Ihnen angegebenen Daten (Name, E-Mail-Adresse, ggf. Telefonnummer und Ihre Nachricht)
+          ausschließlich zur Bearbeitung Ihrer Anfrage und für den Fall von Anschlussfragen
+          (Art. 6 Abs. 1 lit. b DSGVO). Eine Weitergabe an Dritte erfolgt nicht. Für den Versand des
+          Formulars nutzen wir den Formular-Dienst Web3Forms als Auftragsverarbeiter; die Daten werden
+          dabei verschlüsselt übertragen. Ihre Daten werden gelöscht, sobald sie für die Bearbeitung der
+          Anfrage nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.
+        </p>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="font-headline text-xl font-bold text-ink">5. Cookies und lokale Speicherung</h2>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          Diese Website setzt keine Marketing- oder Tracking-Cookies. Im lokalen Speicher Ihres Browsers
+          (localStorage) wird lediglich Ihre Entscheidung im Consent-Banner gespeichert, damit dieser nicht
+          bei jedem Besuch erneut erscheint. Diese technisch notwendige Speicherung erfolgt auf Grundlage
+          von § 25 Abs. 2 TDDDG. Sie können den Eintrag jederzeit über die Browsereinstellungen löschen.
+        </p>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="font-headline text-xl font-bold text-ink">6. Ihre Rechte</h2>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          Sie haben jederzeit das Recht auf Auskunft über Ihre gespeicherten personenbezogenen Daten
+          (Art. 15 DSGVO), auf Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO), Einschränkung der
+          Verarbeitung (Art. 18 DSGVO), Datenübertragbarkeit (Art. 20 DSGVO) sowie Widerspruch gegen die
+          Verarbeitung (Art. 21 DSGVO). Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die
+          Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Zudem besteht ein Beschwerderecht bei der zuständigen
+          Aufsichtsbehörde (Art. 77 DSGVO) – für Niedersachsen: Die Landesbeauftragte für den Datenschutz
+          Niedersachsen, Prinzenstraße 5, 30159 Hannover.
+        </p>
+      </section>
+
+      <section class="mt-8">
+        <h2 class="font-headline text-xl font-bold text-ink">7. Datensicherheit</h2>
+        <p class="mt-3 leading-relaxed text-ink-muted">
+          Diese Website nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte
+          eine TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie an
+          &bdquo;https://&ldquo; in der Adresszeile Ihres Browsers.
+        </p>
+      </section>
+
+      <p class="mt-10 text-sm text-ink-muted">
+        Stand dieser Datenschutzerklärung: September 2026. Bei Fragen zum Datenschutz erreichen Sie uns unter
+        <a href={`mailto:${site.email}`} class="text-primary underline">{site.email}</a>.
+      </p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

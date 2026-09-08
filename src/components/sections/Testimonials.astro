@@ -1,0 +1,42 @@
+---
+import type { getPage } from '../../lib/content';
+import StarIcon from '../icons/Star.astro';
+import QuoteLeftIcon from '../icons/QuoteLeft.astro';
+
+interface Props {
+  testimonials: Awaited<ReturnType<typeof getPage>>['testimonials'];
+}
+
+const { testimonials } = Astro.props;
+---
+
+<section data-cms-section="home.testimonials" id="bewertungen" class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 data-cms-field="home.testimonials.title" class="font-headline text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        {testimonials.title}
+      </h2>
+      <p class="mt-4 text-lg text-ink-muted">{testimonials.subtitle}</p>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      {testimonials.items.map((item, i) => (
+        <figure class="flex flex-col rounded-2xl border border-gray-100 bg-surface p-6">
+          <QuoteLeftIcon class="h-6 w-6 text-accent" />
+          <blockquote data-cms-field={`home.testimonials.items.${i}.quote`} class="mt-4 flex-1 text-base leading-relaxed text-ink">
+            &bdquo;{item.quote}&ldquo;
+          </blockquote>
+          <figcaption class="mt-6 border-t border-gray-200 pt-4">
+            <div class="flex gap-1" role="img" aria-label={`${item.rating} von 5 Sternen`}>
+              {Array.from({ length: 5 }).map((_, s) => (
+                <StarIcon class={`h-4 w-4 ${s < item.rating ? 'text-accent' : 'text-gray-300'}`} />
+              ))}
+            </div>
+            <p class="mt-2 text-sm font-semibold text-ink">{item.author}</p>
+            <p class="text-xs text-ink-muted">{item.location}</p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,68 @@
+---
+import { getSite } from '../lib/content';
+import WindowIcon from './icons/Window.astro';
+import PhoneIcon from './icons/Phone.astro';
+import EnvelopeIcon from './icons/Envelope.astro';
+import MapPinIcon from './icons/MapPin.astro';
+import ClockIcon from './icons/Clock.astro';
+
+const site = await getSite();
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-primary-dark text-white">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <div class="grid gap-10 md:grid-cols-3">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10">
+            <WindowIcon class="h-5 w-5" />
+          </span>
+          <span class="font-headline text-lg font-extrabold tracking-tight">{site.name}</span>
+        </div>
+        <p class="mt-4 text-sm text-white/70">
+          Ihr Meisterbetrieb für Fenster, Türen und Einbruchschutz in {site.address.city}.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-white/60">Kontakt</h2>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex items-start gap-3">
+            <MapPinIcon class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <span>{site.address.street}, {site.address.zip} {site.address.city}</span>
+          </li>
+          <li>
+            <a href={`tel:${site.phoneHref}`} class="flex items-center gap-3 hover:text-accent">
+              <PhoneIcon class="h-4 w-4 shrink-0 text-accent" />
+              {site.phone}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${site.email}`} class="flex items-center gap-3 hover:text-accent">
+              <EnvelopeIcon class="h-4 w-4 shrink-0 text-accent" />
+              {site.email}
+            </a>
+          </li>
+          <li class="flex items-start gap-3">
+            <ClockIcon class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <span>{site.hours.monThu}<br />{site.hours.fri}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-white/60">Rechtliches</h2>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a href="/impressum" class="hover:text-accent">Impressum</a></li>
+          <li><a href="/datenschutz" class="hover:text-accent">Datenschutzerklärung</a></li>
+          <li><a href="/kontakt" class="hover:text-accent">Kontakt &amp; Angebot</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/50">
+      &copy; {year} {site.name} &middot; Inhaber: {site.owner} ({site.ownerTitle})
+    </div>
+  </div>
+</footer>

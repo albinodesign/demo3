@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import TrustBar from '../components/sections/TrustBar.astro';
+import Services from '../components/sections/Services.astro';
+import Why from '../components/sections/Why.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import { getPage, getSite } from '../lib/content';
+
+const site = await getSite();
+const home = await getPage('home');
+
+const heroBadges = [home.why.features[0]!.title, home.why.features[3]!.title, home.why.features[2]!.title];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  name: site.name,
+  url: Astro.site?.toString(),
+  telephone: site.phone,
+  email: site.email,
+  founder: {
+    '@type': 'Person',
+    name: site.owner,
+    jobTitle: site.ownerTitle,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    postalCode: site.address.zip,
+    addressLocality: site.address.city,
+    addressCountry: 'DE',
+  },
+  openingHours: site.hours.schema,
+};
+---
+
+<BaseLayout
+  title={`${site.name} – Fenster, Türen & Einbruchschutz in ${site.address.city}`}
+  description={home.hero.subtitle}
+>
+  <Header />
+  <main id="main-content">
+    <Hero hero={home.hero} badges={heroBadges} cardText={home.why.features[0]!.title} site={site} />
+    <TrustBar trust={home.trust} />
+    <Services services={home.services} />
+    <Why why={home.why} />
+    <Testimonials testimonials={home.testimonials} />
+    <FinalCta finalCta={home.finalCta} site={site} />
+  </main>
+  <Footer />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

@@ -1,0 +1,19 @@
+{
+  "name": "Klarwerk Fenster & Türen GmbH",
+  "legalForm": "GmbH",
+  "owner": "Jonas Weber",
+  "ownerTitle": "Handwerksmeister",
+  "address": {
+    "street": "Handwerkerstraße 14",
+    "zip": "30165",
+    "city": "Hannover"
+  },
+  "phone": "0511 8976543",
+  "phoneHref": "+495118976543",
+  "email": "anfrage@klarwerk-fenster.de",
+  "hours": {
+    "monThu": "Mo - Do: 07:30 - 16:30 Uhr",
+    "fri": "Fr: 07:30 - 13:30 Uhr",
+    "schema": ["Mo-Th 07:30-16:30", "Fr 07:30-13:30"]
+  }
+}

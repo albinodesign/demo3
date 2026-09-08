@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+
+/* Design-Tokens: siehe requirements.md §4 */
+@theme {
+  --color-primary: #1b4f72;
+  --color-primary-dark: #123a55;
+  --color-accent: #e8a33d;
+  --color-accent-dark: #c58425;
+  --color-surface: #f7f8fa;
+  --color-ink: #1c2430;
+  --color-ink-muted: #55606e;
+  --color-trust: #2e7d4f;
+
+  --font-headline: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+/* Lokale Fonts (Variable Fonts, latin-Subset) — keine externen Font-CDNs (DSGVO) */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../assets/fonts/inter-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../assets/fonts/plus-jakarta-sans-latin.woff2') format('woff2');
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background-color: #ffffff;
+}

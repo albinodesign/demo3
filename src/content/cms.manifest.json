@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "fields": [
+    { "id": "home.hero.badge", "label": "Hero: Badge-Zeile", "type": "text", "file": "src/content/pages/home.json", "path": "hero.badge", "maxLength": 60 },
+    { "id": "home.hero.title", "label": "Hero: Hauptüberschrift", "type": "text", "file": "src/content/pages/home.json", "path": "hero.title", "maxLength": 90 },
+    { "id": "home.hero.subtitle", "label": "Hero: Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "hero.subtitle", "maxLength": 200 },
+    { "id": "home.hero.ctaPrimary", "label": "Hero: Primärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaPrimary", "maxLength": 40 },
+    { "id": "home.hero.ctaSecondary", "label": "Hero: Sekundärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaSecondary", "maxLength": 40 },
+    { "id": "home.hero.image", "label": "Hero: Bild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image", "maxLength": 500 },
+    { "id": "home.services.title", "label": "Leistungen: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "services.title", "maxLength": 60 },
+    { "id": "home.services.items.0.title", "label": "Leistung 1: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[0].title", "maxLength": 60 },
+    { "id": "home.services.items.0.description", "label": "Leistung 1: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[0].description", "maxLength": 220 },
+    { "id": "home.services.items.1.title", "label": "Leistung 2: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[1].title", "maxLength": 60 },
+    { "id": "home.services.items.1.description", "label": "Leistung 2: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[1].description", "maxLength": 220 },
+    { "id": "home.services.items.2.title", "label": "Leistung 3: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[2].title", "maxLength": 60 },
+    { "id": "home.services.items.2.description", "label": "Leistung 3: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[2].description", "maxLength": 220 },
+    { "id": "home.services.items.3.title", "label": "Leistung 4: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[3].title", "maxLength": 60 },
+    { "id": "home.services.items.3.description", "label": "Leistung 4: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[3].description", "maxLength": 220 },
+    { "id": "home.why.title", "label": "Warum-Sektion: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "why.title", "maxLength": 60 },
+    { "id": "home.why.subtitle", "label": "Warum-Sektion: Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.subtitle", "maxLength": 160 },
+    { "id": "home.testimonials.title", "label": "Kundenstimmen: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.title", "maxLength": 60 },
+    { "id": "home.testimonials.items.0.quote", "label": "Kundenstimme 1: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[0].quote", "maxLength": 280 },
+    { "id": "home.testimonials.items.1.quote", "label": "Kundenstimme 2: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[1].quote", "maxLength": 280 },
+    { "id": "home.testimonials.items.2.quote", "label": "Kundenstimme 3: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[2].quote", "maxLength": 280 },
+    { "id": "home.finalCta.title", "label": "Abschluss-CTA: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.title", "maxLength": 90 },
+    { "id": "home.finalCta.subtitle", "label": "Abschluss-CTA: Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "finalCta.subtitle", "maxLength": 200 },
+    { "id": "home.finalCta.ctaPrimary", "label": "Abschluss-CTA: Button", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.ctaPrimary", "maxLength": 40 }
+  ]
+}

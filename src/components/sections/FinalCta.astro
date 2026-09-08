@@ -1,0 +1,35 @@
+---
+import type { getPage, getSite } from '../../lib/content';
+import ArrowRightIcon from '../icons/ArrowRight.astro';
+
+interface Props {
+  finalCta: Awaited<ReturnType<typeof getPage>>['finalCta'];
+  site: Awaited<ReturnType<typeof getSite>>;
+}
+
+const { finalCta, site } = Astro.props;
+---
+
+<section data-cms-section="home.finalCta" class="bg-primary">
+  <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8">
+    <h2 data-cms-field="home.finalCta.title" class="font-headline text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+      {finalCta.title}
+    </h2>
+    <p data-cms-field="home.finalCta.subtitle" class="mt-4 text-lg text-white/80">
+      {finalCta.subtitle}
+    </p>
+    <a
+      href="/kontakt"
+      class="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-8 py-3 text-base font-semibold text-ink transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      <span data-cms-field="home.finalCta.ctaPrimary">{finalCta.ctaPrimary}</span>
+      <ArrowRightIcon class="h-4 w-4" />
+    </a>
+    <p class="mt-6 text-sm text-white/70">
+      <span data-cms-field="home.finalCta.ctaSecondary">{finalCta.ctaSecondary}</span>{' '}
+      <a href={`tel:${site.phoneHref}`} class="font-semibold text-white underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
+        {site.phone}
+      </a>
+    </p>
+  </div>
+</section>

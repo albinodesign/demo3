@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Montage-Illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1B4F72"/>
+      <stop offset="1" stop-color="#123A55"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#BFD9EA"/>
+      <stop offset="1" stop-color="#7FA8C9"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+  <circle cx="660" cy="90" r="130" fill="#E8A33D" opacity="0.15"/>
+  <circle cx="120" cy="520" r="170" fill="#FFFFFF" opacity="0.06"/>
+  <!-- Fenster -->
+  <g>
+    <rect x="140" y="110" width="360" height="380" rx="10" fill="#F7F8FA"/>
+    <rect x="160" y="130" width="320" height="340" rx="6" fill="url(#glass)"/>
+    <rect x="312" y="130" width="16" height="340" fill="#F7F8FA"/>
+    <rect x="160" y="288" width="320" height="16" fill="#F7F8FA"/>
+    <rect x="428" y="300" width="14" height="52" rx="7" fill="#1C2430"/>
+    <path d="M180 150 L290 250" stroke="#FFFFFF" stroke-width="10" opacity="0.35" stroke-linecap="round"/>
+    <path d="M180 210 L250 280" stroke="#FFFFFF" stroke-width="8" opacity="0.25" stroke-linecap="round"/>
+  </g>
+  <!-- Tür -->
+  <g>
+    <rect x="540" y="150" width="170" height="340" rx="10" fill="#E8A33D"/>
+    <rect x="560" y="175" width="130" height="120" rx="6" fill="#C58425"/>
+    <rect x="560" y="315" width="130" height="150" rx="6" fill="#C58425"/>
+    <circle cx="575" cy="320" r="7" fill="#1C2430"/>
+    <rect x="566" y="300" width="18" height="8" rx="4" fill="#1C2430"/>
+  </g>
+  <!-- Bodenlinie -->
+  <rect x="100" y="490" width="660" height="8" rx="4" fill="#FFFFFF" opacity="0.25"/>
+  <!-- Sicherheits-Schild -->
+  <g transform="translate(470 400)">
+    <path d="M60 0 L120 22 V70 C120 108 95 134 60 146 C25 134 0 108 0 70 V22 Z" fill="#2E7D4F"/>
+    <path d="M38 72 L56 90 L88 52" stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

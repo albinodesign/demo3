@@ -1,0 +1,101 @@
+{
+  "hero": {
+    "badge": "Meisterbetrieb aus Hannover",
+    "title": "Neue Fenster und Türen. An einem Tag montiert.",
+    "subtitle": "Fenster-Modernisierung, Haustüren und Einbruchschutz aus eigener deutscher Fertigung – mit 25 Jahren Garantie und Festpreisgarantie.",
+    "ctaPrimary": "Kostenloses Angebot anfordern",
+    "ctaSecondary": "Jetzt anrufen",
+    "image": "/images/hero-montage.svg",
+    "imageAlt": "Monteur von Klarwerk beim Einbau eines modernen Fensters"
+  },
+  "trust": {
+    "items": [
+      { "value": "25", "suffix": "Jahre", "label": "Garantie auf Fenster & Türen" },
+      { "value": "10.000+", "suffix": "", "label": "montierte Fenster in Hannover" },
+      { "value": "1", "suffix": "Tag", "label": "Montagezeit pro Auftrag" },
+      { "value": "100%", "suffix": "", "label": "Festpreis – ohne Nachforderungen" }
+    ]
+  },
+  "services": {
+    "title": "Unsere Leistungen",
+    "subtitle": "Alles rund um Fenster, Türen und Sicherheit – aus einer Hand, von Beratung bis Montage.",
+    "items": [
+      {
+        "icon": "window",
+        "title": "Fenster-Modernisierung",
+        "description": "Energieeffiziente 3-fach-Verglasung, die Heizkosten senkt und Lärm draußen hält. Inklusive fachgerechtem RAL-Montage-Standard."
+      },
+      {
+        "icon": "door",
+        "title": "Haustüren-Montage",
+        "description": "Sichere Aluminium- und Kunststoff-Haustüren nach Maß – geplant, gefertigt und an einem Tag sauber montiert."
+      },
+      {
+        "icon": "shield",
+        "title": "Einbruchschutz & Smart Home",
+        "description": "RC2-zertifizierte Beschläge, nachrüstbare Sicherheitstechnik und smarte Sensoren, die Ihr Zuhause rund um die Uhr schützen."
+      },
+      {
+        "icon": "wrench",
+        "title": "Reparatur & Wartung",
+        "description": "Klemmende Fenster, undichte Dichtungen, defekte Griffe – wir reparieren schnell und verlängern die Lebensdauer Ihrer Elemente."
+      }
+    ]
+  },
+  "why": {
+    "title": "Warum Klarwerk?",
+    "subtitle": "Vier Versprechen, die wir schriftlich geben – und seit der ersten Stunde halten.",
+    "features": [
+      {
+        "icon": "award",
+        "title": "25 Jahre Garantie",
+        "text": "Auf Profile, Verglasung und Montage. So lange, dass Sie nie wieder darüber nachdenken müssen."
+      },
+      {
+        "icon": "industry",
+        "title": "Eigene deutsche Fertigung",
+        "text": "Gefertigt in Deutschland, ohne Zwischenhändler. Kurze Wege, geprüfte Qualität, schnelle Lieferung."
+      },
+      {
+        "icon": "calendar-day",
+        "title": "Montage in 1 Tag",
+        "text": "Morgens alt, abends neu. Unsere eigenen Montageteams arbeiten staubarm und hinterlassen alles besenrein."
+      },
+      {
+        "icon": "tag",
+        "title": "Festpreisgarantie",
+        "text": "Der Preis im Angebot ist der Preis auf der Rechnung. Keine Zuschläge, keine Überraschungen."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Das sagen unsere Kunden",
+    "subtitle": "Über 800 Bewertungen aus Hannover und Umgebung – durchschnittlich 4,9 von 5 Sternen.",
+    "items": [
+      {
+        "quote": "Vom Aufmaß bis zur Montage hat alles reibungslos geklappt. Die neuen Fenster sind top – und die Wohnung bleibt endlich warm.",
+        "author": "S. Meyer",
+        "location": "Hannover-List",
+        "rating": 5
+      },
+      {
+        "quote": "Unsere alte Haustür war ein Sicherheitsrisiko. Klarwerk hat in einem Tag eine neue Tür mit Einbruchschutz montiert. Absolut empfehlenswert.",
+        "author": "T. und K. Brandt",
+        "location": "Hannover-Bothfeld",
+        "rating": 5
+      },
+      {
+        "quote": "Fester Preis, festes Datum, saubere Arbeit. Genau so stellt man sich Handwerk vor. Die 25 Jahre Garantie gibt es schriftlich dazu.",
+        "author": "M. Yilmaz",
+        "location": "Hannover-Vahrenwald",
+        "rating": 5
+      }
+    ]
+  },
+  "finalCta": {
+    "title": "Bereit für neue Fenster und Türen?",
+    "subtitle": "Fordern Sie jetzt Ihr kostenloses Festpreis-Angebot an – Antwort garantiert innerhalb von 24 Stunden.",
+    "ctaPrimary": "Kostenloses Angebot anfordern",
+    "ctaSecondary": "Oder rufen Sie direkt an:"
+  }
+}

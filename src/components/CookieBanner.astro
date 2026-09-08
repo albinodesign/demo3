@@ -1,0 +1,118 @@
+---
+// Lokales Consent-Banner (DSGVO/§ 25 TDDDG):
+// - Keine externen Dienste, Entscheidung nur im localStorage des Browsers
+// - Optionale Skripte werden als <script type="text/plain" data-consent="KATEGORIE">
+//   deklariert und erst nach erteilter Einwilligung aktiviert.
+---
+
+<div
+  id="consent-banner"
+  class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-200 bg-white p-4 shadow-2xl sm:p-6"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="consent-title"
+>
+  <div class="mx-auto max-w-7xl">
+    <h2 id="consent-title" class="font-headline text-lg font-bold text-ink">Cookies &amp; Datenschutz</h2>
+    <p class="mt-2 max-w-3xl text-sm text-ink-muted">
+      Wir nutzen keine Tracking- oder Marketing-Cookies. Technisch notwendige Speicherung (z. B. Ihre
+      Consent-Entscheidung) ist immer aktiv. Optionale Dienste laden wir erst nach Ihrer Einwilligung.
+      Details finden Sie in der <a href="/datenschutz" class="font-medium text-primary underline">Datenschutzerklärung</a>.
+    </p>
+
+    <div id="consent-settings" class="mt-4 hidden gap-4 rounded-lg bg-surface p-4">
+      <label class="flex items-center gap-3 text-sm text-ink">
+        <input type="checkbox" checked disabled class="h-5 w-5 accent-primary" />
+        Notwendig <span class="text-ink-muted">(immer aktiv – technisch erforderlich)</span>
+      </label>
+      <label class="mt-2 flex items-center gap-3 text-sm text-ink">
+        <input type="checkbox" id="consent-marketing" class="h-5 w-5 accent-primary" />
+        Optionale Dienste <span class="text-ink-muted">(z. B. zukünftige Analyse- oder Marketing-Skripte)</span>
+      </label>
+    </div>
+
+    <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+      <button
+        id="consent-accept"
+        class="min-h-11 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        Alle akzeptieren
+      </button>
+      <button
+        id="consent-decline"
+        class="min-h-11 rounded-lg border-2 border-gray-300 px-6 py-2.5 text-sm font-semibold text-ink hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        Nur notwendige
+      </button>
+      <button
+        id="consent-customize"
+        class="min-h-11 rounded-lg px-6 py-2.5 text-sm font-medium text-ink-muted underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        aria-expanded="false"
+        aria-controls="consent-settings"
+      >
+        Einstellungen
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = 'klarwerk-consent';
+    var banner = document.getElementById('consent-banner');
+    var settings = document.getElementById('consent-settings');
+    var customize = document.getElementById('consent-customize');
+    var marketingBox = document.getElementById('consent-marketing');
+
+    function read() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY) || 'null');
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function activateConsentedScripts(consent) {
+      // Blockierte Skripte (type="text/plain" + data-consent) erst jetzt ausführen
+      document.querySelectorAll('script[type="text/plain"][data-consent]').forEach(function (script) {
+        var category = script.getAttribute('data-consent');
+        if (!consent[category]) return;
+        var live = document.createElement('script');
+        Array.prototype.slice.call(script.attributes).forEach(function (attr) {
+          if (attr.name !== 'type' && attr.name !== 'data-consent') live.setAttribute(attr.name, attr.value);
+        });
+        live.textContent = script.textContent;
+        script.replaceWith(live);
+      });
+    }
+
+    function save(marketing) {
+      var consent = { essential: true, marketing: marketing, ts: new Date().toISOString() };
+      localStorage.setItem(KEY, JSON.stringify(consent));
+      banner.classList.add('hidden');
+      activateConsentedScripts(consent);
+      return consent;
+    }
+
+    var stored = read();
+    if (stored) {
+      activateConsentedScripts(stored);
+    } else {
+      banner.classList.remove('hidden');
+    }
+
+    document.getElementById('consent-accept').addEventListener('click', function () {
+      save(true);
+    });
+    document.getElementById('consent-decline').addEventListener('click', function () {
+      save(false);
+    });
+    customize.addEventListener('click', function () {
+      var open = settings.classList.toggle('hidden') === false;
+      customize.setAttribute('aria-expanded', String(open));
+      if (open && stored) marketingBox.checked = !!stored.marketing;
+      customize.textContent = open ? 'Auswahl speichern' : 'Einstellungen';
+      if (!open) save(marketingBox.checked);
+    });
+  })();
+</script>
