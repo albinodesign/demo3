@@ -1,40 +1,70 @@
 {
+  "why": {
+    "title": "leck eier",
+    "features": [
+      {
+        "icon": "award",
+        "text": "Auf Profile, Verglasung und Montage. So lange, dass Sie nie wieder darüber nachdenken müssen.",
+        "title": "25 Jahre Garantie"
+      },
+      {
+        "icon": "industry",
+        "text": "Gefertigt in Deutschland, ohne Zwischenhändler. Kurze Wege, geprüfte Qualität, schnelle Lieferung.",
+        "title": "Eigene deutsche Fertigung"
+      },
+      {
+        "icon": "calendar-day",
+        "text": "Morgens alt, abends neu. Unsere eigenen Montageteams arbeiten staubarm und hinterlassen alles besenrein.",
+        "title": "Montage in 1 Tag"
+      },
+      {
+        "icon": "tag",
+        "text": "Der Preis im Angebot ist der Preis auf der Rechnung. Keine Zuschläge, keine Überraschungen.",
+        "title": "Festpreisgarantie"
+      }
+    ],
+    "subtitle": "leck eier"
+  },
   "hero": {
     "badge": "24/7 FRRR",
+    "image": "https://kolmzvevdvprhvfedswf.supabase.co/storage/v1/object/public/cms-media/sites/11111111-1111-1111-1111-111111111111/1788905830357-ChatGPT%20Image%208.%20Sept.%202026,%2006_02_03.png",
     "title": "AHA!!!",
+    "imageAlt": "Monteur von Klarwerk beim Einbau eines modernen Fensters",
     "subtitle": "leck eier",
     "ctaPrimary": "leck eier",
-    "ctaSecondary": "leck eier",
-    "image": "https://kolmzvevdvprhvfedswf.supabase.co/storage/v1/object/public/cms-media/sites/11111111-1111-1111-1111-111111111111/1788905830357-ChatGPT%20Image%208.%20Sept.%202026,%2006_02_03.png",
-    "imageAlt": "Monteur von Klarwerk beim Einbau eines modernen Fensters"
+    "ctaSecondary": "leck eier"
   },
   "trust": {
     "items": [
       {
+        "label": "Garantie auf Fenster & Türen",
         "value": "25",
-        "suffix": "Jahre",
-        "label": "Garantie auf Fenster & Türen"
+        "suffix": "Jahre"
       },
       {
+        "label": "montierte Fenster in Hannover",
         "value": "10.000+",
-        "suffix": "",
-        "label": "montierte Fenster in Hannover"
+        "suffix": ""
       },
       {
+        "label": "Montagezeit pro Auftrag",
         "value": "1",
-        "suffix": "Tag",
-        "label": "Montagezeit pro Auftrag"
+        "suffix": "Tag"
       },
       {
+        "label": "Festpreis – ohne Nachforderungen",
         "value": "100%",
-        "suffix": "",
-        "label": "Festpreis – ohne Nachforderungen"
+        "suffix": ""
       }
     ]
   },
+  "finalCta": {
+    "title": "Bereit für neue Fenster und Türen?",
+    "subtitle": "Fordern Sie jetzt Ihr kostenloses Festpreis-Angebot an – Antwort garantiert innerhalb von 24 Stunden.",
+    "ctaPrimary": "Kostenloses Angebot anfordern",
+    "ctaSecondary": "Oder rufen Sie direkt an:"
+  },
   "services": {
-    "title": "leck eier",
-    "subtitle": "Alles rund um Fenster, Türen und Sicherheit – aus einer Hand, von Beratung bis Montage.",
     "items": [
       {
         "icon": "window",
@@ -57,6 +87,7 @@
         "description": "Klemmende Fenster, undichte Dichtungen, defekte Griffe – wir reparieren schnell und verlängern die Lebensdauer Ihrer Elemente."
       }
     ],
+    "title": "leck eier",
     "items[0]": {
       "title": "leck eier",
       "description": "leck eier"
@@ -72,65 +103,34 @@
     "items[3]": {
       "title": "leck eier",
       "description": "leck eier"
-    }
-  },
-  "why": {
-    "title": "leck eier",
-    "subtitle": "leck eier",
-    "features": [
-      {
-        "icon": "award",
-        "title": "25 Jahre Garantie",
-        "text": "Auf Profile, Verglasung und Montage. So lange, dass Sie nie wieder darüber nachdenken müssen."
-      },
-      {
-        "icon": "industry",
-        "title": "Eigene deutsche Fertigung",
-        "text": "Gefertigt in Deutschland, ohne Zwischenhändler. Kurze Wege, geprüfte Qualität, schnelle Lieferung."
-      },
-      {
-        "icon": "calendar-day",
-        "title": "Montage in 1 Tag",
-        "text": "Morgens alt, abends neu. Unsere eigenen Montageteams arbeiten staubarm und hinterlassen alles besenrein."
-      },
-      {
-        "icon": "tag",
-        "title": "Festpreisgarantie",
-        "text": "Der Preis im Angebot ist der Preis auf der Rechnung. Keine Zuschläge, keine Überraschungen."
-      }
-    ]
+    },
+    "subtitle": "Alles rund um Fenster, Türen und Sicherheit – aus einer Hand, von Beratung bis Montage."
   },
   "testimonials": {
-    "title": "Das sagen unsere Kunden",
-    "subtitle": "Über 800 Bewertungen aus Hannover und Umgebung – durchschnittlich 4,9 von 5 Sternen.",
     "items": [
       {
         "quote": "Vom Aufmaß bis zur Montage hat alles reibungslos geklappt. Die neuen Fenster sind top – und die Wohnung bleibt endlich warm.",
         "author": "S. Meyer",
-        "location": "Hannover-List",
-        "rating": 5
+        "rating": 5,
+        "location": "Hannover-List"
       },
       {
         "quote": "Unsere alte Haustür war ein Sicherheitsrisiko. Klarwerk hat in einem Tag eine neue Tür mit Einbruchschutz montiert. Absolut empfehlenswert.",
         "author": "T. und K. Brandt",
-        "location": "Hannover-Bothfeld",
-        "rating": 5
+        "rating": 5,
+        "location": "Hannover-Bothfeld"
       },
       {
         "quote": "Fester Preis, festes Datum, saubere Arbeit. Genau so stellt man sich Handwerk vor. Die 25 Jahre Garantie gibt es schriftlich dazu.",
         "author": "M. Yilmaz",
-        "location": "Hannover-Vahrenwald",
-        "rating": 5
+        "rating": 5,
+        "location": "Hannover-Vahrenwald"
       }
     ],
+    "title": "Das sagen unsere Kunden",
     "items[2]": {
       "quote": "jjj"
-    }
-  },
-  "finalCta": {
-    "title": "Bereit für neue Fenster und Türen?",
-    "subtitle": "Fordern Sie jetzt Ihr kostenloses Festpreis-Angebot an – Antwort garantiert innerhalb von 24 Stunden.",
-    "ctaPrimary": "Kostenloses Angebot anfordern",
-    "ctaSecondary": "Oder rufen Sie direkt an:"
+    },
+    "subtitle": "Über 800 Bewertungen aus Hannover und Umgebung – durchschnittlich 4,9 von 5 Sternen."
   }
 }
