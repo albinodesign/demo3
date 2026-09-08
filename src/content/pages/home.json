@@ -1,11 +1,11 @@
 {
   "hero": {
-    "badge": "24/7",
+    "badge": "24/7 FRRR",
     "title": "Der ALLER BESTE",
-    "subtitle": "Fenster-Modernisierung, Haustüren und Einbruchschutz aus eigener deutscher Fertigung – mit 25 Jahren Garantie und Festpreisgarantie.",
-    "ctaPrimary": "Kostenloses Angebot anfordern",
-    "ctaSecondary": "Jetzt anrufen",
-    "image": "/images/hero-montage.svg",
+    "subtitle": "leck eier",
+    "ctaPrimary": "leck eier",
+    "ctaSecondary": "leck eier",
+    "image": "",
     "imageAlt": "Monteur von Klarwerk beim Einbau eines modernen Fensters"
   },
   "trust": {
@@ -33,7 +33,7 @@
     ]
   },
   "services": {
-    "title": "Unsere Leistungen",
+    "title": "leck eier",
     "subtitle": "Alles rund um Fenster, Türen und Sicherheit – aus einer Hand, von Beratung bis Montage.",
     "items": [
       {
@@ -56,11 +56,27 @@
         "title": "Reparatur & Wartung",
         "description": "Klemmende Fenster, undichte Dichtungen, defekte Griffe – wir reparieren schnell und verlängern die Lebensdauer Ihrer Elemente."
       }
-    ]
+    ],
+    "items[0]": {
+      "title": "leck eier",
+      "description": "leck eier"
+    },
+    "items[1]": {
+      "title": "leck eier",
+      "description": "leck eier"
+    },
+    "items[2]": {
+      "title": "leck eier",
+      "description": "leck eier"
+    },
+    "items[3]": {
+      "title": "leck eier",
+      "description": "leck eier"
+    }
   },
   "why": {
-    "title": "Warum Klarwerk?",
-    "subtitle": "Vier Versprechen, die wir schriftlich geben – und seit der ersten Stunde halten.",
+    "title": "leck eier",
+    "subtitle": "leck eier",
     "features": [
       {
         "icon": "award",
@@ -106,7 +122,10 @@
         "location": "Hannover-Vahrenwald",
         "rating": 5
       }
-    ]
+    ],
+    "items[2]": {
+      "quote": "jjj"
+    }
   },
   "finalCta": {
     "title": "Bereit für neue Fenster und Türen?",
