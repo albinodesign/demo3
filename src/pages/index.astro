@@ -8,6 +8,10 @@ import Services from '../components/sections/Services.astro';
 import Why from '../components/sections/Why.astro';
 import Testimonials from '../components/sections/Testimonials.astro';
 import FinalCta from '../components/sections/FinalCta.astro';
+import PhoneIcon from '../components/icons/Phone.astro';
+import CheckCircleIcon from '../components/icons/CheckCircle.astro';
+import ClockIcon from '../components/icons/Clock.astro';
+import ShieldIcon from '../components/icons/Shield.astro';
 import { getPage, getSite } from '../lib/content';
 
 const site = await getSite();
@@ -17,6 +21,13 @@ const heroBadges = [
   { fieldId: 'home.why.features.0.title', text: home.why.features[0]!.title },
   { fieldId: 'home.why.features.3.title', text: home.why.features[3]!.title },
   { fieldId: 'home.why.features.2.title', text: home.why.features[2]!.title },
+];
+
+const emergency: any = (home as any).emergency ?? {};
+const emergencyPoints = emergency.points ?? [
+  { title: 'Glasbruch & Sturm-Schäden', text: 'Eingeschlagene Scheibe? Wir sichern sofort ab und verglasen neu.' },
+  { title: 'Einbruch-Schäden', text: 'Aufgehebelte Fenster & Türen – wir verschließen und reparieren noch am selben Tag.' },
+  { title: 'Tür klemmt / lässt sich nicht schließen', text: 'Defekte Schlösser, Griffe & Beschläge – Ihr Zuhause bleibt wieder sicher verschließbar.' },
 ];
 
 const jsonLd = {
@@ -51,6 +62,90 @@ const jsonLd = {
     <Hero hero={home.hero} badges={heroBadges} cardText={home.why.features[0]!.title} cardFieldId="home.why.features.0.title" site={site} />
     <TrustBar trust={home.trust} />
     <Services services={home.services} />
+
+    <!-- Notfall-Service: dunkle Kontrast-Section für maximale Aufmerksamkeit -->
+    <section data-cms-section="home.emergency" id="notdienst" class="relative overflow-hidden bg-ink text-white">
+      <div aria-hidden="true" class="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-primary/40 blur-3xl"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-accent/20 blur-3xl"></div>
+
+      <div class="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8 lg:py-20">
+        <div>
+          <p class="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-sm font-semibold text-white">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400"></span>
+            </span>
+            <span data-cms-field="home.emergency.badge">{emergency.badge ?? '24/7 Notfall-Service in Hannover'}</span>
+          </p>
+          <h2 data-cms-field="home.emergency.title" class="mt-5 font-headline text-3xl font-extrabold tracking-tight sm:text-4xl">
+            {emergency.title ?? 'Fenster defekt? Wir sind rund um die Uhr für Sie da.'}
+          </h2>
+          <p data-cms-field="home.emergency.subtitle" class="mt-4 max-w-xl text-lg leading-relaxed text-white/75">
+            {emergency.subtitle ?? 'Glasbruch, Einbruchschaden oder klemmende Haustür – unser Notdienst sichert Ihr Zuhause innerhalb weniger Stunden. Tag und Nacht, auch am Wochenende und Feiertag.'}
+          </p>
+
+          <ul class="mt-8 space-y-4">
+            {emergencyPoints.map((point: any, i: number) => (
+              <li class="flex gap-3.5 rounded-2xl border border-white/10 bg-white/5 p-4">
+                <CheckCircleIcon class="mt-0.5 h-6 w-6 shrink-0 text-accent" />
+                <div>
+                  <p data-cms-field={`home.emergency.points.${i}.title`} class="font-headline font-bold">{point.title}</p>
+                  <p data-cms-field={`home.emergency.points.${i}.text`} class="mt-1 text-sm leading-relaxed text-white/70">{point.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="rounded-3xl bg-white p-7 text-ink shadow-2xl sm:p-8">
+          <div class="flex items-center gap-3">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white">
+              <PhoneIcon class="h-6 w-6" />
+            </span>
+            <div>
+              <p data-cms-field="home.emergency.cardTitle" class="font-headline text-lg font-extrabold">
+                {emergency.cardTitle ?? 'Jetzt Notfall melden'}
+              </p>
+              <p class="flex items-center gap-1.5 text-sm font-semibold text-green-700">
+                <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                Gerade erreichbar
+              </p>
+            </div>
+          </div>
+
+          <p data-cms-field="home.emergency.cardText" class="mt-4 text-sm leading-relaxed text-ink-muted">
+            {emergency.cardText ?? 'Rufen Sie direkt an – wir sind sofort erreichbar und in Hannover meist in 2–3 Stunden vor Ort.'}
+          </p>
+
+          <a
+            href={`tel:${site.phoneHref}`}
+            class="mt-6 flex min-h-14 items-center justify-center gap-2.5 rounded-xl bg-primary px-6 py-4 text-center font-headline text-xl font-extrabold text-white transition-colors hover:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <PhoneIcon class="h-5 w-5" />
+            <span data-cms-field="site.phone">{site.phone}</span>
+          </a>
+          <p data-cms-field="home.emergency.phoneCta" class="mt-2 text-center text-sm font-semibold text-ink-muted">
+            {emergency.phoneCta ?? 'Tag & Nacht – auch Sa, So & Feiertag'}
+          </p>
+
+          <div class="mt-6 grid grid-cols-2 gap-3 text-center">
+            <div class="rounded-xl bg-surface p-3">
+              <ClockIcon class="mx-auto h-5 w-5 text-primary" />
+              <p class="mt-1.5 text-xs font-bold">Anfahrt<br /><span class="text-sm">unter 3 Stunden</span></p>
+            </div>
+            <div class="rounded-xl bg-surface p-3">
+              <ShieldIcon class="mx-auto h-5 w-5 text-primary" />
+              <p class="mt-1.5 text-xs font-bold">Sicherung<br /><span class="text-sm">noch heute</span></p>
+            </div>
+          </div>
+
+          <p data-cms-field="home.emergency.note" class="mt-5 border-t border-gray-100 pt-4 text-center text-xs leading-relaxed text-ink-muted">
+            {emergency.note ?? 'Erste Not-Sicherung noch am selben Tag • Abrechnung auch direkt über Versicherung möglich'}
+          </p>
+        </div>
+      </div>
+    </section>
+
     <Why why={home.why} />
     <Testimonials testimonials={home.testimonials} />
     <FinalCta finalCta={home.finalCta} site={site} />
