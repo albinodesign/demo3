@@ -19,6 +19,7 @@
   "services": {
     "title": "Unsere Leistungen",
     "subtitle": "Alles rund um Fenster, Türen und Sicherheit – aus einer Hand, von Beratung bis Montage.",
+    "ctaLabel": "Angebot anfordern",
     "items": [
       {
         "icon": "window",

@@ -13,7 +13,11 @@ import { getPage, getSite } from '../lib/content';
 const site = await getSite();
 const home = await getPage('home');
 
-const heroBadges = [home.why.features[0]!.title, home.why.features[3]!.title, home.why.features[2]!.title];
+const heroBadges = [
+  { fieldId: 'home.why.features.0.title', text: home.why.features[0]!.title },
+  { fieldId: 'home.why.features.3.title', text: home.why.features[3]!.title },
+  { fieldId: 'home.why.features.2.title', text: home.why.features[2]!.title },
+];
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -44,7 +48,7 @@ const jsonLd = {
 >
   <Header />
   <main id="main-content">
-    <Hero hero={home.hero} badges={heroBadges} cardText={home.why.features[0]!.title} site={site} />
+    <Hero hero={home.hero} badges={heroBadges} cardText={home.why.features[0]!.title} cardFieldId="home.why.features.0.title" site={site} />
     <TrustBar trust={home.trust} />
     <Services services={home.services} />
     <Why why={home.why} />

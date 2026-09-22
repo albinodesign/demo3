@@ -26,7 +26,7 @@ const icons = {
       <h2 data-cms-field="home.services.title" class="font-headline text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
         {services.title}
       </h2>
-      <p class="mt-4 text-lg text-ink-muted">{services.subtitle}</p>
+      <p data-cms-field="home.services.subtitle" class="mt-4 text-lg text-ink-muted">{services.subtitle}</p>
     </div>
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -47,7 +47,7 @@ const icons = {
               {item.description}
             </p>
             <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:gap-2.5 transition-all">
-              Angebot anfordern
+              <span data-cms-field="home.services.ctaLabel">{services.ctaLabel}</span>
               <ArrowRightIcon class="h-3.5 w-3.5" />
             </span>
           </a>

@@ -1,29 +1,114 @@
 {
-  "version": 1,
-  "fields": [
-    { "id": "home.hero.badge", "label": "Hero: Badge-Zeile", "type": "text", "file": "src/content/pages/home.json", "path": "hero.badge", "maxLength": 60 },
-    { "id": "home.hero.title", "label": "Hero: Hauptüberschrift", "type": "text", "file": "src/content/pages/home.json", "path": "hero.title", "maxLength": 90 },
-    { "id": "home.hero.subtitle", "label": "Hero: Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "hero.subtitle", "maxLength": 200 },
-    { "id": "home.hero.ctaPrimary", "label": "Hero: Primärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaPrimary", "maxLength": 40 },
-    { "id": "home.hero.ctaSecondary", "label": "Hero: Sekundärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaSecondary", "maxLength": 40 },
-    { "id": "home.hero.image", "label": "Hero: Bild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image", "maxLength": 500 },
-    { "id": "home.services.title", "label": "Leistungen: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "services.title", "maxLength": 60 },
-    { "id": "home.services.items.0.title", "label": "Leistung 1: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[0].title", "maxLength": 60 },
-    { "id": "home.services.items.0.description", "label": "Leistung 1: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[0].description", "maxLength": 220 },
-    { "id": "home.services.items.1.title", "label": "Leistung 2: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[1].title", "maxLength": 60 },
-    { "id": "home.services.items.1.description", "label": "Leistung 2: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[1].description", "maxLength": 220 },
-    { "id": "home.services.items.2.title", "label": "Leistung 3: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[2].title", "maxLength": 60 },
-    { "id": "home.services.items.2.description", "label": "Leistung 3: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[2].description", "maxLength": 220 },
-    { "id": "home.services.items.3.title", "label": "Leistung 4: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[3].title", "maxLength": 60 },
-    { "id": "home.services.items.3.description", "label": "Leistung 4: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[3].description", "maxLength": 220 },
-    { "id": "home.why.title", "label": "Warum-Sektion: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "why.title", "maxLength": 60 },
-    { "id": "home.why.subtitle", "label": "Warum-Sektion: Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.subtitle", "maxLength": 160 },
-    { "id": "home.testimonials.title", "label": "Kundenstimmen: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.title", "maxLength": 60 },
-    { "id": "home.testimonials.items.0.quote", "label": "Kundenstimme 1: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[0].quote", "maxLength": 280 },
-    { "id": "home.testimonials.items.1.quote", "label": "Kundenstimme 2: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[1].quote", "maxLength": 280 },
-    { "id": "home.testimonials.items.2.quote", "label": "Kundenstimme 3: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[2].quote", "maxLength": 280 },
-    { "id": "home.finalCta.title", "label": "Abschluss-CTA: Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.title", "maxLength": 90 },
-    { "id": "home.finalCta.subtitle", "label": "Abschluss-CTA: Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "finalCta.subtitle", "maxLength": 200 },
-    { "id": "home.finalCta.ctaPrimary", "label": "Abschluss-CTA: Button", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.ctaPrimary", "maxLength": 40 }
+  "version": 2,
+  "features": { "blog": false },
+  "sections": [
+    {
+      "id": "home-hero",
+      "label": "Startseite – Hero",
+      "fields": [
+        { "id": "home.hero.badge", "label": "Badge-Zeile", "type": "text", "file": "src/content/pages/home.json", "path": "hero.badge", "maxLength": 60 },
+        { "id": "home.hero.title", "label": "Hauptüberschrift", "type": "text", "file": "src/content/pages/home.json", "path": "hero.title", "maxLength": 90 },
+        { "id": "home.hero.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "hero.subtitle", "maxLength": 200 },
+        { "id": "home.hero.ctaPrimary", "label": "Primärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaPrimary", "maxLength": 40 },
+        { "id": "home.hero.ctaSecondary", "label": "Sekundärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaSecondary", "maxLength": 40 },
+        { "id": "home.hero.image", "label": "Bild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image", "maxLength": 500 }
+      ]
+    },
+    {
+      "id": "home-trust",
+      "label": "Startseite – Statistiken",
+      "fields": [
+        { "id": "home.trust.items.0.value", "label": "Statistik 1: Wert", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[0].value", "maxLength": 10 },
+        { "id": "home.trust.items.0.label", "label": "Statistik 1: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[0].label", "maxLength": 60 },
+        { "id": "home.trust.items.1.value", "label": "Statistik 2: Wert", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[1].value", "maxLength": 10 },
+        { "id": "home.trust.items.1.label", "label": "Statistik 2: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[1].label", "maxLength": 60 },
+        { "id": "home.trust.items.2.value", "label": "Statistik 3: Wert", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[2].value", "maxLength": 10 },
+        { "id": "home.trust.items.2.label", "label": "Statistik 3: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[2].label", "maxLength": 60 },
+        { "id": "home.trust.items.3.value", "label": "Statistik 4: Wert", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[3].value", "maxLength": 10 },
+        { "id": "home.trust.items.3.label", "label": "Statistik 4: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[3].label", "maxLength": 60 }
+      ]
+    },
+    {
+      "id": "home-services",
+      "label": "Startseite – Leistungen",
+      "fields": [
+        { "id": "home.services.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "services.title", "maxLength": 60 },
+        { "id": "home.services.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.subtitle", "maxLength": 160 },
+        { "id": "home.services.ctaLabel", "label": "Linktext auf Karten", "type": "text", "file": "src/content/pages/home.json", "path": "services.ctaLabel", "maxLength": 40 },
+        { "id": "home.services.items.0.title", "label": "Leistung 1: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[0].title", "maxLength": 60 },
+        { "id": "home.services.items.0.description", "label": "Leistung 1: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[0].description", "maxLength": 220 },
+        { "id": "home.services.items.1.title", "label": "Leistung 2: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[1].title", "maxLength": 60 },
+        { "id": "home.services.items.1.description", "label": "Leistung 2: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[1].description", "maxLength": 220 },
+        { "id": "home.services.items.2.title", "label": "Leistung 3: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[2].title", "maxLength": 60 },
+        { "id": "home.services.items.2.description", "label": "Leistung 3: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[2].description", "maxLength": 220 },
+        { "id": "home.services.items.3.title", "label": "Leistung 4: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "services.items[3].title", "maxLength": 60 },
+        { "id": "home.services.items.3.description", "label": "Leistung 4: Beschreibung", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.items[3].description", "maxLength": 220 }
+      ]
+    },
+    {
+      "id": "home-why",
+      "label": "Startseite – Warum Klarwerk",
+      "fields": [
+        { "id": "home.why.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "why.title", "maxLength": 60 },
+        { "id": "home.why.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.subtitle", "maxLength": 160 },
+        { "id": "home.why.features.0.title", "label": "Merkmal 1: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "why.features[0].title", "maxLength": 60 },
+        { "id": "home.why.features.0.text", "label": "Merkmal 1: Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.features[0].text", "maxLength": 160 },
+        { "id": "home.why.features.1.title", "label": "Merkmal 2: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "why.features[1].title", "maxLength": 60 },
+        { "id": "home.why.features.1.text", "label": "Merkmal 2: Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.features[1].text", "maxLength": 160 },
+        { "id": "home.why.features.2.title", "label": "Merkmal 3: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "why.features[2].title", "maxLength": 60 },
+        { "id": "home.why.features.2.text", "label": "Merkmal 3: Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.features[2].text", "maxLength": 160 },
+        { "id": "home.why.features.3.title", "label": "Merkmal 4: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "why.features[3].title", "maxLength": 60 },
+        { "id": "home.why.features.3.text", "label": "Merkmal 4: Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.features[3].text", "maxLength": 160 }
+      ]
+    },
+    {
+      "id": "home-testimonials",
+      "label": "Startseite – Kundenstimmen",
+      "fields": [
+        { "id": "home.testimonials.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.title", "maxLength": 60 },
+        { "id": "home.testimonials.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.subtitle", "maxLength": 160 },
+        { "id": "home.testimonials.items.0.quote", "label": "Stimme 1: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[0].quote", "maxLength": 280 },
+        { "id": "home.testimonials.items.0.author", "label": "Stimme 1: Name", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[0].author", "maxLength": 40 },
+        { "id": "home.testimonials.items.0.location", "label": "Stimme 1: Ort", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[0].location", "maxLength": 60 },
+        { "id": "home.testimonials.items.1.quote", "label": "Stimme 2: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[1].quote", "maxLength": 280 },
+        { "id": "home.testimonials.items.1.author", "label": "Stimme 2: Name", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[1].author", "maxLength": 40 },
+        { "id": "home.testimonials.items.1.location", "label": "Stimme 2: Ort", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[1].location", "maxLength": 60 },
+        { "id": "home.testimonials.items.2.quote", "label": "Stimme 3: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[2].quote", "maxLength": 280 },
+        { "id": "home.testimonials.items.2.author", "label": "Stimme 3: Name", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[2].author", "maxLength": 40 },
+        { "id": "home.testimonials.items.2.location", "label": "Stimme 3: Ort", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[2].location", "maxLength": 60 }
+      ]
+    },
+    {
+      "id": "home-finalcta",
+      "label": "Startseite – Abschluss-CTA",
+      "fields": [
+        { "id": "home.finalCta.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.title", "maxLength": 90 },
+        { "id": "home.finalCta.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "finalCta.subtitle", "maxLength": 200 },
+        { "id": "home.finalCta.ctaPrimary", "label": "Button", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.ctaPrimary", "maxLength": 40 },
+        { "id": "home.finalCta.ctaSecondary", "label": "Telefon-Hinweis", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.ctaSecondary", "maxLength": 60 }
+      ]
+    },
+    {
+      "id": "kontakt-intro",
+      "label": "Kontaktseite – Intro & Kontaktdaten",
+      "fields": [
+        { "id": "kontakt.intro.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/kontakt.json", "path": "intro.title", "maxLength": 90 },
+        { "id": "kontakt.intro.subtitle", "label": "Einleitungstext", "type": "textarea", "file": "src/content/pages/kontakt.json", "path": "intro.subtitle", "maxLength": 200 },
+        { "id": "kontakt.contactLabels.phone", "label": "Label: Telefon", "type": "text", "file": "src/content/pages/kontakt.json", "path": "contactLabels.phone", "maxLength": 30 },
+        { "id": "kontakt.contactLabels.email", "label": "Label: E-Mail", "type": "text", "file": "src/content/pages/kontakt.json", "path": "contactLabels.email", "maxLength": 30 },
+        { "id": "kontakt.contactLabels.address", "label": "Label: Adresse", "type": "text", "file": "src/content/pages/kontakt.json", "path": "contactLabels.address", "maxLength": 30 },
+        { "id": "kontakt.contactLabels.hours", "label": "Label: Öffnungszeiten", "type": "text", "file": "src/content/pages/kontakt.json", "path": "contactLabels.hours", "maxLength": 30 }
+      ]
+    },
+    {
+      "id": "unternehmen",
+      "label": "Unternehmensdaten",
+      "fields": [
+        { "id": "site.phone", "label": "Telefonnummer", "type": "text", "file": "src/content/site.json", "path": "phone", "maxLength": 30 },
+        { "id": "site.email", "label": "E-Mail-Adresse", "type": "text", "file": "src/content/site.json", "path": "email", "maxLength": 60 },
+        { "id": "site.hours.monThu", "label": "Öffnungszeiten Mo–Do", "type": "text", "file": "src/content/site.json", "path": "hours.monThu", "maxLength": 40 },
+        { "id": "site.hours.fri", "label": "Öffnungszeiten Fr", "type": "text", "file": "src/content/site.json", "path": "hours.fri", "maxLength": 40 }
+      ]
+    }
   ]
 }

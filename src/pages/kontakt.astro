@@ -10,6 +10,7 @@ import { getSite, getPage } from '../lib/content';
 
 const site = await getSite();
 const home = await getPage('home');
+const kontakt = await getPage('kontakt');
 ---
 
 <BaseLayout
@@ -18,14 +19,14 @@ const home = await getPage('home');
 >
   <Header />
   <main id="main-content">
-    <section class="bg-surface">
+    <section data-cms-section="kontakt" class="bg-surface">
       <div class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-5 lg:py-24 lg:px-8">
-        <div class="lg:col-span-2">
-          <h1 class="font-headline text-4xl font-extrabold tracking-tight text-ink">
-            Kostenloses Angebot anfordern
+        <div data-cms-section="kontakt.intro" class="lg:col-span-2">
+          <h1 data-cms-field="kontakt.intro.title" class="font-headline text-4xl font-extrabold tracking-tight text-ink">
+            {kontakt.intro.title}
           </h1>
-          <p class="mt-4 text-lg text-ink-muted">
-            Beschreiben Sie kurz Ihr Vorhaben – wir melden uns innerhalb von 24 Stunden mit einem verbindlichen Festpreis-Angebot.
+          <p data-cms-field="kontakt.intro.subtitle" class="mt-4 text-lg text-ink-muted">
+            {kontakt.intro.subtitle}
           </p>
 
           <ul class="mt-10 space-y-5">
@@ -35,8 +36,8 @@ const home = await getPage('home');
                   <PhoneIcon class="h-5 w-5" />
                 </span>
                 <span>
-                  <span class="block text-xs font-medium uppercase tracking-wide text-ink-muted">Telefon</span>
-                  <span class="font-semibold text-ink">{site.phone}</span>
+                  <span data-cms-field="kontakt.contactLabels.phone" class="block text-xs font-medium uppercase tracking-wide text-ink-muted">{kontakt.contactLabels.phone}</span>
+                  <span data-cms-field="site.phone" class="font-semibold text-ink">{site.phone}</span>
                 </span>
               </a>
             </li>
@@ -46,8 +47,8 @@ const home = await getPage('home');
                   <EnvelopeIcon class="h-5 w-5" />
                 </span>
                 <span>
-                  <span class="block text-xs font-medium uppercase tracking-wide text-ink-muted">E-Mail</span>
-                  <span class="font-semibold text-ink">{site.email}</span>
+                  <span data-cms-field="kontakt.contactLabels.email" class="block text-xs font-medium uppercase tracking-wide text-ink-muted">{kontakt.contactLabels.email}</span>
+                  <span data-cms-field="site.email" class="font-semibold text-ink">{site.email}</span>
                 </span>
               </a>
             </li>
@@ -56,7 +57,7 @@ const home = await getPage('home');
                 <MapPinIcon class="h-5 w-5" />
               </span>
               <span>
-                <span class="block text-xs font-medium uppercase tracking-wide text-ink-muted">Adresse</span>
+                <span data-cms-field="kontakt.contactLabels.address" class="block text-xs font-medium uppercase tracking-wide text-ink-muted">{kontakt.contactLabels.address}</span>
                 <span class="font-semibold text-ink">{site.address.street}, {site.address.zip} {site.address.city}</span>
               </span>
             </li>
@@ -65,24 +66,25 @@ const home = await getPage('home');
                 <ClockIcon class="h-5 w-5" />
               </span>
               <span>
-                <span class="block text-xs font-medium uppercase tracking-wide text-ink-muted">Öffnungszeiten</span>
-                <span class="font-semibold text-ink">{site.hours.monThu} &middot; {site.hours.fri}</span>
+                <span data-cms-field="kontakt.contactLabels.hours" class="block text-xs font-medium uppercase tracking-wide text-ink-muted">{kontakt.contactLabels.hours}</span>
+                <span class="font-semibold text-ink"><span data-cms-field="site.hours.monThu">{site.hours.monThu}</span> &middot; <span data-cms-field="site.hours.fri">{site.hours.fri}</span></span>
               </span>
             </li>
           </ul>
         </div>
 
-        <div class="lg:col-span-3">
+        <div data-cms-section="kontakt.form" class="lg:col-span-3">
           <form
             id="contact-form"
             class="rounded-2xl bg-white p-6 shadow-sm sm:p-8"
             data-web3forms-key={import.meta.env.PUBLIC_WEB3FORMS_KEY ?? ''}
+            data-messages={JSON.stringify({ ...kontakt.messages, submitSending: kontakt.form.submitSending, submitLabel: kontakt.form.submitLabel })}
             novalidate
           >
             <div class="grid gap-5 sm:grid-cols-2">
               <div>
                 <label for="name" class="block text-sm font-semibold text-ink">
-                  Name <span class="text-accent-dark" aria-hidden="true">*</span>
+                  <span data-cms-field="kontakt.form.labelName">{kontakt.form.labelName}</span> <span class="text-accent-dark" aria-hidden="true">*</span>
                 </label>
                 <input
                   type="text"
@@ -95,7 +97,7 @@ const home = await getPage('home');
               </div>
               <div>
                 <label for="email" class="block text-sm font-semibold text-ink">
-                  E-Mail <span class="text-accent-dark" aria-hidden="true">*</span>
+                  <span data-cms-field="kontakt.form.labelEmail">{kontakt.form.labelEmail}</span> <span class="text-accent-dark" aria-hidden="true">*</span>
                 </label>
                 <input
                   type="email"
@@ -107,7 +109,7 @@ const home = await getPage('home');
                 />
               </div>
               <div>
-                <label for="phone" class="block text-sm font-semibold text-ink">Telefon (optional)</label>
+                <label for="phone" class="block text-sm font-semibold text-ink" data-cms-field="kontakt.form.labelPhone">{kontakt.form.labelPhone}</label>
                 <input
                   type="tel"
                   id="phone"
@@ -117,21 +119,21 @@ const home = await getPage('home');
                 />
               </div>
               <div>
-                <label for="topic" class="block text-sm font-semibold text-ink">Anliegen</label>
+                <label for="topic" class="block text-sm font-semibold text-ink" data-cms-field="kontakt.form.labelTopic">{kontakt.form.labelTopic}</label>
                 <select
                   id="topic"
                   name="topic"
                   class="mt-1.5 block w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-ink focus:border-primary focus:outline-2 focus:outline-primary/30"
                 >
                   {home.services.items.map((s) => <option value={s.title}>{s.title}</option>)}
-                  <option value="Sonstiges">Sonstiges</option>
+                  <option value={kontakt.form.optionOther} data-cms-field="kontakt.form.optionOther">{kontakt.form.optionOther}</option>
                 </select>
               </div>
             </div>
 
             <div class="mt-5">
               <label for="message" class="block text-sm font-semibold text-ink">
-                Ihre Nachricht <span class="text-accent-dark" aria-hidden="true">*</span>
+                <span data-cms-field="kontakt.form.labelMessage">{kontakt.form.labelMessage}</span> <span class="text-accent-dark" aria-hidden="true">*</span>
               </label>
               <textarea
                 id="message"
@@ -158,8 +160,7 @@ const home = await getPage('home');
                   class="mt-1 h-5 w-5 shrink-0 rounded border-gray-300 text-primary accent-primary"
                 />
                 <span class="text-sm text-ink-muted">
-                  Ich habe die <a href="/datenschutz" class="font-medium text-primary underline">Datenschutzerklärung</a> gelesen
-                  und bin mit der Verarbeitung meiner Daten zur Bearbeitung der Anfrage einverstanden. <span class="text-accent-dark" aria-hidden="true">*</span>
+                  <span data-cms-field="kontakt.form.privacyTextPre">{kontakt.form.privacyTextPre}</span> <a href="/datenschutz" class="font-medium text-primary underline">Datenschutzerklärung</a> <span data-cms-field="kontakt.form.privacyTextPost">{kontakt.form.privacyTextPost}</span> <span class="text-accent-dark" aria-hidden="true">*</span>
                 </span>
               </label>
             </div>
@@ -170,10 +171,10 @@ const home = await getPage('home');
               type="submit"
               class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-accent px-8 py-3 text-base font-semibold text-ink transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:w-auto"
             >
-              Nachricht senden
+              <span data-cms-field="kontakt.form.submitLabel">{kontakt.form.submitLabel}</span>
             </button>
             <p class="mt-3 text-xs text-ink-muted">
-              Felder mit <span class="text-accent-dark" aria-hidden="true">*</span> sind Pflichtfelder. Keine Weitergabe an Dritte.
+              <span data-cms-field="kontakt.form.requiredNotePre">{kontakt.form.requiredNotePre}</span> <span class="text-accent-dark" aria-hidden="true">*</span> <span data-cms-field="kontakt.form.requiredNotePost">{kontakt.form.requiredNotePost}</span>
             </p>
           </form>
         </div>
@@ -187,11 +188,18 @@ const home = await getPage('home');
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const status = document.getElementById('form-status');
 
-  const messages = {
-    name: 'Bitte geben Sie Ihren Namen an.',
-    email: 'Bitte geben Sie eine gültige E-Mail-Adresse an.',
-    message: 'Bitte beschreiben Sie kurz Ihr Anliegen.',
-    privacy: 'Bitte bestätigen Sie die Datenschutzerklärung.',
+  const messages = JSON.parse(form?.dataset.messages ?? '{}') as {
+    name: string;
+    email: string;
+    message: string;
+    privacy: string;
+    honeypotSuccess: string;
+    success: string;
+    notConfigured: string;
+    error: string;
+    offline: string;
+    submitSending: string;
+    submitLabel: string;
   };
 
   function setStatus(kind: 'success' | 'error', text: string) {
@@ -212,7 +220,7 @@ const home = await getPage('home');
     // Honeypot: ausgefüllt = Bot → stillschweigend „Erfolg" melden
     const honeypot = form.elements.namedItem('company') as HTMLInputElement | null;
     if (honeypot?.value) {
-      setStatus('success', 'Vielen Dank! Ihre Nachricht wurde übermittelt.');
+      setStatus('success', messages.honeypotSuccess ?? '');
       form.reset();
       return;
     }
@@ -241,13 +249,13 @@ const home = await getPage('home');
 
     const key = form.dataset.web3formsKey ?? '';
     if (!key) {
-      setStatus('error', 'Das Formular ist derzeit nicht konfiguriert. Bitte rufen Sie uns direkt an.');
+      setStatus('error', messages.notConfigured ?? '');
       return;
     }
 
     const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     button.disabled = true;
-    button.textContent = 'Wird gesendet …';
+    button.textContent = messages.submitSending ?? '';
 
     try {
       const data = Object.fromEntries(new FormData(form).entries());
@@ -266,16 +274,16 @@ const home = await getPage('home');
       });
       const result = (await response.json()) as { success?: boolean };
       if (response.ok && result.success) {
-        setStatus('success', 'Vielen Dank! Ihre Nachricht wurde gesendet. Wir melden uns innerhalb von 24 Stunden.');
+        setStatus('success', messages.success ?? '');
         form.reset();
       } else {
-        setStatus('error', 'Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder rufen Sie uns an.');
+        setStatus('error', messages.error ?? '');
       }
     } catch {
-      setStatus('error', 'Keine Verbindung möglich. Bitte prüfen Sie Ihr Internet oder rufen Sie uns an.');
+      setStatus('error', messages.offline ?? '');
     } finally {
       button.disabled = false;
-      button.textContent = 'Nachricht senden';
+      button.textContent = messages.submitLabel ?? '';
     }
   });
 </script>
