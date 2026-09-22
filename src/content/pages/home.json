@@ -23,7 +23,7 @@
         "title": "Festpreisgarantie"
       }
     ],
-    "subtitle": "leck eier"
+    "subtitle": "Ehrlich, pünktlich und sauber – Ihr Meisterbetrieb aus Hannover für Fenster und Türen."
   },
   "hero": {
     "badge": "Meisterbetrieb aus Hannover",
@@ -133,5 +133,9 @@
       "quote": "jjj"
     },
     "subtitle": "Über 800 Bewertungen aus Hannover und Umgebung – durchschnittlich 4,9 von 5 Sternen."
+  },
+  "emergency": {
+    "badge": "Notfall-Service in Hannover",
+    "title": "Notfall-Service bei Glasbruch & defekter Tür"
   }
 }
