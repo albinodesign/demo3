@@ -2,14 +2,14 @@
 
 /* Design-Tokens: siehe requirements.md §4 */
 @theme {
-  --color-primary: #1b4f72;
-  --color-primary-dark: #123a55;
-  --color-accent: #e8a33d;
-  --color-accent-dark: #c58425;
-  --color-surface: #f7f8fa;
+  --color-primary: #A6192E;
+  --color-primary-dark: #7A1222;
+  --color-accent: #E85D3D;
+  --color-accent-dark: #C04325;
+  --color-surface: #FAF6F5;
   --color-ink: #1c2430;
   --color-ink-muted: #55606e;
-  --color-trust: #2e7d4f;
+  --color-trust: #A6192E;
 
   --font-headline: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
