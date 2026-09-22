@@ -1,6 +1,6 @@
 {
   "why": {
-    "title": "leck eier",
+    "title": "Warum Klarwerk?",
     "features": [
       {
         "icon": "award",
@@ -26,13 +26,13 @@
     "subtitle": "leck eier"
   },
   "hero": {
-    "badge": "24/7 FRRR",
+    "badge": "Meisterbetrieb aus Hannover",
     "image": "https://kolmzvevdvprhvfedswf.supabase.co/storage/v1/object/public/cms-media/sites/11111111-1111-1111-1111-111111111111/1788905830357-ChatGPT%20Image%208.%20Sept.%202026,%2006_02_03.png",
-    "title": "ai ist die zukunfut fr!!! <br> ",
+    "title": "Moderne Fenster & sichere Türen aus Hannover",
     "imageAlt": "Monteur von Klarwerk beim Einbau eines modernen Fensters",
-    "subtitle": "leck eier",
-    "ctaPrimary": "leck eier",
-    "ctaSecondary": "leck eier"
+    "subtitle": "Energieeffiziente Fenster und sichere Haustüren – geplant, gefertigt und an einem Tag montiert. Mit 25 Jahren Garantie und Festpreis.",
+    "ctaPrimary": "Kostenloses Angebot anfordern",
+    "ctaSecondary": "Leistungen entdecken"
   },
   "trust": {
     "items": [
@@ -87,7 +87,7 @@
         "description": "Klemmende Fenster, undichte Dichtungen, defekte Griffe – wir reparieren schnell und verlängern die Lebensdauer Ihrer Elemente."
       }
     ],
-    "title": "leck eier",
+    "title": "Unsere Leistungen für Fenster & Türen",
     "ctaLabel": "Angebot anfordern",
     "items[0]": {
       "title": "leck eier",
