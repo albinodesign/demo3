@@ -35,18 +35,18 @@ const year = new Date().getFullYear();
           <li>
             <a href={`tel:${site.phoneHref}`} class="flex items-center gap-3 hover:text-accent">
               <PhoneIcon class="h-4 w-4 shrink-0 text-accent" />
-              {site.phone}
+              <span data-cms-field="site.phone">{site.phone}</span>
             </a>
           </li>
           <li>
             <a href={`mailto:${site.email}`} class="flex items-center gap-3 hover:text-accent">
               <EnvelopeIcon class="h-4 w-4 shrink-0 text-accent" />
-              {site.email}
+              <span data-cms-field="site.email">{site.email}</span>
             </a>
           </li>
           <li class="flex items-start gap-3">
             <ClockIcon class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-            <span>{site.hours.monThu}<br />{site.hours.fri}</span>
+            <span><span data-cms-field="site.hours.monThu">{site.hours.monThu}</span><br /><span data-cms-field="site.hours.fri">{site.hours.fri}</span></span>
           </li>
         </ul>
       </div>

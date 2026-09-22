@@ -16,7 +16,7 @@ const { testimonials } = Astro.props;
       <h2 data-cms-field="home.testimonials.title" class="font-headline text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
         {testimonials.title}
       </h2>
-      <p class="mt-4 text-lg text-ink-muted">{testimonials.subtitle}</p>
+      <p data-cms-field="home.testimonials.subtitle" class="mt-4 text-lg text-ink-muted">{testimonials.subtitle}</p>
     </div>
 
     <div class="mt-12 grid gap-6 md:grid-cols-3">
@@ -32,8 +32,8 @@ const { testimonials } = Astro.props;
                 <StarIcon class={`h-4 w-4 ${s < item.rating ? 'text-accent' : 'text-gray-300'}`} />
               ))}
             </div>
-            <p class="mt-2 text-sm font-semibold text-ink">{item.author}</p>
-            <p class="text-xs text-ink-muted">{item.location}</p>
+            <p data-cms-field={`home.testimonials.items.${i}.author`} class="mt-2 text-sm font-semibold text-ink">{item.author}</p>
+            <p data-cms-field={`home.testimonials.items.${i}.location`} class="text-xs text-ink-muted">{item.location}</p>
           </figcaption>
         </figure>
       ))}

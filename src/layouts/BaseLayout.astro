@@ -25,15 +25,40 @@ const { title, description } = Astro.props;
 
     <script is:inline>
       if (window.self !== window.top) {
-        window.addEventListener('message', (event) => {
-          if (event.data?.type === 'CMS_FIELD_UPDATE') {
-            const el = document.querySelector(`[data-cms-field="${event.data.field}"]`);
-            if (el) {
-              if (el.tagName === 'IMG') el.src = event.data.value;
-              else el.innerText = event.data.value;
-            }
+        let selectMode = true;
+        window.addEventListener("message", (event) => {
+          if (event.data?.type === "CMS_SELECT_MODE") {
+            selectMode = event.data.enabled !== false;
+            return;
           }
+          if (event.data?.type !== "CMS_FIELD_UPDATE") return;
+          const field = event.data.field;
+          document.querySelectorAll(`[data-cms-field="${field}"]`).forEach((el) => {
+            if (el.tagName === "IMG") { el.src = event.data.value; el.removeAttribute("srcset"); }
+            else if (el.tagName === "SOURCE") { el.srcset = event.data.value; }
+            else { el.textContent = event.data.value; }
+          });
         });
+        document.addEventListener(
+          "click",
+          (event) => {
+            if (!selectMode) return;
+            const el = event.target.closest("[data-cms-field]");
+            if (!el) return;
+            event.preventDefault();
+            event.stopPropagation();
+            document.querySelectorAll(".cms-selected").forEach((n) => n.classList.remove("cms-selected"));
+            el.classList.add("cms-selected");
+            window.parent.postMessage({ type: "CMS_FIELD_SELECT", field: el.getAttribute("data-cms-field") }, "*");
+          },
+          true
+        );
+        const style = document.createElement("style");
+        style.textContent = `
+          [data-cms-field]:hover { outline: 2px solid #2563eb; outline-offset: 2px; cursor: pointer; }
+          .cms-selected { outline: 2px solid #2563eb !important; outline-offset: 2px; }
+        `;
+        document.head.appendChild(style);
       }
     </script>
   </head>

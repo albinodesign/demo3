@@ -65,6 +65,7 @@
     "ctaSecondary": "Oder rufen Sie direkt an:"
   },
   "services": {
+    "ctaLabel": "Angebot anfordern",
     "items": [
       {
         "icon": "window",

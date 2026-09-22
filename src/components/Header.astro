@@ -22,7 +22,7 @@ const navItems = [
         <WindowIcon class="h-5 w-5" />
       </span>
       <span class="font-headline text-lg font-extrabold tracking-tight text-ink">
-        Klarwerk <span class="hidden text-sm font-medium text-ink-muted sm:inline">Fenster &amp; Türen</span>
+        {site.shortName} <span class="hidden text-sm font-medium text-ink-muted sm:inline">{site.tagline}</span>
       </span>
     </a>
 
@@ -40,7 +40,7 @@ const navItems = [
         class="hidden items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark sm:flex"
       >
         <PhoneIcon class="h-4 w-4" />
-        {site.phone}
+        <span data-cms-field="site.phone">{site.phone}</span>
       </a>
       <button
         id="menu-toggle"
@@ -67,7 +67,7 @@ const navItems = [
         class="mt-2 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-base font-semibold text-white"
       >
         <PhoneIcon class="h-4 w-4" />
-        {site.phone}
+        <span data-cms-field="site.phone">{site.phone}</span>
       </a>
     </nav>
   </div>

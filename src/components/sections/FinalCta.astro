@@ -27,7 +27,7 @@ const { finalCta, site } = Astro.props;
     </a>
     <p class="mt-6 text-sm text-white/70">
       <span data-cms-field="home.finalCta.ctaSecondary">{finalCta.ctaSecondary}</span>{' '}
-      <a href={`tel:${site.phoneHref}`} class="font-semibold text-white underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
+      <a data-cms-field="site.phone" href={`tel:${site.phoneHref}`} class="font-semibold text-white underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
         {site.phone}
       </a>
     </p>

@@ -6,12 +6,13 @@ import ArrowRightIcon from '../icons/ArrowRight.astro';
 
 interface Props {
   hero: Awaited<ReturnType<typeof getPage>>['hero'];
-  badges: string[];
+  badges: { fieldId: string; text: string }[];
   cardText: string;
+  cardFieldId: string;
   site: Awaited<ReturnType<typeof getSite>>;
 }
 
-const { hero, badges, cardText, site } = Astro.props;
+const { hero, badges, cardText, cardFieldId, site } = Astro.props;
 ---
 
 <section data-cms-section="home.hero" class="bg-surface">
@@ -52,7 +53,7 @@ const { hero, badges, cardText, site } = Astro.props;
         {badges.map((badge) => (
           <li class="flex items-center gap-2 text-sm font-medium text-ink">
             <CheckCircleIcon class="h-4 w-4 text-trust" />
-            {badge}
+            <span data-cms-field={badge.fieldId}>{badge.text}</span>
           </li>
         ))}
       </ul>
@@ -72,7 +73,7 @@ const { hero, badges, cardText, site } = Astro.props;
       />
       <div class="absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-xl bg-white px-5 py-4 shadow-lg sm:flex">
         <CheckCircleIcon class="h-8 w-8 text-trust" />
-        <p class="font-headline text-base font-bold text-ink">{cardText}</p>
+        <p data-cms-field={cardFieldId} class="font-headline text-base font-bold text-ink">{cardText}</p>
       </div>
     </div>
   </div>

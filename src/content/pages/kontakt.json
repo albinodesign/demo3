@@ -1,0 +1,37 @@
+{
+  "intro": {
+    "title": "Kostenloses Angebot anfordern",
+    "subtitle": "Beschreiben Sie kurz Ihr Vorhaben – wir melden uns innerhalb von 24 Stunden mit einem verbindlichen Festpreis-Angebot."
+  },
+  "contactLabels": {
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "address": "Adresse",
+    "hours": "Öffnungszeiten"
+  },
+  "form": {
+    "labelName": "Name",
+    "labelEmail": "E-Mail",
+    "labelPhone": "Telefon (optional)",
+    "labelTopic": "Anliegen",
+    "optionOther": "Sonstiges",
+    "labelMessage": "Ihre Nachricht",
+    "privacyTextPre": "Ich habe die",
+    "privacyTextPost": "gelesen und bin mit der Verarbeitung meiner Daten zur Bearbeitung der Anfrage einverstanden.",
+    "submitLabel": "Nachricht senden",
+    "submitSending": "Wird gesendet …",
+    "requiredNotePre": "Felder mit",
+    "requiredNotePost": "sind Pflichtfelder. Keine Weitergabe an Dritte."
+  },
+  "messages": {
+    "name": "Bitte geben Sie Ihren Namen an.",
+    "email": "Bitte geben Sie eine gültige E-Mail-Adresse an.",
+    "message": "Bitte beschreiben Sie kurz Ihr Anliegen.",
+    "privacy": "Bitte bestätigen Sie die Datenschutzerklärung.",
+    "honeypotSuccess": "Vielen Dank! Ihre Nachricht wurde übermittelt.",
+    "success": "Vielen Dank! Ihre Nachricht wurde gesendet. Wir melden uns innerhalb von 24 Stunden.",
+    "notConfigured": "Das Formular ist derzeit nicht konfiguriert. Bitte rufen Sie uns direkt an.",
+    "error": "Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder rufen Sie uns an.",
+    "offline": "Keine Verbindung möglich. Bitte prüfen Sie Ihr Internet oder rufen Sie uns an."
+  }
+}
