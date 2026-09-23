@@ -23,7 +23,7 @@
   },
   "site": {
     "banner": {
-      "enabled": true,
+      "enabled": false,
       "text": "leckt alle meine eier!",
       "variant": "emergency"
     }
