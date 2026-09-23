@@ -17,5 +17,10 @@
     "monThu": "Mo - Do: 07:30 - 16:30 Uhr",
     "fri": "Fr: 07:30 - 13:30 Uhr",
     "schema": ["Mo-Th 07:30-16:30", "Fr 07:30-13:30"]
+  },
+  "banner": {
+    "enabled": false,
+    "variant": "vacation",
+    "text": "Betriebsurlaub vom 01.08. bis 15.08. – Ab 16.08. wieder für Sie da!"
   }
 }
