@@ -4,7 +4,7 @@
     "features": [
       {
         "icon": "award",
-        "text": "Auf Profile, Verglasung und Montage. So lange, dass Sie nie wieder darüber nachdenken müssen. ja und leck eier usw...",
+        "text": "Auf Profile, Verglasung und Montage. So lange, dass Sie nie wieder darüber nachdenken müssen.",
         "title": "25 Jahre Garantie"
       },
       {
@@ -28,7 +28,7 @@
   "hero": {
     "badge": "Meisterbetrieb aus Hannover",
     "image": "https://kolmzvevdvprhvfedswf.supabase.co/storage/v1/object/public/cms-media/sites/11111111-1111-1111-1111-111111111111/chat/1790101321076-hero.png",
-    "title": "Moderne Fenster & sichere Türen aus Hannover BOW!!!",
+    "title": "Moderne Fenster & sichere Türen aus Hannover",
     "imageAlt": "Monteur von Klarwerk beim Einbau eines modernen Fensters",
     "subtitle": "Energieeffiziente Fenster und sichere Haustüren – geplant, gefertigt und an einem Tag montiert. Mit 25 Jahren Garantie und Festpreis.",
     "ctaPrimary": "Kostenloses Angebot anfordern",
@@ -118,6 +118,24 @@
   "emergency": {
     "badge": "24/7 Notfall-Service in Hannover",
     "title": "Fenster defekt? Wir sind rund um die Uhr für Sie da.",
-    "subtitle": "Glasbruch, Einbruchschaden oder klemmende Haustür – unser Notdienst sichert Ihr Zuhause innerhalb weniger Stunden. Tag und Nacht, auch am Wochenende und Feiertag."
+    "subtitle": "Glasbruch, Einbruchschaden oder klemmende Haustür – unser Notdienst sichert Ihr Zuhause innerhalb weniger Stunden. Tag und Nacht, auch am Wochenende und Feiertag.",
+    "cardTitle": "Jetzt Notfall melden",
+    "cardText": "Rufen Sie direkt an – wir sind sofort erreichbar und in Hannover meist in 2–3 Stunden vor Ort.",
+    "phoneCta": "Tag & Nacht – auch Sa, So & Feiertag",
+    "note": "Erste Not-Sicherung noch am selben Tag • Abrechnung auch direkt über Versicherung möglich",
+    "points": [
+      {
+        "title": "Glasbruch & Sturm-Schäden",
+        "text": "Eingeschlagene Scheibe? Wir sichern sofort ab und verglasen neu."
+      },
+      {
+        "title": "Einbruch-Schäden",
+        "text": "Aufgehebelte Fenster & Türen – wir verschließen und reparieren noch am selben Tag."
+      },
+      {
+        "title": "Tür klemmt / lässt sich nicht schließen",
+        "text": "Defekte Schlösser, Griffe & Beschläge – Ihr Zuhause bleibt wieder sicher verschließbar."
+      }
+    ]
   }
 }

@@ -1,5 +1,6 @@
 ---
 import type { getPage, getSite } from '../../lib/content';
+import { Image } from 'astro:assets';
 import CheckCircleIcon from '../icons/CheckCircle.astro';
 import PhoneIcon from '../icons/Phone.astro';
 import ArrowRightIcon from '../icons/ArrowRight.astro';
@@ -36,7 +37,7 @@ const { hero, badges, cardText, cardFieldId, site } = Astro.props;
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <a
           href="/kontakt"
-          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-base font-semibold text-ink transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           <span data-cms-field="home.hero.ctaPrimary">{hero.ctaPrimary}</span>
           <ArrowRightIcon class="h-4 w-4" />
@@ -60,12 +61,12 @@ const { hero, badges, cardText, cardFieldId, site } = Astro.props;
     </div>
 
     <div class="relative">
-      <img
+      <Image
         data-cms-field="home.hero.image"
         src={hero.image}
         alt={hero.imageAlt}
-        width="800"
-        height="600"
+        width={800}
+        height={600}
         loading="eager"
         fetchpriority="high"
         decoding="async"

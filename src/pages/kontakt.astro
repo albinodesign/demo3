@@ -11,6 +11,26 @@ import { getSite, getPage } from '../lib/content';
 const site = await getSite();
 const home = await getPage('home');
 const kontakt = await getPage('kontakt');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: `Kontakt & Angebot – ${site.name}`,
+  url: `${Astro.site?.toString()}kontakt`,
+  about: {
+    '@type': 'HomeAndConstructionBusiness',
+    name: site.name,
+    telephone: site.phone,
+    email: site.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.address.street,
+      postalCode: site.address.zip,
+      addressLocality: site.address.city,
+      addressCountry: 'DE',
+    },
+  },
+};
 ---
 
 <BaseLayout
@@ -169,7 +189,7 @@ const kontakt = await getPage('kontakt');
 
             <button
               type="submit"
-              class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-accent px-8 py-3 text-base font-semibold text-ink transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:w-auto"
+              class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-accent px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:w-auto"
             >
               <span data-cms-field="kontakt.form.submitLabel">{kontakt.form.submitLabel}</span>
             </button>
@@ -182,6 +202,7 @@ const kontakt = await getPage('kontakt');
     </section>
   </main>
   <Footer />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </BaseLayout>
 
 <script>

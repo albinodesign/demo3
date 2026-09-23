@@ -25,7 +25,11 @@
         { "id": "home.trust.items.2.value", "label": "Statistik 3: Wert", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[2].value", "maxLength": 10 },
         { "id": "home.trust.items.2.label", "label": "Statistik 3: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[2].label", "maxLength": 60 },
         { "id": "home.trust.items.3.value", "label": "Statistik 4: Wert", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[3].value", "maxLength": 10 },
-        { "id": "home.trust.items.3.label", "label": "Statistik 4: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[3].label", "maxLength": 60 }
+        { "id": "home.trust.items.3.label", "label": "Statistik 4: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[3].label", "maxLength": 60 },
+        { "id": "home.trust.items.0.suffix", "label": "Statistik 1: Einheit", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[0].suffix", "maxLength": 10 },
+        { "id": "home.trust.items.1.suffix", "label": "Statistik 2: Einheit", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[1].suffix", "maxLength": 10 },
+        { "id": "home.trust.items.2.suffix", "label": "Statistik 3: Einheit", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[2].suffix", "maxLength": 10 },
+        { "id": "home.trust.items.3.suffix", "label": "Statistik 4: Einheit", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[3].suffix", "maxLength": 10 }
       ]
     },
     {
@@ -89,6 +93,25 @@
       ]
     },
     {
+      "id": "home-emergency",
+      "label": "Startseite – Notdienst",
+      "fields": [
+        { "id": "home.emergency.badge", "label": "Badge-Zeile", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.badge", "maxLength": 60 },
+        { "id": "home.emergency.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.title", "maxLength": 90 },
+        { "id": "home.emergency.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.subtitle", "maxLength": 200 },
+        { "id": "home.emergency.cardTitle", "label": "Karten-Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.cardTitle", "maxLength": 40 },
+        { "id": "home.emergency.cardText", "label": "Karten-Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.cardText", "maxLength": 200 },
+        { "id": "home.emergency.phoneCta", "label": "Telefon-Hinweis", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.phoneCta", "maxLength": 60 },
+        { "id": "home.emergency.note", "label": "Hinweiszeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.note", "maxLength": 160 },
+        { "id": "home.emergency.points.0.title", "label": "Punkt 1: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.points[0].title", "maxLength": 60 },
+        { "id": "home.emergency.points.0.text", "label": "Punkt 1: Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.points[0].text", "maxLength": 160 },
+        { "id": "home.emergency.points.1.title", "label": "Punkt 2: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.points[1].title", "maxLength": 60 },
+        { "id": "home.emergency.points.1.text", "label": "Punkt 2: Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.points[1].text", "maxLength": 160 },
+        { "id": "home.emergency.points.2.title", "label": "Punkt 3: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.points[2].title", "maxLength": 60 },
+        { "id": "home.emergency.points.2.text", "label": "Punkt 3: Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.points[2].text", "maxLength": 160 }
+      ]
+    },
+    {
       "id": "kontakt-intro",
       "label": "Kontaktseite – Intro & Kontaktdaten",
       "fields": [
@@ -98,6 +121,23 @@
         { "id": "kontakt.contactLabels.email", "label": "Label: E-Mail", "type": "text", "file": "src/content/pages/kontakt.json", "path": "contactLabels.email", "maxLength": 30 },
         { "id": "kontakt.contactLabels.address", "label": "Label: Adresse", "type": "text", "file": "src/content/pages/kontakt.json", "path": "contactLabels.address", "maxLength": 30 },
         { "id": "kontakt.contactLabels.hours", "label": "Label: Öffnungszeiten", "type": "text", "file": "src/content/pages/kontakt.json", "path": "contactLabels.hours", "maxLength": 30 }
+      ]
+    },
+    {
+      "id": "kontakt-form",
+      "label": "Kontaktseite – Formular",
+      "fields": [
+        { "id": "kontakt.form.labelName", "label": "Feld: Name", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelName", "maxLength": 40 },
+        { "id": "kontakt.form.labelEmail", "label": "Feld: E-Mail", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelEmail", "maxLength": 40 },
+        { "id": "kontakt.form.labelPhone", "label": "Feld: Telefon", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelPhone", "maxLength": 40 },
+        { "id": "kontakt.form.labelTopic", "label": "Feld: Anliegen", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelTopic", "maxLength": 40 },
+        { "id": "kontakt.form.optionOther", "label": "Option: Sonstiges", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.optionOther", "maxLength": 40 },
+        { "id": "kontakt.form.labelMessage", "label": "Feld: Nachricht", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelMessage", "maxLength": 40 },
+        { "id": "kontakt.form.privacyTextPre", "label": "Datenschutz: Text davor", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.privacyTextPre", "maxLength": 60 },
+        { "id": "kontakt.form.privacyTextPost", "label": "Datenschutz: Text danach", "type": "textarea", "file": "src/content/pages/kontakt.json", "path": "form.privacyTextPost", "maxLength": 220 },
+        { "id": "kontakt.form.submitLabel", "label": "Button: Senden", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.submitLabel", "maxLength": 40 },
+        { "id": "kontakt.form.requiredNotePre", "label": "Pflicht-Hinweis davor", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.requiredNotePre", "maxLength": 60 },
+        { "id": "kontakt.form.requiredNotePost", "label": "Pflicht-Hinweis danach", "type": "textarea", "file": "src/content/pages/kontakt.json", "path": "form.requiredNotePost", "maxLength": 120 }
       ]
     },
     {

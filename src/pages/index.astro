@@ -23,12 +23,8 @@ const heroBadges = [
   { fieldId: 'home.why.features.2.title', text: home.why.features[2]!.title },
 ];
 
-const emergency: any = (home as any).emergency ?? {};
-const emergencyPoints = emergency.points ?? [
-  { title: 'Glasbruch & Sturm-Schäden', text: 'Eingeschlagene Scheibe? Wir sichern sofort ab und verglasen neu.' },
-  { title: 'Einbruch-Schäden', text: 'Aufgehebelte Fenster & Türen – wir verschließen und reparieren noch am selben Tag.' },
-  { title: 'Tür klemmt / lässt sich nicht schließen', text: 'Defekte Schlösser, Griffe & Beschläge – Ihr Zuhause bleibt wieder sicher verschließbar.' },
-];
+const emergency = home.emergency;
+const emergencyPoints = emergency.points;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -75,17 +71,17 @@ const jsonLd = {
               <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
               <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400"></span>
             </span>
-            <span data-cms-field="home.emergency.badge">{emergency.badge ?? '24/7 Notfall-Service in Hannover'}</span>
+            <span data-cms-field="home.emergency.badge">{emergency.badge}</span>
           </p>
           <h2 data-cms-field="home.emergency.title" class="mt-5 font-headline text-3xl font-extrabold tracking-tight sm:text-4xl">
-            {emergency.title ?? 'Fenster defekt? Wir sind rund um die Uhr für Sie da.'}
+            {emergency.title}
           </h2>
           <p data-cms-field="home.emergency.subtitle" class="mt-4 max-w-xl text-lg leading-relaxed text-white/75">
-            {emergency.subtitle ?? 'Glasbruch, Einbruchschaden oder klemmende Haustür – unser Notdienst sichert Ihr Zuhause innerhalb weniger Stunden. Tag und Nacht, auch am Wochenende und Feiertag.'}
+            {emergency.subtitle}
           </p>
 
           <ul class="mt-8 space-y-4">
-            {emergencyPoints.map((point: any, i: number) => (
+            {emergencyPoints.map((point, i) => (
               <li class="flex gap-3.5 rounded-2xl border border-white/10 bg-white/5 p-4">
                 <CheckCircleIcon class="mt-0.5 h-6 w-6 shrink-0 text-accent" />
                 <div>
@@ -104,7 +100,7 @@ const jsonLd = {
             </span>
             <div>
               <p data-cms-field="home.emergency.cardTitle" class="font-headline text-lg font-extrabold">
-                {emergency.cardTitle ?? 'Jetzt Notfall melden'}
+                {emergency.cardTitle}
               </p>
               <p class="flex items-center gap-1.5 text-sm font-semibold text-green-700">
                 <span class="h-2 w-2 rounded-full bg-green-500"></span>
@@ -114,7 +110,7 @@ const jsonLd = {
           </div>
 
           <p data-cms-field="home.emergency.cardText" class="mt-4 text-sm leading-relaxed text-ink-muted">
-            {emergency.cardText ?? 'Rufen Sie direkt an – wir sind sofort erreichbar und in Hannover meist in 2–3 Stunden vor Ort.'}
+            {emergency.cardText}
           </p>
 
           <a
@@ -125,7 +121,7 @@ const jsonLd = {
             <span data-cms-field="site.phone">{site.phone}</span>
           </a>
           <p data-cms-field="home.emergency.phoneCta" class="mt-2 text-center text-sm font-semibold text-ink-muted">
-            {emergency.phoneCta ?? 'Tag & Nacht – auch Sa, So & Feiertag'}
+            {emergency.phoneCta}
           </p>
 
           <div class="mt-6 grid grid-cols-2 gap-3 text-center">
@@ -140,7 +136,7 @@ const jsonLd = {
           </div>
 
           <p data-cms-field="home.emergency.note" class="mt-5 border-t border-gray-100 pt-4 text-center text-xs leading-relaxed text-ink-muted">
-            {emergency.note ?? 'Erste Not-Sicherung noch am selben Tag • Abrechnung auch direkt über Versicherung möglich'}
+            {emergency.note}
           </p>
         </div>
       </div>

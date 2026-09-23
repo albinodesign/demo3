@@ -112,6 +112,23 @@ const homeSchema = z.object({
     ctaPrimary: z.string().max(40),
     ctaSecondary: z.string().max(60),
   }),
+  emergency: z.object({
+    badge: z.string().max(60),
+    title: z.string().max(90),
+    subtitle: z.string().max(200),
+    cardTitle: z.string().max(40),
+    cardText: z.string().max(200),
+    phoneCta: z.string().max(60),
+    note: z.string().max(160),
+    points: z
+      .array(
+        z.object({
+          title: z.string().max(60),
+          text: z.string().max(160),
+        }),
+      )
+      .length(3),
+  }),
 });
 
 const kontaktSchema = z.object({
