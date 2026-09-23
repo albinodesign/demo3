@@ -16,6 +16,16 @@
   "hours": {
     "monThu": "Mo - Do: 07:30 - 16:30 Uhr",
     "fri": "Fr: 07:30 - 13:30 Uhr",
-    "schema": ["Mo-Th 07:30-16:30", "Fr 07:30-13:30"]
+    "schema": [
+      "Mo-Th 07:30-16:30",
+      "Fr 07:30-13:30"
+    ]
+  },
+  "site": {
+    "banner": {
+      "enabled": true,
+      "text": "leckt alle meine eier!",
+      "variant": "emergency"
+    }
   }
 }
