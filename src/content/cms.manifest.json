@@ -102,12 +102,14 @@
     },
     {
       "id": "unternehmen",
-      "label": "Unternehmensdaten",
+      "label": "Allgemeine Firmendaten",
       "fields": [
         { "id": "site.phone", "label": "Telefonnummer", "type": "text", "file": "src/content/site.json", "path": "phone", "maxLength": 30 },
         { "id": "site.email", "label": "E-Mail-Adresse", "type": "text", "file": "src/content/site.json", "path": "email", "maxLength": 60 },
         { "id": "site.hours.monThu", "label": "Öffnungszeiten Mo–Do", "type": "text", "file": "src/content/site.json", "path": "hours.monThu", "maxLength": 40 },
-        { "id": "site.hours.fri", "label": "Öffnungszeiten Fr", "type": "text", "file": "src/content/site.json", "path": "hours.fri", "maxLength": 40 }
+        { "id": "site.hours.fri", "label": "Öffnungszeiten Fr", "type": "text", "file": "src/content/site.json", "path": "hours.fri", "maxLength": 40 },
+        { "id": "site.banner.enabled", "label": "Hinweisbanner anzeigen", "type": "boolean", "file": "src/content/site.json", "path": "banner.enabled", "maxLength": 5 },
+        { "id": "site.banner.text", "label": "Hinweisbanner-Text", "type": "text", "file": "src/content/site.json", "path": "banner.text", "maxLength": 160 }
       ]
     }
   ]

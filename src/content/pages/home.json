@@ -89,22 +89,6 @@
       }
     ],
     "title": "leck eier",
-    "items[0]": {
-      "title": "leck eier",
-      "description": "leck eier"
-    },
-    "items[1]": {
-      "title": "leck eier",
-      "description": "leck eier"
-    },
-    "items[2]": {
-      "title": "leck eier",
-      "description": "leck eier"
-    },
-    "items[3]": {
-      "title": "leck eier",
-      "description": "leck eier"
-    },
     "subtitle": "Alles rund um Fenster, Türen und Sicherheit – aus einer Hand, von Beratung bis Montage."
   },
   "testimonials": {
@@ -129,9 +113,6 @@
       }
     ],
     "title": "Das sagen unsere Kunden",
-    "items[2]": {
-      "quote": "jjj"
-    },
     "subtitle": "Über 800 Bewertungen aus Hannover und Umgebung – durchschnittlich 4,9 von 5 Sternen."
   }
 }

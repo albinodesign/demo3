@@ -26,8 +26,8 @@ const site = await getSite();
           Inhaber: {site.owner} ({site.ownerTitle})<br />
           {site.address.street}<br />
           {site.address.zip} {site.address.city}<br />
-          Telefon: <a href={`tel:${site.phoneHref}`} class="text-primary underline">{site.phone}</a><br />
-          E-Mail: <a href={`mailto:${site.email}`} class="text-primary underline">{site.email}</a>
+          Telefon: <a data-cms-field="site.phone" href={`tel:${site.phoneHref}`} class="text-primary underline">{site.phone}</a><br />
+          E-Mail: <a data-cms-field="site.email" href={`mailto:${site.email}`} class="text-primary underline">{site.email}</a>
         </p>
       </section>
 
@@ -100,7 +100,7 @@ const site = await getSite();
 
       <p class="mt-10 text-sm text-ink-muted">
         Stand dieser Datenschutzerklärung: September 2026. Bei Fragen zum Datenschutz erreichen Sie uns unter
-        <a href={`mailto:${site.email}`} class="text-primary underline">{site.email}</a>.
+        <a data-cms-field="site.email" href={`mailto:${site.email}`} class="text-primary underline">{site.email}</a>.
       </p>
     </div>
   </main>

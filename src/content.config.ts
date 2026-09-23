@@ -34,6 +34,13 @@ const site = defineCollection({
       fri: z.string(),
       schema: z.array(z.string()).min(1),
     }),
+    banner: z
+      .object({
+        enabled: z.boolean(),
+        variant: z.string().max(30),
+        text: z.string().max(160),
+      })
+      .optional(),
   }),
 });
 
