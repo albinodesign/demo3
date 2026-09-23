@@ -10,7 +10,7 @@
     "zip": "30165",
     "city": "Hannover"
   },
-  "phone": "0511 8976999",
+  "phone": "0511 89769991",
   "phoneHref": "+495118976543",
   "email": "anfrage@klarwerk-fenster.de",
   "hours": {
@@ -25,5 +25,12 @@
     "enabled": false,
     "variant": "vacation",
     "text": "Betriebsurlaub vom 01.08. bis 15.08. – Ab 16.08. wieder für Sie da!"
+  },
+  "site": {
+    "banner": {
+      "enabled": true,
+      "variant": "emergency",
+      "text": "WIR SCHLIESSEN!!!"
+    }
   }
 }
