@@ -1,10 +1,10 @@
 {
   "why": {
-    "title": "leck eier",
+    "title": "Warum Klarwerk?",
     "features": [
       {
         "icon": "award",
-        "text": "Auf Profile, Verglasung und Montage. So lange, dass Sie nie wieder darüber nachdenken müssen.",
+        "text": "Auf Profile, Verglasung und Montage. So lange, dass Sie nie wieder darüber nachdenken müssen. ja und leck eier usw...",
         "title": "25 Jahre Garantie"
       },
       {
@@ -23,16 +23,16 @@
         "title": "Festpreisgarantie"
       }
     ],
-    "subtitle": "leck eier"
+    "subtitle": "Ehrlich, pünktlich und sauber – Ihr Meisterbetrieb aus Hannover für Fenster und Türen."
   },
   "hero": {
-    "badge": "24/7 FRRR",
-    "image": "https://kolmzvevdvprhvfedswf.supabase.co/storage/v1/object/public/cms-media/sites/11111111-1111-1111-1111-111111111111/1788905830357-ChatGPT%20Image%208.%20Sept.%202026,%2006_02_03.png",
-    "title": "AHA!!!",
+    "badge": "Meisterbetrieb aus Hannover",
+    "image": "https://kolmzvevdvprhvfedswf.supabase.co/storage/v1/object/public/cms-media/sites/11111111-1111-1111-1111-111111111111/chat/1790101321076-hero.png",
+    "title": "Moderne Fenster & sichere Türen aus Hannover BOW!!!",
     "imageAlt": "Monteur von Klarwerk beim Einbau eines modernen Fensters",
-    "subtitle": "leck eier",
-    "ctaPrimary": "leck eier",
-    "ctaSecondary": "leck eier"
+    "subtitle": "Energieeffiziente Fenster und sichere Haustüren – geplant, gefertigt und an einem Tag montiert. Mit 25 Jahren Garantie und Festpreis.",
+    "ctaPrimary": "Kostenloses Angebot anfordern",
+    "ctaSecondary": "Leistungen entdecken"
   },
   "trust": {
     "items": [
@@ -65,7 +65,6 @@
     "ctaSecondary": "Oder rufen Sie direkt an:"
   },
   "services": {
-    "ctaLabel": "Angebot anfordern",
     "items": [
       {
         "icon": "window",
@@ -88,7 +87,8 @@
         "description": "Klemmende Fenster, undichte Dichtungen, defekte Griffe – wir reparieren schnell und verlängern die Lebensdauer Ihrer Elemente."
       }
     ],
-    "title": "leck eier",
+    "title": "Unsere Leistungen für Fenster & Türen",
+    "ctaLabel": "Angebot anfordern",
     "subtitle": "Alles rund um Fenster, Türen und Sicherheit – aus einer Hand, von Beratung bis Montage."
   },
   "testimonials": {
@@ -114,5 +114,10 @@
     ],
     "title": "Das sagen unsere Kunden",
     "subtitle": "Über 800 Bewertungen aus Hannover und Umgebung – durchschnittlich 4,9 von 5 Sternen."
+  },
+  "emergency": {
+    "badge": "24/7 Notfall-Service in Hannover",
+    "title": "Fenster defekt? Wir sind rund um die Uhr für Sie da.",
+    "subtitle": "Glasbruch, Einbruchschaden oder klemmende Haustür – unser Notdienst sichert Ihr Zuhause innerhalb weniger Stunden. Tag und Nacht, auch am Wochenende und Feiertag."
   }
 }
