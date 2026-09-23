@@ -25,11 +25,5 @@
     "enabled": false,
     "variant": "vacation",
     "text": "Betriebsurlaub vom 01.08. bis 15.08. – Ab 16.08. wieder für Sie da!"
-  },
-  "site": {
-    "banner": {
-      "enabled": true,
-      "text": "Wir haben Urlaub bis ende des jahres!!"
-    }
   }
 }
