@@ -22,7 +22,7 @@
     ]
   },
   "banner": {
-    "enabled": true,
+    "enabled": false,
     "variant": "vacation",
     "text": "URLAUB BIS NOVEMBER ENDE!!"
   }
