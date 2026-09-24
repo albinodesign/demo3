@@ -23,7 +23,7 @@
   },
   "banner": {
     "enabled": true,
-    "variant": "emergency",
+    "variant": "info",
     "text": "WIR SCHLIESSEN ENDE DES JAHRES!!!"
   }
 }
