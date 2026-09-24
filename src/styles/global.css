@@ -1,15 +1,15 @@
 @import 'tailwindcss';
 
-/* Design-Tokens: siehe requirements.md §4 — Brand: Dunkelgrün */
+/* Design-Tokens: siehe requirements.md §4 — Brand: Navy */
 @theme {
-  --color-primary: #14452F;
-  --color-primary-dark: #0C3121;
-  --color-accent: #1F7A4D;
-  --color-accent-dark: #166038;
-  --color-surface: #F2F6F3;
+  --color-primary: #132E57;
+  --color-primary-dark: #0C1E3A;
+  --color-accent: #2456CC;
+  --color-accent-dark: #1A4199;
+  --color-surface: #F1F4F9;
   --color-ink: #1c2430;
   --color-ink-muted: #55606e;
-  --color-trust: #14452F;
+  --color-trust: #132E57;
 
   --font-headline: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
