@@ -13,10 +13,16 @@ const navItems = [
   { label: 'Bewertungen', href: '/#bewertungen' },
   { label: 'Kontakt', href: '/kontakt' },
 ];
+const bannerStyles: Record<string, string> = {
+  vacation: 'bg-accent',
+  emergency: 'bg-red-700',
+  info: 'bg-primary',
+};
+const bannerClass = bannerStyles[site.banner?.variant ?? 'info'] ?? 'bg-primary';
 ---
 
 {site.banner?.enabled === true && (
-  <div data-cms-section="site.banner" class="bg-accent px-4 py-2.5 text-center">
+  <div data-cms-section="unternehmen" class={`${bannerClass} px-4 py-2.5 text-center`}>
     <p data-cms-field="site.banner.text" class="text-sm font-semibold text-white">
       {site.banner.text}
     </p>

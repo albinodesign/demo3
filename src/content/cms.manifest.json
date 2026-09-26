@@ -4,7 +4,8 @@
   "sections": [
     {
       "id": "home-hero",
-      "label": "Startseite – Hero",
+      "title": "Startseite – Hero",
+      "page": "Startseite",
       "fields": [
         { "id": "home.hero.badge", "label": "Badge-Zeile", "type": "text", "file": "src/content/pages/home.json", "path": "hero.badge", "maxLength": 60 },
         { "id": "home.hero.title", "label": "Hauptüberschrift", "type": "text", "file": "src/content/pages/home.json", "path": "hero.title", "maxLength": 90 },
@@ -16,7 +17,8 @@
     },
     {
       "id": "home-trust",
-      "label": "Startseite – Statistiken",
+      "title": "Startseite – Statistiken",
+      "page": "Startseite",
       "fields": [
         { "id": "home.trust.items.0.value", "label": "Statistik 1: Wert", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[0].value", "maxLength": 10 },
         { "id": "home.trust.items.0.label", "label": "Statistik 1: Beschriftung", "type": "text", "file": "src/content/pages/home.json", "path": "trust.items[0].label", "maxLength": 60 },
@@ -34,7 +36,8 @@
     },
     {
       "id": "home-services",
-      "label": "Startseite – Leistungen",
+      "title": "Startseite – Leistungen",
+      "page": "Startseite",
       "fields": [
         { "id": "home.services.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "services.title", "maxLength": 60 },
         { "id": "home.services.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "services.subtitle", "maxLength": 160 },
@@ -51,7 +54,8 @@
     },
     {
       "id": "home-why",
-      "label": "Startseite – Warum Klarwerk",
+      "title": "Startseite – Warum Klarwerk",
+      "page": "Startseite",
       "fields": [
         { "id": "home.why.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "why.title", "maxLength": 60 },
         { "id": "home.why.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "why.subtitle", "maxLength": 160 },
@@ -67,7 +71,8 @@
     },
     {
       "id": "home-testimonials",
-      "label": "Startseite – Kundenstimmen",
+      "title": "Startseite – Kundenstimmen",
+      "page": "Startseite",
       "fields": [
         { "id": "home.testimonials.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.title", "maxLength": 60 },
         { "id": "home.testimonials.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.subtitle", "maxLength": 160 },
@@ -84,7 +89,8 @@
     },
     {
       "id": "home-finalcta",
-      "label": "Startseite – Abschluss-CTA",
+      "title": "Startseite – Abschluss-CTA",
+      "page": "Startseite",
       "fields": [
         { "id": "home.finalCta.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "finalCta.title", "maxLength": 90 },
         { "id": "home.finalCta.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "finalCta.subtitle", "maxLength": 200 },
@@ -94,7 +100,8 @@
     },
     {
       "id": "home-emergency",
-      "label": "Startseite – Notdienst",
+      "title": "Startseite – Notdienst",
+      "page": "Startseite",
       "fields": [
         { "id": "home.emergency.badge", "label": "Badge-Zeile", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.badge", "maxLength": 60 },
         { "id": "home.emergency.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.title", "maxLength": 90 },
@@ -113,7 +120,8 @@
     },
     {
       "id": "kontakt-intro",
-      "label": "Kontaktseite – Intro & Kontaktdaten",
+      "title": "Kontaktseite – Intro & Kontaktdaten",
+      "page": "Kontaktseite",
       "fields": [
         { "id": "kontakt.intro.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/kontakt.json", "path": "intro.title", "maxLength": 90 },
         { "id": "kontakt.intro.subtitle", "label": "Einleitungstext", "type": "textarea", "file": "src/content/pages/kontakt.json", "path": "intro.subtitle", "maxLength": 200 },
@@ -125,7 +133,8 @@
     },
     {
       "id": "kontakt-form",
-      "label": "Kontaktseite – Formular",
+      "title": "Kontaktseite – Formular",
+      "page": "Kontaktseite",
       "fields": [
         { "id": "kontakt.form.labelName", "label": "Feld: Name", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelName", "maxLength": 40 },
         { "id": "kontakt.form.labelEmail", "label": "Feld: E-Mail", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelEmail", "maxLength": 40 },
@@ -142,13 +151,15 @@
     },
     {
       "id": "unternehmen",
-      "label": "Allgemeine Firmendaten",
+      "title": "Allgemeine Firmendaten",
+      "page": "Allgemein",
       "fields": [
-        { "id": "site.phone", "label": "Telefonnummer", "type": "text", "file": "src/content/site.json", "path": "phone", "maxLength": 30 },
-        { "id": "site.email", "label": "E-Mail-Adresse", "type": "text", "file": "src/content/site.json", "path": "email", "maxLength": 60 },
+        { "id": "site.phone", "label": "Telefonnummer", "type": "phone", "file": "src/content/site.json", "path": "phone", "maxLength": 30 },
+        { "id": "site.email", "label": "E-Mail-Adresse", "type": "email", "file": "src/content/site.json", "path": "email", "maxLength": 60 },
         { "id": "site.hours.monThu", "label": "Öffnungszeiten Mo–Do", "type": "text", "file": "src/content/site.json", "path": "hours.monThu", "maxLength": 40 },
         { "id": "site.hours.fri", "label": "Öffnungszeiten Fr", "type": "text", "file": "src/content/site.json", "path": "hours.fri", "maxLength": 40 },
-        { "id": "site.banner.enabled", "label": "Hinweisbanner anzeigen", "type": "boolean", "file": "src/content/site.json", "path": "banner.enabled", "maxLength": 5 },
+        { "id": "site.banner.enabled", "label": "Hinweisbanner anzeigen", "type": "boolean", "file": "src/content/site.json", "path": "banner.enabled" },
+        { "id": "site.banner.variant", "label": "Hinweisbanner-Stil", "type": "text", "file": "src/content/site.json", "path": "banner.variant", "maxLength": 20 },
         { "id": "site.banner.text", "label": "Hinweisbanner-Text", "type": "text", "file": "src/content/site.json", "path": "banner.text", "maxLength": 160 }
       ]
     }

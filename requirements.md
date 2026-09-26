@@ -64,9 +64,9 @@ Diese Daten leben **ausschließlich** in `src/content/site.json`. Marketingtexte
 ## 5. CMS-Schnittstellen (Headless-Referenz)
 
 1. **Content Layer:** `src/content.config.ts` mit Zod-Schemas; `site.json` (Fakten), `pages/home.json` (Marketing).
-2. **Manifest:** `src/content/cms.manifest.json` — 15–25 kundeneditierbare Felder mit `id`, `label` (DE), `type`, `file`, `path`, `maxLength`. Nur editierbare Felder. Keine URLs, Nav, Formular-Keys, SEO-Tags.
-3. **DOM-Marker:** `data-cms-section` auf Section-Wrappers, `data-cms-field` auf editierbaren Text-/Bild-Tags. IDs im Format `home.hero.title`.
-4. **Preview-Bridge:** Inline-Script im `<head>` des Layouts — lauscht (nur im Iframe) auf `postMessage` vom Typ `CMS_FIELD_UPDATE` und patched `innerText`/`img.src` live.
+2. **Manifest:** `src/content/cms.manifest.json` — 15–25 kundeneditierbare Felder; Sektionen mit `id`, `title` (DE), `page`, Felder mit `id`, `label` (DE), `type`, `file`, `path`, `maxLength`. Nur editierbare Felder. Keine URLs, Nav, Formular-Keys, SEO-Tags. Maßgeblich: `CMS-REFERENCE.md`.
+3. **DOM-Marker:** `data-cms-section` (Sektions-ID aus dem Manifest, z. B. `home-hero`) auf Section-Wrappers, `data-cms-field` (Feld-ID, z. B. `home.hero.title`) auf editierbaren Text-/Bild-Tags.
+4. **Preview-Bridge:** Inline-Script im `<head>` des Layouts, verbatim aus `CMS-REFERENCE.md` (Abschnitt 7) — lauscht (nur im Iframe, mit `CMS_ORIGINS`-Allowlist) auf `postMessage` vom Typ `CMS_FIELD_UPDATE`/`CMS_SELECT_MODE` und patched `textContent`/`img.src` live; Klicks melden `CMS_FIELD_SELECT` mit konkretem Ziel-Origin (niemals `"*"`).
 5. **Iframe-Einbettung:** CSP `frame-ancestors 'self' http://localhost:* https://*.vercel.app` — **kein** `X-Frame-Options: DENY`.
 6. **Remote-Bilder:** `*.supabase.co` in `astro.config.mjs` freigegeben.
 

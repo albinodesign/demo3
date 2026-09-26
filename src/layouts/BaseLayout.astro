@@ -25,39 +25,36 @@ const { title, description } = Astro.props;
 
     <script is:inline>
       if (window.self !== window.top) {
-        let selectMode = true;
+        const CMS_ORIGINS = ["https://agency-cms-teal.vercel.app", "http://localhost:3000"];
+        let selectMode = true; // true = „Finden", false = „Surfen"
         window.addEventListener("message", (event) => {
-          if (event.data?.type === "CMS_SELECT_MODE") {
-            selectMode = event.data.enabled !== false;
-            return;
-          }
+          if (!CMS_ORIGINS.includes(event.origin)) return;   // 1. Origin
+          if (event.source !== window.parent) return;        // 2. Quelle
+          if (event.data?.type === "CMS_SELECT_MODE") { selectMode = event.data.enabled !== false; return; }
           if (event.data?.type !== "CMS_FIELD_UPDATE") return;
-          const field = event.data.field;
-          document.querySelectorAll(`[data-cms-field="${field}"]`).forEach((el) => {
+          if (typeof event.data.field !== "string" || typeof event.data.value !== "string") return; // 3. Form
+          if (/[<>"'`]/.test(event.data.field)) return;      // 4. keine Injection
+          document.querySelectorAll(`[data-cms-field="${CSS.escape(event.data.field)}"]`).forEach((el) => {
             if (el.tagName === "IMG") { el.src = event.data.value; el.removeAttribute("srcset"); }
             else if (el.tagName === "SOURCE") { el.srcset = event.data.value; }
             else { el.textContent = event.data.value; }
           });
         });
-        document.addEventListener(
-          "click",
-          (event) => {
-            if (!selectMode) return;
-            const el = event.target.closest("[data-cms-field]");
-            if (!el) return;
-            event.preventDefault();
-            event.stopPropagation();
-            document.querySelectorAll(".cms-selected").forEach((n) => n.classList.remove("cms-selected"));
-            el.classList.add("cms-selected");
-            window.parent.postMessage({ type: "CMS_FIELD_SELECT", field: el.getAttribute("data-cms-field") }, "*");
-          },
-          true
-        );
+        function cmsTargetOrigin() {
+          try { const ref = new URL(document.referrer); if (CMS_ORIGINS.includes(ref.origin)) return ref.origin; }
+          catch { /* nichts senden */ } return null;
+        }
+        document.addEventListener("click", (event) => {
+          if (!selectMode) return;
+          const el = event.target.closest("[data-cms-field]"); if (!el) return;
+          const target = cmsTargetOrigin(); if (!target) return;
+          event.preventDefault(); event.stopPropagation();
+          document.querySelectorAll(".cms-selected").forEach((n) => n.classList.remove("cms-selected"));
+          el.classList.add("cms-selected");
+          window.parent.postMessage({ type: "CMS_FIELD_SELECT", field: el.getAttribute("data-cms-field") }, target);
+        }, true);
         const style = document.createElement("style");
-        style.textContent = `
-          [data-cms-field]:hover { outline: 2px solid #2563eb; outline-offset: 2px; cursor: pointer; }
-          .cms-selected { outline: 2px solid #2563eb !important; outline-offset: 2px; }
-        `;
+        style.textContent = `[data-cms-field]:hover{outline:2px solid #2563eb;outline-offset:2px;cursor:pointer}.cms-selected{outline:2px solid #2563eb!important;outline-offset:2px}`;
         document.head.appendChild(style);
       }
     </script>

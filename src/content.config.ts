@@ -37,7 +37,7 @@ const site = defineCollection({
     banner: z
       .object({
         enabled: z.boolean(),
-        variant: z.string().max(30),
+        variant: z.enum(['vacation', 'emergency', 'info']),
         text: z.string().max(160),
       })
       .optional(),
