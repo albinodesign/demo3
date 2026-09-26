@@ -22,8 +22,8 @@
     ]
   },
   "banner": {
-    "enabled": true,
-    "variant": "vacation",
-    "text": "URLAUB BIS NOVEMBER ENDE!!"
+    "enabled": false,
+    "variant": "emergency",
+    "text": "frima schliesst bald"
   }
 }
