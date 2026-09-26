@@ -27,9 +27,20 @@ const { title, description } = Astro.props;
       if (window.self !== window.top) {
         const CMS_ORIGINS = ["https://agency-cms-teal.vercel.app", "http://localhost:3000"];
         let selectMode = true; // true = „Finden", false = „Surfen"
+        // Gemerkte CMS-Herkunft aus geprüften CMS-Nachrichten (stärker als
+        // document.referrer): Nach Navigation über einen In-Preview-Link ist der
+        // Referrer die Website-Seite, der gemerkte Origin bleibt die CMS-Domain.
+        let cmsOrigin = null;
+        let bridgeBereitGemeldet = false;
+        function meldeBridgeBereit() {
+          if (bridgeBereitGemeldet || !cmsOrigin) return;
+          bridgeBereitGemeldet = true;
+          window.parent.postMessage({ type: "CMS_BRIDGE_READY", version: 2 }, cmsOrigin);
+        }
         window.addEventListener("message", (event) => {
           if (!CMS_ORIGINS.includes(event.origin)) return;   // 1. Origin
           if (event.source !== window.parent) return;        // 2. Quelle
+          cmsOrigin = event.origin; meldeBridgeBereit();
           if (event.data?.type === "CMS_SELECT_MODE") { selectMode = event.data.enabled !== false; return; }
           if (event.data?.type !== "CMS_FIELD_UPDATE") return;
           if (typeof event.data.field !== "string" || typeof event.data.value !== "string") return; // 3. Form
@@ -41,6 +52,7 @@ const { title, description } = Astro.props;
           });
         });
         function cmsTargetOrigin() {
+          if (cmsOrigin) return cmsOrigin;
           try { const ref = new URL(document.referrer); if (CMS_ORIGINS.includes(ref.origin)) return ref.origin; }
           catch { /* nichts senden */ } return null;
         }
