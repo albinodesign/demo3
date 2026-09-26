@@ -1,8 +1,8 @@
 ---
-import type { getPage } from '../../lib/content';
+import type { HomeContent } from '../../content.config';
 
 interface Props {
-  trust: Awaited<ReturnType<typeof getPage>>['trust'];
+  trust: HomeContent['trust'];
 }
 
 const { trust } = Astro.props;

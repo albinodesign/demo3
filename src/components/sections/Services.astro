@@ -1,5 +1,5 @@
 ---
-import type { getPage } from '../../lib/content';
+import type { HomeContent } from '../../content.config';
 import WindowIcon from '../icons/Window.astro';
 import DoorIcon from '../icons/Door.astro';
 import ShieldIcon from '../icons/Shield.astro';
@@ -7,7 +7,7 @@ import WrenchIcon from '../icons/Wrench.astro';
 import ArrowRightIcon from '../icons/ArrowRight.astro';
 
 interface Props {
-  services: Awaited<ReturnType<typeof getPage>>['services'];
+  services: HomeContent['services'];
 }
 
 const { services } = Astro.props;

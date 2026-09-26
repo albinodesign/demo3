@@ -2,9 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getSite } from '../lib/content';
+import { getSite, getPage } from '../lib/content';
 
 const site = await getSite();
+const impressum = await getPage('impressum');
 ---
 
 <BaseLayout
@@ -13,8 +14,8 @@ const site = await getSite();
 >
   <Header />
   <main id="main-content">
-    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 class="font-headline text-4xl font-extrabold tracking-tight text-ink">Impressum</h1>
+    <div data-cms-section="impressum" class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <h1 data-cms-field="impressum.title" class="font-headline text-4xl font-extrabold tracking-tight text-ink">{impressum.title}</h1>
 
       <section class="mt-10">
         <h2 class="font-headline text-xl font-bold text-ink">Angaben gemäß § 5 DDG</h2>
@@ -49,35 +50,23 @@ const site = await getSite();
       </section>
 
       <section class="mt-8">
-        <h2 class="font-headline text-xl font-bold text-ink">Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
-        <p class="mt-3 leading-relaxed text-ink-muted">
-          Die {site.name} ist nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
-          Verbraucherschlichtungsstelle teilzunehmen.
+        <h2 data-cms-field="impressum.dispute.heading" class="font-headline text-xl font-bold text-ink">{impressum.dispute.heading}</h2>
+        <p data-cms-field="impressum.dispute.text" class="mt-3 leading-relaxed text-ink-muted">
+          {impressum.dispute.text.replace('{name}', site.name)}
         </p>
       </section>
 
       <section class="mt-8">
-        <h2 class="font-headline text-xl font-bold text-ink">Haftung für Inhalte</h2>
-        <p class="mt-3 leading-relaxed text-ink-muted">
-          Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den
-          allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht
-          verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen
-          zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder
-          Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.
-          Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten
-          Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese
-          Inhalte umgehend entfernen.
+        <h2 data-cms-field="impressum.liability.heading" class="font-headline text-xl font-bold text-ink">{impressum.liability.heading}</h2>
+        <p data-cms-field="impressum.liability.text" class="mt-3 leading-relaxed text-ink-muted">
+          {impressum.liability.text}
         </p>
       </section>
 
       <section class="mt-8">
-        <h2 class="font-headline text-xl font-bold text-ink">Urheberrecht</h2>
-        <p class="mt-3 leading-relaxed text-ink-muted">
-          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem
-          deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung
-          außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors
-          bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen
-          Gebrauch gestattet.
+        <h2 data-cms-field="impressum.copyright.heading" class="font-headline text-xl font-bold text-ink">{impressum.copyright.heading}</h2>
+        <p data-cms-field="impressum.copyright.text" class="mt-3 leading-relaxed text-ink-muted">
+          {impressum.copyright.text}
         </p>
       </section>
     </div>

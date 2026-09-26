@@ -172,9 +172,43 @@ const kontaktSchema = z.object({
 export type HomeContent = z.infer<typeof homeSchema>;
 export type KontaktContent = z.infer<typeof kontaktSchema>;
 
+const impressumSchema = z.object({
+  title: z.string().max(60),
+  dispute: z.object({
+    heading: z.string().max(80),
+    text: z.string().max(2000),
+  }),
+  liability: z.object({
+    heading: z.string().max(60),
+    text: z.string().max(2000),
+  }),
+  copyright: z.object({
+    heading: z.string().max(60),
+    text: z.string().max(2000),
+  }),
+});
+
+const datenschutzSchema = z.object({
+  title: z.string().max(60),
+  controllerHeading: z.string().max(60),
+  controllerIntro: z.string().max(200),
+  sections: z
+    .array(
+      z.object({
+        heading: z.string().max(80),
+        text: z.string().max(2000),
+      }),
+    )
+    .length(6),
+  closing: z.string().max(300),
+});
+
+export type ImpressumContent = z.infer<typeof impressumSchema>;
+export type DatenschutzContent = z.infer<typeof datenschutzSchema>;
+
 const pages = defineCollection({
   loader: glob({ pattern: '*.json', base: './src/content/pages' }),
-  schema: homeSchema.partial().merge(kontaktSchema.partial()),
+  schema: homeSchema.partial().merge(kontaktSchema.partial()).merge(impressumSchema.partial()).merge(datenschutzSchema.partial()),
 });
 
 export const collections = { site, pages };

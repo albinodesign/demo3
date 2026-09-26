@@ -162,6 +162,43 @@
         { "id": "site.banner.variant", "label": "Hinweisbanner-Stil", "type": "text", "file": "src/content/site.json", "path": "banner.variant", "maxLength": 20 },
         { "id": "site.banner.text", "label": "Hinweisbanner-Text", "type": "text", "file": "src/content/site.json", "path": "banner.text", "maxLength": 160 }
       ]
+    },
+    {
+      "id": "impressum",
+      "title": "Impressum – Rechtstexte",
+      "page": "Rechtliches",
+      "fields": [
+        { "id": "impressum.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "title", "maxLength": 60 },
+        { "id": "impressum.dispute.heading", "label": "Streitbeilegung: Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "dispute.heading", "maxLength": 80 },
+        { "id": "impressum.dispute.text", "label": "Streitbeilegung: Text", "type": "textarea", "file": "src/content/pages/impressum.json", "path": "dispute.text", "maxLength": 2000 },
+        { "id": "impressum.liability.heading", "label": "Haftung: Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "liability.heading", "maxLength": 60 },
+        { "id": "impressum.liability.text", "label": "Haftung: Text", "type": "textarea", "file": "src/content/pages/impressum.json", "path": "liability.text", "maxLength": 2000 },
+        { "id": "impressum.copyright.heading", "label": "Urheberrecht: Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "copyright.heading", "maxLength": 60 },
+        { "id": "impressum.copyright.text", "label": "Urheberrecht: Text", "type": "textarea", "file": "src/content/pages/impressum.json", "path": "copyright.text", "maxLength": 2000 }
+      ]
+    },
+    {
+      "id": "datenschutz",
+      "title": "Datenschutz – Rechtstexte",
+      "page": "Rechtliches",
+      "fields": [
+        { "id": "datenschutz.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "title", "maxLength": 60 },
+        { "id": "datenschutz.controllerHeading", "label": "Verantwortlicher: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "controllerHeading", "maxLength": 60 },
+        { "id": "datenschutz.controllerIntro", "label": "Verantwortlicher: Einleitung", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "controllerIntro", "maxLength": 200 },
+        { "id": "datenschutz.sections.0.heading", "label": "Abschnitt 2: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[0].heading", "maxLength": 80 },
+        { "id": "datenschutz.sections.0.text", "label": "Abschnitt 2: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[0].text", "maxLength": 2000 },
+        { "id": "datenschutz.sections.1.heading", "label": "Abschnitt 3: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[1].heading", "maxLength": 80 },
+        { "id": "datenschutz.sections.1.text", "label": "Abschnitt 3: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[1].text", "maxLength": 2000 },
+        { "id": "datenschutz.sections.2.heading", "label": "Abschnitt 4: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[2].heading", "maxLength": 80 },
+        { "id": "datenschutz.sections.2.text", "label": "Abschnitt 4: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[2].text", "maxLength": 2000 },
+        { "id": "datenschutz.sections.3.heading", "label": "Abschnitt 5: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[3].heading", "maxLength": 80 },
+        { "id": "datenschutz.sections.3.text", "label": "Abschnitt 5: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[3].text", "maxLength": 2000 },
+        { "id": "datenschutz.sections.4.heading", "label": "Abschnitt 6: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[4].heading", "maxLength": 80 },
+        { "id": "datenschutz.sections.4.text", "label": "Abschnitt 6: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[4].text", "maxLength": 2000 },
+        { "id": "datenschutz.sections.5.heading", "label": "Abschnitt 7: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[5].heading", "maxLength": 80 },
+        { "id": "datenschutz.sections.5.text", "label": "Abschnitt 7: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[5].text", "maxLength": 2000 },
+        { "id": "datenschutz.closing", "label": "Schlusssatz", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "closing", "maxLength": 300 }
+      ]
     }
   ]
 }

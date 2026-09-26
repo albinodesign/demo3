@@ -1,10 +1,10 @@
 ---
-import type { getPage } from '../../lib/content';
+import type { HomeContent } from '../../content.config';
 import StarIcon from '../icons/Star.astro';
 import QuoteLeftIcon from '../icons/QuoteLeft.astro';
 
 interface Props {
-  testimonials: Awaited<ReturnType<typeof getPage>>['testimonials'];
+  testimonials: HomeContent['testimonials'];
 }
 
 const { testimonials } = Astro.props;

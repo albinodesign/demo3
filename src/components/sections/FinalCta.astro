@@ -1,9 +1,10 @@
 ---
-import type { getPage, getSite } from '../../lib/content';
+import type { HomeContent } from '../../content.config';
+import type { getSite } from '../../lib/content';
 import ArrowRightIcon from '../icons/ArrowRight.astro';
 
 interface Props {
-  finalCta: Awaited<ReturnType<typeof getPage>>['finalCta'];
+  finalCta: HomeContent['finalCta'];
   site: Awaited<ReturnType<typeof getSite>>;
 }
 

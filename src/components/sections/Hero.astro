@@ -1,12 +1,13 @@
 ---
-import type { getPage, getSite } from '../../lib/content';
+import type { HomeContent } from '../../content.config';
+import type { getSite } from '../../lib/content';
 import { Image } from 'astro:assets';
 import CheckCircleIcon from '../icons/CheckCircle.astro';
 import PhoneIcon from '../icons/Phone.astro';
 import ArrowRightIcon from '../icons/ArrowRight.astro';
 
 interface Props {
-  hero: Awaited<ReturnType<typeof getPage>>['hero'];
+  hero: HomeContent['hero'];
   badges: { fieldId: string; text: string }[];
   cardText: string;
   cardFieldId: string;

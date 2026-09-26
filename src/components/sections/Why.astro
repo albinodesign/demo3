@@ -1,12 +1,12 @@
 ---
-import type { getPage } from '../../lib/content';
+import type { HomeContent } from '../../content.config';
 import AwardIcon from '../icons/Award.astro';
 import IndustryIcon from '../icons/Industry.astro';
 import CalendarDayIcon from '../icons/CalendarDay.astro';
 import TagIcon from '../icons/Tag.astro';
 
 interface Props {
-  why: Awaited<ReturnType<typeof getPage>>['why'];
+  why: HomeContent['why'];
 }
 
 const { why } = Astro.props;

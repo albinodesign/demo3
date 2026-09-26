@@ -1,0 +1,32 @@
+{
+  "title": "Datenschutzerklärung",
+  "controllerHeading": "1. Verantwortlicher",
+  "controllerIntro": "Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:",
+  "sections": [
+    {
+      "heading": "2. Allgemeine Hinweise zur Datenverarbeitung",
+      "text": "Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstellung dieser Website, zur Bearbeitung Ihrer Anfragen oder zur Erfüllung rechtlicher Pflichten erforderlich ist (Art. 6 Abs. 1 lit. b, c, f DSGVO). Diese Website verwendet keine Tracking- oder Analyse-Werkzeuge und lädt keine Inhalte von Drittanbieter-CDNs. Schriftarten und Icons werden ausschließlich lokal von unserem Server geladen."
+    },
+    {
+      "heading": "3. Server-Log-Dateien",
+      "text": "Beim Aufruf dieser Website werden durch den Hosting-Anbieter automatisch Informationen in sogenannten Server-Log-Dateien gespeichert (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, abgerufene Datei, Browsertyp). Diese Daten sind technisch erforderlich, um die Website anzuzeigen und deren Sicherheit zu gewährleisten (Art. 6 Abs. 1 lit. f DSGVO). Eine Zusammenführung dieser Daten mit anderen Datenquellen erfolgt nicht."
+    },
+    {
+      "heading": "4. Kontaktformular und E-Mail-Anfragen",
+      "text": "Wenn Sie uns über das Kontaktformular, per E-Mail oder telefonisch kontaktieren, verarbeiten wir die von Ihnen angegebenen Daten (Name, E-Mail-Adresse, ggf. Telefonnummer und Ihre Nachricht) ausschließlich zur Bearbeitung Ihrer Anfrage und für den Fall von Anschlussfragen (Art. 6 Abs. 1 lit. b DSGVO). Eine Weitergabe an Dritte erfolgt nicht. Für den Versand des Formulars nutzen wir den Formular-Dienst Web3Forms als Auftragsverarbeiter; die Daten werden dabei verschlüsselt übertragen. Ihre Daten werden gelöscht, sobald sie für die Bearbeitung der Anfrage nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen."
+    },
+    {
+      "heading": "5. Cookies und lokale Speicherung",
+      "text": "Diese Website setzt keine Marketing- oder Tracking-Cookies. Im lokalen Speicher Ihres Browsers (localStorage) wird lediglich Ihre Entscheidung im Consent-Banner gespeichert, damit dieser nicht bei jedem Besuch erneut erscheint. Diese technisch notwendige Speicherung erfolgt auf Grundlage von § 25 Abs. 2 TDDDG. Sie können den Eintrag jederzeit über die Browsereinstellungen löschen."
+    },
+    {
+      "heading": "6. Ihre Rechte",
+      "text": "Sie haben jederzeit das Recht auf Auskunft über Ihre gespeicherten personenbezogenen Daten (Art. 15 DSGVO), auf Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO), Einschränkung der Verarbeitung (Art. 18 DSGVO), Datenübertragbarkeit (Art. 20 DSGVO) sowie Widerspruch gegen die Verarbeitung (Art. 21 DSGVO). Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Zudem besteht ein Beschwerderecht bei der zuständigen Aufsichtsbehörde (Art. 77 DSGVO) – für Niedersachsen: Die Landesbeauftragte für den Datenschutz Niedersachsen, Prinzenstraße 5, 30159 Hannover."
+    },
+    {
+      "heading": "7. Datensicherheit",
+      "text": "Diese Website nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie an „https://“ in der Adresszeile Ihres Browsers."
+    }
+  ],
+  "closing": "Stand dieser Datenschutzerklärung: September 2026. Bei Fragen zum Datenschutz erreichen Sie uns unter"
+}

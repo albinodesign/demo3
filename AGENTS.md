@@ -37,7 +37,7 @@ Es gibt **keine Tests und keinen Linter/Formatter** im Projekt. Verifikation erf
   - `pages/home.json` — alle Marketingtexte der Startseite
   - `pages/kontakt.json` — alle sichtbaren Texte der Kontaktseite inkl. Formular-Statusmeldungen (`messages`, im Template via `data-messages`-Attribut ans Inline-Script übergeben)
   - `cms.manifest.json` — kundeneditierbare Felder, **Version 2**: `{ "version": 2, "features": { "blog": false }, "sections": [...] }`; Sektionen (`id`, `title` DE, `page`) gruppieren Felder (`id`, `label` DE, `type`, `file`, `path`, `maxLength`). Details siehe `CMS-REFERENCE.md` (geht vor).
-- `src/lib/content.ts` — Zugriffs-Helper `getSite()` / `getPage('home' | 'kontakt')` über `getEntry` (Overloads liefern `HomeContent`/`KontaktContent` aus `src/content.config.ts`; das Pages-Schema ist intern `partial`, damit beide JSON-Dateien gegen dasselbe Schema validieren)
+- `src/lib/content.ts` — Zugriffs-Helper `getSite()` / `getPage('home' | 'kontakt' | 'impressum' | 'datenschutz')` über `getEntry` (Overloads liefern `HomeContent`/`KontaktContent`/`ImpressumContent`/`DatenschutzContent` aus `src/content.config.ts`; das Pages-Schema ist intern `partial`, damit alle JSON-Dateien gegen dasselbe Schema validieren)
 - `src/styles/global.css` — Tailwind-Import, `@theme`-Tokens, lokale `@font-face`
 - `src/assets/fonts/` — lokale `.woff2` (Inter, Plus Jakarta Sans)
 
