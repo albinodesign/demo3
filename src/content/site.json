@@ -23,7 +23,7 @@
   },
   "banner": {
     "enabled": true,
-    "variant": "emergency",
+    "variant": "vacation",
     "text": "frima schliesst bald"
   }
 }
