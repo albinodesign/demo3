@@ -1,6 +1,6 @@
 # CMS-REFERENCE.md — Verbindlicher Contract: Agency CMS ↔ Website
 
-- **Version:** 1.2 · **Stand:** 2026-09-26 · **CMS-Kompatibilität:** `main` ab `fix/preview-referrer` (Nachfolger von `fix/reference-1-1`)
+- **Version:** 1.4 · **Stand:** 2026-09-28 · **CMS-Kompatibilität:** `main` ab `fix/preview-referrer` (Nachfolger von `fix/reference-1-1`)
 - **Diese Datei gewinnt:** Bei Widerspruch zwischen dieser Referenz, `AGENTS.md` und `README.md` gilt **immer diese Datei**.
 - **Adressat:** KI-Coding-Agenten und Entwickler, die eine Website **neu** CMS-kompatibel bauen. Kein Vorwissen über das CMS nötig.
 
@@ -243,6 +243,7 @@ Content: Pfade ≤ 20 Segmente / 500 Zeichen / Index ≤ 9999; Dateien ≤ 200 Z
 - [ ] Alle Typen aus Abschnitt 4, Zahlen/Booleans als echte JSON-Typen in den Dateien
 - [ ] `site.json` mit gültigem `banner`-Objekt (Abschnitt 8)
 - [ ] Jede Sektion `data-cms-section`, jedes editierbare Element `data-cms-field` (exakte IDs, Marker immer am innersten Element, nie verschachtelt)
+- [ ] Standardziel: **jeder sichtbare Text und jedes sichtbare Bild** auf allen Seiten ist als Feld im Manifest und mit Marker versehen (Ausnahmen nur auf Kundenwunsch + im Report begründet)
 - [ ] Brücken-Script aus Abschnitt 7 verbatim mit echten `CMS_ORIGINS` (Scheme + Host + Port exakt), nur im Iframe aktiv
 - [ ] Kein `postMessage("*")`, `CSS.escape` verwendet, Klick nur mit gültigem Ziel-Origin (gemerkter CMS-Origin, Fallback `document.referrer`), `CMS_BRIDGE_READY` (v2) wird gesendet
 - [ ] Vorschau-URL ist `https://…` (sonst bleibt die Editor-Vorschau stumm)
@@ -269,3 +270,16 @@ Content: Pfade ≤ 20 Segmente / 500 Zeichen / Index ≤ 9999; Dateien ≤ 200 Z
 - **1.2 (2026-09-26):** Bridge v2 gegen die `document.referrer`-Falle: Antwort-Ziel für `CMS_FIELD_SELECT` ist der gemerkte Origin aus geprüften CMS-Nachrichten (Referrer nur Fallback), neue Nachricht `CMS_BRIDGE_READY { version: 2 }` je geladener Seite; CMS warnt nur noch bei Brücken ohne READY.
 - **1.1 (2026-09-26):** `page` funktioniert jetzt wirklich; `listenmodelle` und FAQ-Feature komplett entfernt (alle Listen fest, Einträge normal änderbar); DOM-Marker-Beispiel korrigiert; Feld-ID-/Preview-/`aspectRatio`-Hinweise ergänzt; Blog-Validierung präzisiert (`date` optional, `coverImage`-Regel, `draft` tolerant); Sicherheitshinweise zu `document.referrer` und `CMS_ORIGINS` ergänzt; Ablageort festgelegt (Root des Website-Repos).
 - TODOs: Alt-Texte für Content-Bilder (CMS-Konzept fehlt); `data-cms-section`-Auswertung (reserviert, CMS springt nur zu Feldern).
+- **1.3 (2026-09-28):** Neuer Abschnitt 14 (verbindlicher Umbau-Workflow) aus bewährtem Website-Umbau übernommen.
+- **1.4 (2026-09-28):** Standardziel klargestellt: jeder sichtbare Text und jedes sichtbare Bild ist per CMS editierbar (neuer Checklisten-Punkt in Abschnitt 11, Vorgabe in Abschnitt 14).
+
+## 14. Umbau-Workflow für bestehende Websites
+
+Verbindlicher Ablauf für jeden Neu- oder Umbau einer Website. Abweichungen nur auf ausdrückliche Kundenanweisung.
+
+1. **Lesen:** Diese Referenz vollständig lesen, dann Bestand aufnehmen: Manifest, Content-Dateien, Schemas/Validierung, Templates (Marker-Stand), Bridge-Script, Hosting-Header (`frame-ancestors`!), Bild-Domains, Branch/Deployment, Blog-Stand.
+2. **Fragen:** Vor dem Start Klärungsfragen stellen und Antworten abwarten. Standardziel (gilt, sofern der Kunde nichts anderes vorgibt): **jeder sichtbare Text und jedes sichtbare Bild** auf allen Seiten ist per CMS editierbar. Pflichtpunkte: Scope bestätigen (alles Sichtbare vs. eingeschränkt ohne URLs/Nav/SEO/Keys), Bild-Umfang (Hinweis: kein SVG, kein Alt-Konzept), Listen-Verständnis (fest — nur Ändern, kein Hinzufügen/Entfernen), Blog (bleibt aus / wird aktiviert / wird neu gebaut), Ergebnis (nur Analyse vs. Analyse + Umbau).
+3. **Analyse-Report:** Grün/Rot-Bericht nach Checkliste (Abschnitt 11), jede Lücke mit Datei und Zeile. Erst nach Freigabe umbauen.
+4. **Phasen-Umbau:** (a) Content-Dateien + Schemas erweitern, (b) Manifest ergänzen — bestehende Feld-IDs niemals umbenennen oder löschen, (c) Templates mit Markern versehen (innerstes Element, **alle** Vorkommen, Span-in-Link bei `tel:`/`mailto:`), (d) Zusatz-Features (z. B. Blog nach Abschnitt 5/10), (e) verifizieren.
+5. **Pflicht-Verifikation:** Typecheck fehlerfrei, Produktions-Build Exit 0, Manifest-Selbstcheck (IDs global eindeutig und ohne Leerzeichen/Quotes/`<>"'`, alle Pfade existent, nur Typen aus Abschnitt 4, Maxima eingehalten), Marker-Abdeckung (jedes Feld hat einen Marker — Ausnahmen wie Zahlen ohne Textelement, Alt-Texte oder Laufzeit-Meldungen im Report begründen), alle Routen HTTP 200, Bridge auf jeder Seite vorhanden.
+6. **Commit & Push:** Commit pro Umbau; vor jedem Push per Fetch prüfen, ob parallele CMS-Commits (Kundenedits) vorliegen — dann per Rebase integrieren und per Diff belegen, dass Kundendaten erhalten sind. Content-Dateien nie umformatieren, fremde Schlüssel nie löschen, Kundenwerte nie „korrigieren".
