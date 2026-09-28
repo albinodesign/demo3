@@ -1,11 +1,18 @@
 ---
+import { getSite } from '../lib/content';
+
 // Lokales Consent-Banner (DSGVO/§ 25 TDDDG):
 // - Keine externen Dienste, Entscheidung nur im localStorage des Browsers
 // - Optionale Skripte werden als <script type="text/plain" data-consent="KATEGORIE">
 //   deklariert und erst nach erteilter Einwilligung aktiviert.
+// - Alle sichtbaren Texte kommen aus site.json (Sektion "cookie") und sind per CMS editierbar.
+
+const site = await getSite();
+const cookie = site.cookie;
 ---
 
 <div
+  data-cms-section="cookie"
   id="consent-banner"
   class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-200 bg-white p-4 shadow-2xl sm:p-6"
   role="dialog"
@@ -13,21 +20,22 @@
   aria-labelledby="consent-title"
 >
   <div class="mx-auto max-w-7xl">
-    <h2 id="consent-title" class="font-headline text-lg font-bold text-ink">Cookies &amp; Datenschutz</h2>
+    <h2 data-cms-field="site.cookie.title" id="consent-title" class="font-headline text-lg font-bold text-ink">{cookie.title}</h2>
     <p class="mt-2 max-w-3xl text-sm text-ink-muted">
-      Wir nutzen keine Tracking- oder Marketing-Cookies. Technisch notwendige Speicherung (z. B. Ihre
-      Consent-Entscheidung) ist immer aktiv. Optionale Dienste laden wir erst nach Ihrer Einwilligung.
-      Details finden Sie in der <a href="/datenschutz" class="font-medium text-primary underline">Datenschutzerklärung</a>.
+      <span data-cms-field="site.cookie.textPre">{cookie.textPre}</span>{' '}
+      <a href="/datenschutz" class="font-medium text-primary underline"><span data-cms-field="site.cookie.linkLabel">{cookie.linkLabel}</span></a><span data-cms-field="site.cookie.textPost">{cookie.textPost}</span>
     </p>
 
     <div id="consent-settings" class="mt-4 hidden gap-4 rounded-lg bg-surface p-4">
       <label class="flex items-center gap-3 text-sm text-ink">
         <input type="checkbox" checked disabled class="h-5 w-5 accent-primary" />
-        Notwendig <span class="text-ink-muted">(immer aktiv – technisch erforderlich)</span>
+        <span data-cms-field="site.cookie.necessaryLabel">{cookie.necessaryLabel}</span>{' '}
+        <span data-cms-field="site.cookie.necessaryNote" class="text-ink-muted">{cookie.necessaryNote}</span>
       </label>
       <label class="mt-2 flex items-center gap-3 text-sm text-ink">
         <input type="checkbox" id="consent-marketing" class="h-5 w-5 accent-primary" />
-        Optionale Dienste <span class="text-ink-muted">(z. B. zukünftige Analyse- oder Marketing-Skripte)</span>
+        <span data-cms-field="site.cookie.optionalLabel">{cookie.optionalLabel}</span>{' '}
+        <span data-cms-field="site.cookie.optionalNote" class="text-ink-muted">{cookie.optionalNote}</span>
       </label>
     </div>
 
@@ -36,21 +44,23 @@
         id="consent-accept"
         class="min-h-11 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
-        Alle akzeptieren
+        <span data-cms-field="site.cookie.acceptLabel">{cookie.acceptLabel}</span>
       </button>
       <button
         id="consent-decline"
         class="min-h-11 rounded-lg border-2 border-gray-300 px-6 py-2.5 text-sm font-semibold text-ink hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
-        Nur notwendige
+        <span data-cms-field="site.cookie.declineLabel">{cookie.declineLabel}</span>
       </button>
       <button
         id="consent-customize"
+        data-label-settings={cookie.customizeLabel}
+        data-label-save={cookie.saveLabel}
         class="min-h-11 rounded-lg px-6 py-2.5 text-sm font-medium text-ink-muted underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         aria-expanded="false"
         aria-controls="consent-settings"
       >
-        Einstellungen
+        <span data-cms-field="site.cookie.customizeLabel">{cookie.customizeLabel}</span>
       </button>
     </div>
   </div>
@@ -111,7 +121,10 @@
       var open = settings.classList.toggle('hidden') === false;
       customize.setAttribute('aria-expanded', String(open));
       if (open && stored) marketingBox.checked = !!stored.marketing;
-      customize.textContent = open ? 'Auswahl speichern' : 'Einstellungen';
+      // Button-Text aus data-Attributen (CMS-editierbar via site.cookie), Marker sitzt auf innerem Span
+      var label = customize.querySelector('[data-cms-field="site.cookie.customizeLabel"]');
+      if (label) label.textContent = open ? customize.getAttribute('data-label-save') : customize.getAttribute('data-label-settings');
+      else customize.textContent = open ? customize.getAttribute('data-label-save') : customize.getAttribute('data-label-settings');
       if (!open) save(marketingBox.checked);
     });
   })();

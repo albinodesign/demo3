@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "features": { "blog": false },
+  "features": { "blog": true },
   "sections": [
     {
       "id": "home-hero",
@@ -12,7 +12,8 @@
         { "id": "home.hero.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "hero.subtitle", "maxLength": 200 },
         { "id": "home.hero.ctaPrimary", "label": "Primärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaPrimary", "maxLength": 40 },
         { "id": "home.hero.ctaSecondary", "label": "Sekundärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaSecondary", "maxLength": 40 },
-        { "id": "home.hero.image", "label": "Bild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image", "maxLength": 500 }
+        { "id": "home.hero.image", "label": "Bild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image" },
+        { "id": "home.hero.imageAlt", "label": "Bildbeschreibung (Alt-Text)", "type": "text", "file": "src/content/pages/home.json", "path": "hero.imageAlt", "maxLength": 120 }
       ]
     },
     {
@@ -79,12 +80,15 @@
         { "id": "home.testimonials.items.0.quote", "label": "Stimme 1: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[0].quote", "maxLength": 280 },
         { "id": "home.testimonials.items.0.author", "label": "Stimme 1: Name", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[0].author", "maxLength": 40 },
         { "id": "home.testimonials.items.0.location", "label": "Stimme 1: Ort", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[0].location", "maxLength": 60 },
+        { "id": "home.testimonials.items.0.rating", "label": "Stimme 1: Sterne (1–5)", "type": "number", "file": "src/content/pages/home.json", "path": "testimonials.items[0].rating" },
         { "id": "home.testimonials.items.1.quote", "label": "Stimme 2: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[1].quote", "maxLength": 280 },
         { "id": "home.testimonials.items.1.author", "label": "Stimme 2: Name", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[1].author", "maxLength": 40 },
         { "id": "home.testimonials.items.1.location", "label": "Stimme 2: Ort", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[1].location", "maxLength": 60 },
+        { "id": "home.testimonials.items.1.rating", "label": "Stimme 2: Sterne (1–5)", "type": "number", "file": "src/content/pages/home.json", "path": "testimonials.items[1].rating" },
         { "id": "home.testimonials.items.2.quote", "label": "Stimme 3: Zitat", "type": "textarea", "file": "src/content/pages/home.json", "path": "testimonials.items[2].quote", "maxLength": 280 },
         { "id": "home.testimonials.items.2.author", "label": "Stimme 3: Name", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[2].author", "maxLength": 40 },
-        { "id": "home.testimonials.items.2.location", "label": "Stimme 3: Ort", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[2].location", "maxLength": 60 }
+        { "id": "home.testimonials.items.2.location", "label": "Stimme 3: Ort", "type": "text", "file": "src/content/pages/home.json", "path": "testimonials.items[2].location", "maxLength": 60 },
+        { "id": "home.testimonials.items.2.rating", "label": "Stimme 3: Sterne (1–5)", "type": "number", "file": "src/content/pages/home.json", "path": "testimonials.items[2].rating" }
       ]
     },
     {
@@ -108,6 +112,11 @@
         { "id": "home.emergency.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.subtitle", "maxLength": 200 },
         { "id": "home.emergency.cardTitle", "label": "Karten-Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.cardTitle", "maxLength": 40 },
         { "id": "home.emergency.cardText", "label": "Karten-Text", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.cardText", "maxLength": 200 },
+        { "id": "home.emergency.status", "label": "Statuszeile (Erreichbar)", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.status", "maxLength": 40 },
+        { "id": "home.emergency.deliveryTitle", "label": "Kachel 1: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.deliveryTitle", "maxLength": 20 },
+        { "id": "home.emergency.deliveryText", "label": "Kachel 1: Text", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.deliveryText", "maxLength": 40 },
+        { "id": "home.emergency.secureTitle", "label": "Kachel 2: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.secureTitle", "maxLength": 20 },
+        { "id": "home.emergency.secureText", "label": "Kachel 2: Text", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.secureText", "maxLength": 40 },
         { "id": "home.emergency.phoneCta", "label": "Telefon-Hinweis", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.phoneCta", "maxLength": 60 },
         { "id": "home.emergency.note", "label": "Hinweiszeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "emergency.note", "maxLength": 160 },
         { "id": "home.emergency.points.0.title", "label": "Punkt 1: Titel", "type": "text", "file": "src/content/pages/home.json", "path": "emergency.points[0].title", "maxLength": 60 },
@@ -143,10 +152,28 @@
         { "id": "kontakt.form.optionOther", "label": "Option: Sonstiges", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.optionOther", "maxLength": 40 },
         { "id": "kontakt.form.labelMessage", "label": "Feld: Nachricht", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.labelMessage", "maxLength": 40 },
         { "id": "kontakt.form.privacyTextPre", "label": "Datenschutz: Text davor", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.privacyTextPre", "maxLength": 60 },
+        { "id": "kontakt.form.privacyLinkLabel", "label": "Datenschutz: Linktext", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.privacyLinkLabel", "maxLength": 40 },
         { "id": "kontakt.form.privacyTextPost", "label": "Datenschutz: Text danach", "type": "textarea", "file": "src/content/pages/kontakt.json", "path": "form.privacyTextPost", "maxLength": 220 },
         { "id": "kontakt.form.submitLabel", "label": "Button: Senden", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.submitLabel", "maxLength": 40 },
+        { "id": "kontakt.form.submitSending", "label": "Button: Wird gesendet", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.submitSending", "maxLength": 40 },
         { "id": "kontakt.form.requiredNotePre", "label": "Pflicht-Hinweis davor", "type": "text", "file": "src/content/pages/kontakt.json", "path": "form.requiredNotePre", "maxLength": 60 },
         { "id": "kontakt.form.requiredNotePost", "label": "Pflicht-Hinweis danach", "type": "textarea", "file": "src/content/pages/kontakt.json", "path": "form.requiredNotePost", "maxLength": 120 }
+      ]
+    },
+    {
+      "id": "kontakt-meldungen",
+      "title": "Kontaktseite – Formularmeldungen",
+      "page": "Kontaktseite",
+      "fields": [
+        { "id": "kontakt.messages.name", "label": "Fehler: Name fehlt", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.name", "maxLength": 120 },
+        { "id": "kontakt.messages.email", "label": "Fehler: E-Mail ungültig", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.email", "maxLength": 120 },
+        { "id": "kontakt.messages.message", "label": "Fehler: Nachricht fehlt", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.message", "maxLength": 120 },
+        { "id": "kontakt.messages.privacy", "label": "Fehler: Datenschutz fehlt", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.privacy", "maxLength": 120 },
+        { "id": "kontakt.messages.honeypotSuccess", "label": "Erfolg: Spam-Schutz", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.honeypotSuccess", "maxLength": 160 },
+        { "id": "kontakt.messages.success", "label": "Erfolg: Nachricht gesendet", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.success", "maxLength": 160 },
+        { "id": "kontakt.messages.notConfigured", "label": "Fehler: Nicht konfiguriert", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.notConfigured", "maxLength": 160 },
+        { "id": "kontakt.messages.error", "label": "Fehler: Senden fehlgeschlagen", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.error", "maxLength": 160 },
+        { "id": "kontakt.messages.offline", "label": "Fehler: Keine Verbindung", "type": "text", "file": "src/content/pages/kontakt.json", "path": "messages.offline", "maxLength": 160 }
       ]
     },
     {
@@ -154,13 +181,67 @@
       "title": "Allgemeine Firmendaten",
       "page": "Allgemein",
       "fields": [
+        { "id": "site.name", "label": "Firmenname", "type": "text", "file": "src/content/site.json", "path": "name", "maxLength": 60 },
+        { "id": "site.owner", "label": "Inhaber", "type": "text", "file": "src/content/site.json", "path": "owner", "maxLength": 60 },
+        { "id": "site.ownerTitle", "label": "Titel Inhaber", "type": "text", "file": "src/content/site.json", "path": "ownerTitle", "maxLength": 40 },
+        { "id": "site.address.street", "label": "Straße & Hausnummer", "type": "text", "file": "src/content/site.json", "path": "address.street", "maxLength": 80 },
+        { "id": "site.address.zip", "label": "Postleitzahl", "type": "text", "file": "src/content/site.json", "path": "address.zip", "maxLength": 10 },
+        { "id": "site.address.city", "label": "Ort", "type": "text", "file": "src/content/site.json", "path": "address.city", "maxLength": 40 },
         { "id": "site.phone", "label": "Telefonnummer", "type": "phone", "file": "src/content/site.json", "path": "phone", "maxLength": 30 },
         { "id": "site.email", "label": "E-Mail-Adresse", "type": "email", "file": "src/content/site.json", "path": "email", "maxLength": 60 },
         { "id": "site.hours.monThu", "label": "Öffnungszeiten Mo–Do", "type": "text", "file": "src/content/site.json", "path": "hours.monThu", "maxLength": 40 },
         { "id": "site.hours.fri", "label": "Öffnungszeiten Fr", "type": "text", "file": "src/content/site.json", "path": "hours.fri", "maxLength": 40 },
         { "id": "site.banner.enabled", "label": "Hinweisbanner anzeigen", "type": "boolean", "file": "src/content/site.json", "path": "banner.enabled" },
-        { "id": "site.banner.variant", "label": "Hinweisbanner-Stil", "type": "text", "file": "src/content/site.json", "path": "banner.variant", "maxLength": 20 },
+        { "id": "site.banner.variant", "label": "Hinweisbanner-Stil", "type": "text", "file": "src/content/site.json", "path": "banner.variant", "placeholder": "Nur: vacation, emergency oder info", "maxLength": 20 },
         { "id": "site.banner.text", "label": "Hinweisbanner-Text", "type": "text", "file": "src/content/site.json", "path": "banner.text", "maxLength": 160 }
+      ]
+    },
+    {
+      "id": "header",
+      "title": "Kopfzeile & Navigation",
+      "page": "Allgemein",
+      "fields": [
+        { "id": "site.shortName", "label": "Kurzname (Logo)", "type": "text", "file": "src/content/site.json", "path": "shortName", "maxLength": 30 },
+        { "id": "site.tagline", "label": "Unterzeile (Logo)", "type": "text", "file": "src/content/site.json", "path": "tagline", "maxLength": 60 },
+        { "id": "site.nav.services", "label": "Menü: Leistungen", "type": "text", "file": "src/content/site.json", "path": "nav.services", "maxLength": 30 },
+        { "id": "site.nav.why", "label": "Menü: Warum Klarwerk", "type": "text", "file": "src/content/site.json", "path": "nav.why", "maxLength": 30 },
+        { "id": "site.nav.testimonials", "label": "Menü: Bewertungen", "type": "text", "file": "src/content/site.json", "path": "nav.testimonials", "maxLength": 30 },
+        { "id": "site.nav.blog", "label": "Menü: Blog", "type": "text", "file": "src/content/site.json", "path": "nav.blog", "maxLength": 30 },
+        { "id": "site.nav.kontakt", "label": "Menü: Kontakt", "type": "text", "file": "src/content/site.json", "path": "nav.kontakt", "maxLength": 30 }
+      ]
+    },
+    {
+      "id": "footer",
+      "title": "Fußzeile",
+      "page": "Allgemein",
+      "fields": [
+        { "id": "site.footer.description", "label": "Beschreibung ({city} = Ort)", "type": "textarea", "file": "src/content/site.json", "path": "footer.description", "maxLength": 160 },
+        { "id": "site.footer.kontaktHeading", "label": "Überschrift: Kontakt", "type": "text", "file": "src/content/site.json", "path": "footer.kontaktHeading", "maxLength": 30 },
+        { "id": "site.footer.legalHeading", "label": "Überschrift: Rechtliches", "type": "text", "file": "src/content/site.json", "path": "footer.legalHeading", "maxLength": 30 },
+        { "id": "site.footer.linkImpressum", "label": "Link: Impressum", "type": "text", "file": "src/content/site.json", "path": "footer.linkImpressum", "maxLength": 40 },
+        { "id": "site.footer.linkDatenschutz", "label": "Link: Datenschutz", "type": "text", "file": "src/content/site.json", "path": "footer.linkDatenschutz", "maxLength": 40 },
+        { "id": "site.footer.linkKontakt", "label": "Link: Kontakt", "type": "text", "file": "src/content/site.json", "path": "footer.linkKontakt", "maxLength": 40 },
+        { "id": "site.footer.linkBlog", "label": "Link: Blog", "type": "text", "file": "src/content/site.json", "path": "footer.linkBlog", "maxLength": 40 },
+        { "id": "site.footer.copyrightNote", "label": "Copyright: Zusatz (Inhaber:)", "type": "text", "file": "src/content/site.json", "path": "footer.copyrightNote", "maxLength": 30 }
+      ]
+    },
+    {
+      "id": "cookie",
+      "title": "Cookie-Hinweis",
+      "page": "Allgemein",
+      "fields": [
+        { "id": "site.cookie.title", "label": "Titel", "type": "text", "file": "src/content/site.json", "path": "cookie.title", "maxLength": 60 },
+        { "id": "site.cookie.textPre", "label": "Hinweistext", "type": "textarea", "file": "src/content/site.json", "path": "cookie.textPre", "maxLength": 400 },
+        { "id": "site.cookie.linkLabel", "label": "Linktext Datenschutz", "type": "text", "file": "src/content/site.json", "path": "cookie.linkLabel", "maxLength": 40 },
+        { "id": "site.cookie.textPost", "label": "Text nach Link", "type": "text", "file": "src/content/site.json", "path": "cookie.textPost", "maxLength": 40 },
+        { "id": "site.cookie.necessaryLabel", "label": "Option: Notwendig", "type": "text", "file": "src/content/site.json", "path": "cookie.necessaryLabel", "maxLength": 30 },
+        { "id": "site.cookie.necessaryNote", "label": "Hinweis: Notwendig", "type": "text", "file": "src/content/site.json", "path": "cookie.necessaryNote", "maxLength": 80 },
+        { "id": "site.cookie.optionalLabel", "label": "Option: Optional", "type": "text", "file": "src/content/site.json", "path": "cookie.optionalLabel", "maxLength": 40 },
+        { "id": "site.cookie.optionalNote", "label": "Hinweis: Optional", "type": "text", "file": "src/content/site.json", "path": "cookie.optionalNote", "maxLength": 100 },
+        { "id": "site.cookie.acceptLabel", "label": "Button: Akzeptieren", "type": "text", "file": "src/content/site.json", "path": "cookie.acceptLabel", "maxLength": 30 },
+        { "id": "site.cookie.declineLabel", "label": "Button: Nur notwendige", "type": "text", "file": "src/content/site.json", "path": "cookie.declineLabel", "maxLength": 30 },
+        { "id": "site.cookie.customizeLabel", "label": "Button: Einstellungen", "type": "text", "file": "src/content/site.json", "path": "cookie.customizeLabel", "maxLength": 30 },
+        { "id": "site.cookie.saveLabel", "label": "Button: Auswahl speichern", "type": "text", "file": "src/content/site.json", "path": "cookie.saveLabel", "maxLength": 30 }
       ]
     },
     {
@@ -169,6 +250,12 @@
       "page": "Rechtliches",
       "fields": [
         { "id": "impressum.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "title", "maxLength": 60 },
+        { "id": "impressum.companyHeading", "label": "Abschnitt: Firmendaten", "type": "text", "file": "src/content/pages/impressum.json", "path": "companyHeading", "maxLength": 80 },
+        { "id": "impressum.ownerHeading", "label": "Abschnitt: Vertretung", "type": "text", "file": "src/content/pages/impressum.json", "path": "ownerHeading", "maxLength": 80 },
+        { "id": "impressum.contactHeading", "label": "Abschnitt: Kontakt", "type": "text", "file": "src/content/pages/impressum.json", "path": "contactHeading", "maxLength": 80 },
+        { "id": "impressum.hoursHeading", "label": "Abschnitt: Öffnungszeiten", "type": "text", "file": "src/content/pages/impressum.json", "path": "hoursHeading", "maxLength": 80 },
+        { "id": "impressum.phoneLabel", "label": "Label: Telefon", "type": "text", "file": "src/content/pages/impressum.json", "path": "phoneLabel", "maxLength": 20 },
+        { "id": "impressum.emailLabel", "label": "Label: E-Mail", "type": "text", "file": "src/content/pages/impressum.json", "path": "emailLabel", "maxLength": 20 },
         { "id": "impressum.dispute.heading", "label": "Streitbeilegung: Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "dispute.heading", "maxLength": 80 },
         { "id": "impressum.dispute.text", "label": "Streitbeilegung: Text", "type": "textarea", "file": "src/content/pages/impressum.json", "path": "dispute.text", "maxLength": 2000 },
         { "id": "impressum.liability.heading", "label": "Haftung: Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "liability.heading", "maxLength": 60 },
@@ -185,6 +272,9 @@
         { "id": "datenschutz.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "title", "maxLength": 60 },
         { "id": "datenschutz.controllerHeading", "label": "Verantwortlicher: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "controllerHeading", "maxLength": 60 },
         { "id": "datenschutz.controllerIntro", "label": "Verantwortlicher: Einleitung", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "controllerIntro", "maxLength": 200 },
+        { "id": "datenschutz.ownerLabel", "label": "Label: Inhaber", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "ownerLabel", "maxLength": 20 },
+        { "id": "datenschutz.phoneLabel", "label": "Label: Telefon", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "phoneLabel", "maxLength": 20 },
+        { "id": "datenschutz.emailLabel", "label": "Label: E-Mail", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "emailLabel", "maxLength": 20 },
         { "id": "datenschutz.sections.0.heading", "label": "Abschnitt 2: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[0].heading", "maxLength": 80 },
         { "id": "datenschutz.sections.0.text", "label": "Abschnitt 2: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[0].text", "maxLength": 2000 },
         { "id": "datenschutz.sections.1.heading", "label": "Abschnitt 3: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[1].heading", "maxLength": 80 },
@@ -198,6 +288,17 @@
         { "id": "datenschutz.sections.5.heading", "label": "Abschnitt 7: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "sections[5].heading", "maxLength": 80 },
         { "id": "datenschutz.sections.5.text", "label": "Abschnitt 7: Text", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "sections[5].text", "maxLength": 2000 },
         { "id": "datenschutz.closing", "label": "Schlusssatz", "type": "textarea", "file": "src/content/pages/datenschutz.json", "path": "closing", "maxLength": 300 }
+      ]
+    },
+    {
+      "id": "blog-seite",
+      "title": "Blog – Übersicht & Artikel",
+      "page": "Blog",
+      "fields": [
+        { "id": "blog.title", "label": "Überschrift Übersicht", "type": "text", "file": "src/content/pages/blog.json", "path": "title", "maxLength": 60 },
+        { "id": "blog.subtitle", "label": "Einleitung Übersicht", "type": "textarea", "file": "src/content/pages/blog.json", "path": "subtitle", "maxLength": 200 },
+        { "id": "blog.readMoreLabel", "label": "Linktext: Weiterlesen", "type": "text", "file": "src/content/pages/blog.json", "path": "readMoreLabel", "maxLength": 30 },
+        { "id": "blog.backLabel", "label": "Linktext: Zurück", "type": "text", "file": "src/content/pages/blog.json", "path": "backLabel", "maxLength": 40 }
       ]
     }
   ]

@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ArrowRightIcon from '../components/icons/ArrowRight.astro';
+import { getSite, getPage } from '../lib/content';
+import { getCollection } from 'astro:content';
+
+const site = await getSite();
+const blogPage = await getPage('blog');
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => (b.data.date ?? '').localeCompare(a.data.date ?? ''));
+
+function formatDate(value: string | undefined): string {
+  const iso = value && value.length > 0 ? value : new Date().toISOString().slice(0, 10);
+  return new Date(`${iso}T00:00:00`).toLocaleDateString('de-DE', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+---
+
+<BaseLayout title={`Blog – ${site.name}`} description={blogPage.subtitle}>
+  <Header />
+  <main id="main-content">
+    <section data-cms-section="blog-seite" class="bg-surface">
+      <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h1 data-cms-field="blog.title" class="font-headline text-4xl font-extrabold tracking-tight text-ink">
+            {blogPage.title}
+          </h1>
+          <p data-cms-field="blog.subtitle" class="mt-4 text-lg text-ink-muted">
+            {blogPage.subtitle}
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-6 md:grid-cols-2">
+          {posts.map((post) => (
+            <a
+              href={`/blog/${post.data.slug}`}
+              class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              <img
+                src={post.data.coverImage}
+                alt={post.data.coverImageAlt || post.data.title}
+                loading="lazy"
+                decoding="async"
+                class="aspect-video w-full object-cover"
+              />
+              <div class="flex flex-1 flex-col p-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                  <time datetime={post.data.date || undefined}>{formatDate(post.data.date)}</time>
+                </p>
+                <h2 class="mt-2 font-headline text-xl font-bold text-ink group-hover:text-primary">
+                  {post.data.title}
+                </h2>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">{post.data.excerpt}</p>
+                <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+                  <span data-cms-field="blog.readMoreLabel">{blogPage.readMoreLabel}</span>
+                  <ArrowRightIcon class="h-3.5 w-3.5 transition-all group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

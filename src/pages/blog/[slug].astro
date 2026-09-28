@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ArrowRightIcon from '../../components/icons/ArrowRight.astro';
+import { getSite, getPage } from '../../lib/content';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts
+    .filter((post) => !post.data.draft)
+    .map((post) => ({ params: { slug: post.data.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const site = await getSite();
+const blogPage = await getPage('blog');
+
+function formatDate(value: string | undefined): string {
+  const iso = value && value.length > 0 ? value : new Date().toISOString().slice(0, 10);
+  return new Date(`${iso}T00:00:00`).toLocaleDateString('de-DE', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+---
+
+<BaseLayout title={`${post.data.title} – ${site.name}`} description={post.data.excerpt}>
+  <Header />
+  <main id="main-content">
+    <article data-cms-section="blog-seite" class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all"
+      >
+        <ArrowRightIcon class="h-3.5 w-3.5 rotate-180" />
+        <span data-cms-field="blog.backLabel">{blogPage.backLabel}</span>
+      </a>
+      <p class="mt-8 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        <time datetime={post.data.date || undefined}>{formatDate(post.data.date)}</time>
+      </p>
+      <h1 class="mt-2 font-headline text-4xl font-extrabold tracking-tight text-ink">{post.data.title}</h1>
+      <img
+        src={post.data.coverImage}
+        alt={post.data.coverImageAlt || post.data.title}
+        loading="eager"
+        decoding="async"
+        class="mt-8 aspect-video w-full rounded-2xl object-cover shadow-lg"
+      />
+      <div class="prose-blog mt-8 leading-relaxed text-ink">
+        <Content />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .prose-blog :global(h2) {
+    font-family: var(--font-headline);
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    color: var(--color-ink);
+  }
+  .prose-blog :global(p) {
+    margin-top: 1rem;
+    color: var(--color-ink-muted);
+  }
+</style>

@@ -8,10 +8,11 @@ import XMarkIcon from './icons/XMark.astro';
 const site = await getSite();
 
 const navItems = [
-  { label: 'Leistungen', href: '/#leistungen' },
-  { label: 'Warum Klarwerk', href: '/#warum' },
-  { label: 'Bewertungen', href: '/#bewertungen' },
-  { label: 'Kontakt', href: '/kontakt' },
+  { label: site.nav.services, href: '/#leistungen', fieldId: 'site.nav.services' },
+  { label: site.nav.why, href: '/#warum', fieldId: 'site.nav.why' },
+  { label: site.nav.testimonials, href: '/#bewertungen', fieldId: 'site.nav.testimonials' },
+  { label: site.nav.blog, href: '/blog', fieldId: 'site.nav.blog' },
+  { label: site.nav.kontakt, href: '/kontakt', fieldId: 'site.nav.kontakt' },
 ];
 const bannerStyles: Record<string, string> = {
   vacation: 'bg-amber-500',
@@ -29,21 +30,22 @@ const bannerClass = bannerStyles[site.banner?.variant ?? 'info'] ?? 'bg-primary'
   </div>
 )}
 
-<header class="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur">
+<header data-cms-section="header" class="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur">
   <div class="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="/" class="flex items-center gap-2.5" aria-label={`${site.name} – Startseite`}>
       <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
         <WindowIcon class="h-5 w-5" />
       </span>
       <span class="font-headline text-lg font-extrabold tracking-tight text-ink">
-        {site.shortName} <span class="hidden text-sm font-medium text-ink-muted sm:inline">{site.tagline}</span>
+        <span data-cms-field="site.shortName">{site.shortName}</span>{' '}
+        <span data-cms-field="site.tagline" class="hidden text-sm font-medium text-ink-muted sm:inline">{site.tagline}</span>
       </span>
     </a>
 
     <nav class="hidden items-center gap-8 lg:flex" aria-label="Hauptnavigation">
       {navItems.map((item) => (
         <a href={item.href} class="text-sm font-medium text-ink-muted transition-colors hover:text-primary">
-          {item.label}
+          <span data-cms-field={item.fieldId}>{item.label}</span>
         </a>
       ))}
     </nav>
@@ -73,7 +75,7 @@ const bannerClass = bannerStyles[site.banner?.variant ?? 'info'] ?? 'bg-primary'
     <nav class="space-y-1 px-4 py-4" aria-label="Mobile Navigation">
       {navItems.map((item) => (
         <a href={item.href} class="block rounded-lg px-3 py-3 text-base font-medium text-ink hover:bg-surface">
-          {item.label}
+          <span data-cms-field={item.fieldId}>{item.label}</span>
         </a>
       ))}
       <a

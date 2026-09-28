@@ -25,5 +25,36 @@
     "enabled": true,
     "variant": "info",
     "text": "frima schliesst bald"
+  },
+  "nav": {
+    "services": "Leistungen",
+    "why": "Warum Klarwerk",
+    "testimonials": "Bewertungen",
+    "kontakt": "Kontakt",
+    "blog": "Blog"
+  },
+  "footer": {
+    "description": "Ihr Meisterbetrieb für Fenster, Türen und Einbruchschutz in {city}.",
+    "kontaktHeading": "Kontakt",
+    "legalHeading": "Rechtliches",
+    "linkImpressum": "Impressum",
+    "linkDatenschutz": "Datenschutzerklärung",
+    "linkKontakt": "Kontakt & Angebot",
+    "linkBlog": "Blog",
+    "copyrightNote": "Inhaber:"
+  },
+  "cookie": {
+    "title": "Cookies & Datenschutz",
+    "textPre": "Wir nutzen keine Tracking- oder Marketing-Cookies. Technisch notwendige Speicherung (z. B. Ihre Consent-Entscheidung) ist immer aktiv. Optionale Dienste laden wir erst nach Ihrer Einwilligung. Details finden Sie in der",
+    "linkLabel": "Datenschutzerklärung",
+    "textPost": ".",
+    "necessaryLabel": "Notwendig",
+    "necessaryNote": "(immer aktiv – technisch erforderlich)",
+    "optionalLabel": "Optionale Dienste",
+    "optionalNote": "(z. B. zukünftige Analyse- oder Marketing-Skripte)",
+    "acceptLabel": "Alle akzeptieren",
+    "declineLabel": "Nur notwendige",
+    "customizeLabel": "Einstellungen",
+    "saveLabel": "Auswahl speichern"
   }
 }

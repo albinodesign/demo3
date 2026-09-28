@@ -10,7 +10,7 @@ const site = await getSite();
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-primary-dark text-white">
+<footer data-cms-section="footer" class="bg-primary-dark text-white">
   <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
     <div class="grid gap-10 md:grid-cols-3">
       <div>
@@ -18,19 +18,23 @@ const year = new Date().getFullYear();
           <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10">
             <WindowIcon class="h-5 w-5" />
           </span>
-          <span class="font-headline text-lg font-extrabold tracking-tight">{site.name}</span>
+          <span data-cms-field="site.name" class="font-headline text-lg font-extrabold tracking-tight">{site.name}</span>
         </div>
-        <p class="mt-4 text-sm text-white/70">
-          Ihr Meisterbetrieb für Fenster, Türen und Einbruchschutz in {site.address.city}.
+        <p data-cms-field="site.footer.description" class="mt-4 text-sm text-white/70">
+          {site.footer.description.replace('{city}', site.address.city)}
         </p>
       </div>
 
       <div>
-        <h2 class="text-sm font-semibold uppercase tracking-wider text-white/60">Kontakt</h2>
+        <h2 data-cms-field="site.footer.kontaktHeading" class="text-sm font-semibold uppercase tracking-wider text-white/60">{site.footer.kontaktHeading}</h2>
         <ul class="mt-4 space-y-3 text-sm">
           <li class="flex items-start gap-3">
             <MapPinIcon class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-            <span>{site.address.street}, {site.address.zip} {site.address.city}</span>
+            <span>
+              <span data-cms-field="site.address.street">{site.address.street}</span>,{' '}
+              <span data-cms-field="site.address.zip">{site.address.zip}</span>{' '}
+              <span data-cms-field="site.address.city">{site.address.city}</span>
+            </span>
           </li>
           <li>
             <a href={`tel:${site.phoneHref}`} class="flex items-center gap-3 hover:text-accent">
@@ -52,17 +56,20 @@ const year = new Date().getFullYear();
       </div>
 
       <div>
-        <h2 class="text-sm font-semibold uppercase tracking-wider text-white/60">Rechtliches</h2>
+        <h2 data-cms-field="site.footer.legalHeading" class="text-sm font-semibold uppercase tracking-wider text-white/60">{site.footer.legalHeading}</h2>
         <ul class="mt-4 space-y-3 text-sm">
-          <li><a href="/impressum" class="hover:text-accent">Impressum</a></li>
-          <li><a href="/datenschutz" class="hover:text-accent">Datenschutzerklärung</a></li>
-          <li><a href="/kontakt" class="hover:text-accent">Kontakt &amp; Angebot</a></li>
+          <li><a href="/impressum" class="hover:text-accent"><span data-cms-field="site.footer.linkImpressum">{site.footer.linkImpressum}</span></a></li>
+          <li><a href="/datenschutz" class="hover:text-accent"><span data-cms-field="site.footer.linkDatenschutz">{site.footer.linkDatenschutz}</span></a></li>
+          <li><a href="/kontakt" class="hover:text-accent"><span data-cms-field="site.footer.linkKontakt">{site.footer.linkKontakt}</span></a></li>
+          <li><a href="/blog" class="hover:text-accent"><span data-cms-field="site.footer.linkBlog">{site.footer.linkBlog}</span></a></li>
         </ul>
       </div>
     </div>
 
     <div class="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/50">
-      &copy; {year} {site.name} &middot; Inhaber: {site.owner} ({site.ownerTitle})
+      &copy; {year} <span data-cms-field="site.name">{site.name}</span> &middot;{' '}
+      <span data-cms-field="site.footer.copyrightNote">{site.footer.copyrightNote}</span>{' '}
+      <span data-cms-field="site.owner">{site.owner}</span> (<span data-cms-field="site.ownerTitle">{site.ownerTitle}</span>)
     </div>
   </div>
 </footer>

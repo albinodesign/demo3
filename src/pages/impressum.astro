@@ -18,31 +18,31 @@ const impressum = await getPage('impressum');
       <h1 data-cms-field="impressum.title" class="font-headline text-4xl font-extrabold tracking-tight text-ink">{impressum.title}</h1>
 
       <section class="mt-10">
-        <h2 class="font-headline text-xl font-bold text-ink">Angaben gemäß § 5 DDG</h2>
+        <h2 data-cms-field="impressum.companyHeading" class="font-headline text-xl font-bold text-ink">{impressum.companyHeading}</h2>
         <p class="mt-3 leading-relaxed text-ink-muted">
-          {site.name}<br />
-          {site.address.street}<br />
-          {site.address.zip} {site.address.city}
+          <span data-cms-field="site.name">{site.name}</span><br />
+          <span data-cms-field="site.address.street">{site.address.street}</span><br />
+          <span data-cms-field="site.address.zip">{site.address.zip}</span> <span data-cms-field="site.address.city">{site.address.city}</span>
         </p>
       </section>
 
       <section class="mt-8">
-        <h2 class="font-headline text-xl font-bold text-ink">Vertreten durch</h2>
+        <h2 data-cms-field="impressum.ownerHeading" class="font-headline text-xl font-bold text-ink">{impressum.ownerHeading}</h2>
         <p class="mt-3 leading-relaxed text-ink-muted">
-          {site.owner} ({site.ownerTitle})
+          <span data-cms-field="site.owner">{site.owner}</span> (<span data-cms-field="site.ownerTitle">{site.ownerTitle}</span>)
         </p>
       </section>
 
       <section class="mt-8">
-        <h2 class="font-headline text-xl font-bold text-ink">Kontakt</h2>
+        <h2 data-cms-field="impressum.contactHeading" class="font-headline text-xl font-bold text-ink">{impressum.contactHeading}</h2>
         <p class="mt-3 leading-relaxed text-ink-muted">
-          Telefon: <a data-cms-field="site.phone" href={`tel:${site.phoneHref}`} class="text-primary underline">{site.phone}</a><br />
-          E-Mail: <a data-cms-field="site.email" href={`mailto:${site.email}`} class="text-primary underline">{site.email}</a>
+          <span data-cms-field="impressum.phoneLabel">{impressum.phoneLabel}</span> <a href={`tel:${site.phoneHref}`} class="text-primary underline"><span data-cms-field="site.phone">{site.phone}</span></a><br />
+          <span data-cms-field="impressum.emailLabel">{impressum.emailLabel}</span> <a href={`mailto:${site.email}`} class="text-primary underline"><span data-cms-field="site.email">{site.email}</span></a>
         </p>
       </section>
 
       <section class="mt-8">
-        <h2 class="font-headline text-xl font-bold text-ink">Öffnungszeiten</h2>
+        <h2 data-cms-field="impressum.hoursHeading" class="font-headline text-xl font-bold text-ink">{impressum.hoursHeading}</h2>
         <p class="mt-3 leading-relaxed text-ink-muted">
           <span data-cms-field="site.hours.monThu">{site.hours.monThu}</span><br />
           <span data-cms-field="site.hours.fri">{site.hours.fri}</span>

@@ -2,6 +2,9 @@
   "title": "Datenschutzerklärung",
   "controllerHeading": "1. Verantwortlicher",
   "controllerIntro": "Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:",
+  "ownerLabel": "Inhaber:",
+  "phoneLabel": "Telefon:",
+  "emailLabel": "E-Mail:",
   "sections": [
     {
       "heading": "2. Allgemeine Hinweise zur Datenverarbeitung",

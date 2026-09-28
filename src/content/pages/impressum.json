@@ -1,5 +1,11 @@
 {
   "title": "Impressum",
+  "companyHeading": "Angaben gemäß § 5 DDG",
+  "ownerHeading": "Vertreten durch",
+  "contactHeading": "Kontakt",
+  "hoursHeading": "Öffnungszeiten",
+  "phoneLabel": "Telefon:",
+  "emailLabel": "E-Mail:",
   "dispute": {
     "heading": "Verbraucherstreitbeilegung / Universalschlichtungsstelle",
     "text": "Die {name} ist nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."

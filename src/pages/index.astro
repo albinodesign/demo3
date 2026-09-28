@@ -104,7 +104,7 @@ const jsonLd = {
               </p>
               <p class="flex items-center gap-1.5 text-sm font-semibold text-green-700">
                 <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                Gerade erreichbar
+                <span data-cms-field="home.emergency.status">{emergency.status}</span>
               </p>
             </div>
           </div>
@@ -127,11 +127,11 @@ const jsonLd = {
           <div class="mt-6 grid grid-cols-2 gap-3 text-center">
             <div class="rounded-xl bg-surface p-3">
               <ClockIcon class="mx-auto h-5 w-5 text-primary" />
-              <p class="mt-1.5 text-xs font-bold">Anfahrt<br /><span class="text-sm">unter 3 Stunden</span></p>
+              <p class="mt-1.5 text-xs font-bold"><span data-cms-field="home.emergency.deliveryTitle">{emergency.deliveryTitle}</span><br /><span data-cms-field="home.emergency.deliveryText" class="text-sm">{emergency.deliveryText}</span></p>
             </div>
             <div class="rounded-xl bg-surface p-3">
               <ShieldIcon class="mx-auto h-5 w-5 text-primary" />
-              <p class="mt-1.5 text-xs font-bold">Sicherung<br /><span class="text-sm">noch heute</span></p>
+              <p class="mt-1.5 text-xs font-bold"><span data-cms-field="home.emergency.secureTitle">{emergency.secureTitle}</span><br /><span data-cms-field="home.emergency.secureText" class="text-sm">{emergency.secureText}</span></p>
             </div>
           </div>
 
