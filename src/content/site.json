@@ -23,8 +23,8 @@
   },
   "banner": {
     "enabled": true,
-    "variant": "info",
-    "text": "frima schliesst bald"
+    "variant": "emergency",
+    "text": "LECKT EINMAL MEINE EIER"
   },
   "nav": {
     "services": "Leistungen",
