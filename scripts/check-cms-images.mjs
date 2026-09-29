@@ -45,6 +45,38 @@ function getPath(obj, dotPath) {
   return cur;
 }
 
+/**
+ * Liest einen Wert aus dem YAML-Frontmatter und beherrscht die vom CMS
+ * verwendete Block-Skalar-Schreibweise:
+ *   coverImage: >-
+ *     https://…/bild.png
+ * sowie einfache und doppelt gequotete Werte.
+ */
+export function parseFrontmatterValue(raw, key) {
+  const lines = raw.split(/\r?\n/);
+  const start = lines.findIndex((l) => l.trim() === '---');
+  if (start === -1) return null;
+  for (let i = start + 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.trim() === '---') break;
+    const inline = new RegExp(`^${key}:\\s*(.*)$`).exec(line);
+    if (!inline) continue;
+    const value = inline[1].trim();
+    if (/^[>|][-+]?\d*$/.test(value)) {
+      // Block-Skalar: Folgezeilen einsammeln, bis eine neue Option folgt.
+      const block = [];
+      for (let j = i + 1; j < lines.length; j++) {
+        const next = lines[j];
+        if (/^\S/.test(next) || next.trim() === '---') break;
+        block.push(next.trim());
+      }
+      return block.join(' ').trim();
+    }
+    return value.replace(/^["']|["']$/g, '').trim();
+  }
+  return null;
+}
+
 // Alle CMS-Bildwerte einsammeln: aus dem Manifest (maßgeblich) + Blog-Frontmatter.
 const images = [];
 
@@ -63,9 +95,11 @@ const blogDir = join(ROOT, 'src/content/blog');
 if (existsSync(blogDir)) {
   for (const name of readdirSync(blogDir).filter((n) => n.endsWith('.md'))) {
     const raw = readFileSync(join(blogDir, name), 'utf8');
-    const m = /^coverImage:\s*["']?([^"'\n]+)["']?\s*$/m.exec(raw);
-    if (m && /^https?:\/\//.test(m[1])) {
-      images.push({ where: `src/content/blog/${name}#coverImage`, fieldId: null, url: m[1].trim() });
+    // Das CMS schreibt lange URLs als YAML-Block-Skalar: "coverImage: >-" + Folgezeile.
+    // Nur die erste Zeile zu lesen ergäbe ">-" und würde das Bild übersehen.
+    const coverImage = parseFrontmatterValue(raw, 'coverImage');
+    if (coverImage && /^https?:\/\//.test(coverImage)) {
+      images.push({ where: `src/content/blog/${name}#coverImage`, fieldId: null, url: coverImage });
     }
   }
 }
