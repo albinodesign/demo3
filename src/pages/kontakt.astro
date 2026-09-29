@@ -112,8 +112,10 @@ const jsonLd = {
                   name="name"
                   required
                   autocomplete="name"
+                  aria-describedby="err-name"
                   class="mt-1.5 block w-full rounded-lg border border-gray-300 px-4 py-3 text-ink focus:border-primary focus:outline-2 focus:outline-primary/30"
                 />
+                <p id="err-name" class="mt-1.5 hidden text-sm font-medium text-red-700"></p>
               </div>
               <div>
                 <label for="email" class="block text-sm font-semibold text-ink">
@@ -125,8 +127,10 @@ const jsonLd = {
                   name="email"
                   required
                   autocomplete="email"
+                  aria-describedby="err-email"
                   class="mt-1.5 block w-full rounded-lg border border-gray-300 px-4 py-3 text-ink focus:border-primary focus:outline-2 focus:outline-primary/30"
                 />
+                <p id="err-email" class="mt-1.5 hidden text-sm font-medium text-red-700"></p>
               </div>
               <div>
                 <label for="phone" class="block text-sm font-semibold text-ink" data-cms-field="kontakt.form.labelPhone">{kontakt.form.labelPhone}</label>
@@ -160,8 +164,10 @@ const jsonLd = {
                 name="message"
                 required
                 rows="5"
+                aria-describedby="err-message"
                 class="mt-1.5 block w-full rounded-lg border border-gray-300 px-4 py-3 text-ink focus:border-primary focus:outline-2 focus:outline-primary/30"
               ></textarea>
+              <p id="err-message" class="mt-1.5 hidden text-sm font-medium text-red-700"></p>
             </div>
 
             <!-- Honeypot: für Menschen unsichtbar, Bots füllen ihn aus -->
@@ -177,15 +183,26 @@ const jsonLd = {
                   id="privacy"
                   name="privacy"
                   required
+                  aria-describedby="err-privacy"
                   class="mt-1 h-5 w-5 shrink-0 rounded border-gray-300 text-primary accent-primary"
                 />
                 <span class="text-sm text-ink-muted">
                   <span data-cms-field="kontakt.form.privacyTextPre">{kontakt.form.privacyTextPre}</span> <a href="/datenschutz" class="font-medium text-primary underline"><span data-cms-field="kontakt.form.privacyLinkLabel">{kontakt.form.privacyLinkLabel}</span></a> <span data-cms-field="kontakt.form.privacyTextPost">{kontakt.form.privacyTextPost}</span> <span class="text-accent-dark" aria-hidden="true">*</span>
                 </span>
               </label>
+              <p id="err-privacy" class="mt-1.5 hidden text-sm font-medium text-red-700"></p>
             </div>
 
-            <p id="form-status" class="mt-4 hidden rounded-lg px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></p>
+            {/* Laufzeitmeldungen (`kontakt.messages.*`) werden per data-messages an das
+                Inline-Script übergeben und erscheinen erst nach dem Absenden — daher hier
+                nur die Sektions-Marke, keine Feld-Marker. */}
+            <p
+              data-cms-section="kontakt-meldungen"
+              id="form-status"
+              class="mt-4 hidden rounded-lg px-4 py-3 text-sm font-medium"
+              role="status"
+              aria-live="polite"
+            ></p>
 
             <button
               type="submit"
@@ -233,15 +250,31 @@ const jsonLd = {
   function markInvalid(field: HTMLElement, invalid: boolean) {
     field.setAttribute('aria-invalid', String(invalid));
     field.classList.toggle('border-red-500', invalid);
+    // Fehlermeldung direkt am Feld: über aria-describedby mit dem Feld verknüpft (WCAG 3.3.1).
+    const hint = document.getElementById(`err-${field.id}`);
+    if (!hint) return;
+    const message = field.getAttribute('data-error') ?? '';
+    hint.textContent = invalid ? message : '';
+    hint.classList.toggle('hidden', !invalid);
+  }
+
+  /** Setzt alle Feldfehler zurück (nach Erfolg oder Honeypot). */
+  function clearErrors(fields: HTMLElement[]) {
+    for (const field of fields) markInvalid(field, false);
   }
 
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    const allFields = Array.from(
+      form.querySelectorAll<HTMLElement>('input[name], textarea[name], select[name]')
+    );
+
     // Honeypot: ausgefüllt = Bot → stillschweigend „Erfolg" melden
     const honeypot = form.elements.namedItem('company') as HTMLInputElement | null;
     if (honeypot?.value) {
       setStatus('success', messages.honeypotSuccess ?? '');
+      clearErrors(allFields);
       form.reset();
       return;
     }
@@ -260,11 +293,15 @@ const jsonLd = {
       [privacy, !privacy.checked, messages.privacy],
     ];
     for (const [field, invalid, msg] of checks) {
+      field.setAttribute('data-error', msg);
       markInvalid(field, invalid);
       if (invalid) errors.push(msg);
     }
     if (errors.length > 0) {
       setStatus('error', errors.join(' '));
+      // Fokus auf das erste fehlerhafte Feld, damit Tastatur-/Screenreader-Nutzung direkt weitergeht.
+      const firstInvalid = checks.find(([, invalid]) => invalid)?.[0] as HTMLElement | undefined;
+      firstInvalid?.focus();
       return;
     }
 
@@ -275,8 +312,14 @@ const jsonLd = {
     }
 
     const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    // Nur den Text im markierten Span ändern — `button.textContent` würde den
+    // data-cms-field-Marker löschen und die Vorschau damit dauerhaft brechen.
+    const buttonLabel = button.querySelector('[data-cms-field="kontakt.form.submitLabel"]');
+    const labelBefore = buttonLabel?.textContent ?? button.textContent;
     button.disabled = true;
-    button.textContent = messages.submitSending ?? '';
+    button.setAttribute('aria-busy', 'true');
+    if (buttonLabel) buttonLabel.textContent = messages.submitSending ?? '';
+    else button.textContent = messages.submitSending ?? '';
 
     try {
       const data = Object.fromEntries(new FormData(form).entries());
@@ -285,7 +328,7 @@ const jsonLd = {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: key,
-          subject: `Anfrage über klarwerk-fenster.de: ${data.topic ?? 'Allgemein'}`,
+          subject: `Anfrage über ${Astro.site?.host ?? 'der Website'}: ${data.topic ?? 'Allgemein'}`,
           name: data.name,
           email: data.email,
           phone: data.phone || '–',
@@ -296,6 +339,7 @@ const jsonLd = {
       const result = (await response.json()) as { success?: boolean };
       if (response.ok && result.success) {
         setStatus('success', messages.success ?? '');
+        clearErrors(allFields);
         form.reset();
       } else {
         setStatus('error', messages.error ?? '');
@@ -304,7 +348,9 @@ const jsonLd = {
       setStatus('error', messages.offline ?? '');
     } finally {
       button.disabled = false;
-      button.textContent = messages.submitLabel ?? '';
+      button.removeAttribute('aria-busy');
+      if (buttonLabel) buttonLabel.textContent = labelBefore;
+      else button.textContent = messages.submitLabel ?? '';
     }
   });
 </script>

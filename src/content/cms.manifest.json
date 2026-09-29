@@ -12,8 +12,7 @@
         { "id": "home.hero.subtitle", "label": "Unterzeile", "type": "textarea", "file": "src/content/pages/home.json", "path": "hero.subtitle", "maxLength": 200 },
         { "id": "home.hero.ctaPrimary", "label": "Primärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaPrimary", "maxLength": 40 },
         { "id": "home.hero.ctaSecondary", "label": "Sekundärer Button", "type": "text", "file": "src/content/pages/home.json", "path": "hero.ctaSecondary", "maxLength": 40 },
-        { "id": "home.hero.image", "label": "Bild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image" },
-        { "id": "home.hero.imageAlt", "label": "Bildbeschreibung (Alt-Text)", "type": "text", "file": "src/content/pages/home.json", "path": "hero.imageAlt", "maxLength": 120 }
+        { "id": "home.hero.image", "label": "Bild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image", "aspectRatio": "16:9" }
       ]
     },
     {
@@ -298,7 +297,9 @@
         { "id": "blog.title", "label": "Überschrift Übersicht", "type": "text", "file": "src/content/pages/blog.json", "path": "title", "maxLength": 60 },
         { "id": "blog.subtitle", "label": "Einleitung Übersicht", "type": "textarea", "file": "src/content/pages/blog.json", "path": "subtitle", "maxLength": 200 },
         { "id": "blog.readMoreLabel", "label": "Linktext: Weiterlesen", "type": "text", "file": "src/content/pages/blog.json", "path": "readMoreLabel", "maxLength": 30 },
-        { "id": "blog.backLabel", "label": "Linktext: Zurück", "type": "text", "file": "src/content/pages/blog.json", "path": "backLabel", "maxLength": 40 }
+        { "id": "blog.backLabel", "label": "Linktext: Zurück", "type": "text", "file": "src/content/pages/blog.json", "path": "backLabel", "maxLength": 40 },
+        { "id": "blog.emptyTitle", "label": "Leerzustand: Überschrift", "type": "text", "file": "src/content/pages/blog.json", "path": "emptyTitle", "maxLength": 60 },
+        { "id": "blog.emptyText", "label": "Leerzustand: Text", "type": "textarea", "file": "src/content/pages/blog.json", "path": "emptyText", "maxLength": 200 }
       ]
     }
   ]

@@ -5,9 +5,13 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/check-cms-images.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "check:cms": "node scripts/cms-check.mjs",
+    "check:images": "node scripts/check-cms-images.mjs --strict",
+    "release:check": "npm run check && npm run check:images && npm run build && npm run check:cms",
     "astro": "astro"
   },
   "dependencies": {

@@ -10,6 +10,11 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+// Kanonische URL: verhindert Doppel-Indexierung und ist Grundlage für Social-Previews.
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.href;
 ---
 
 <!doctype html>
@@ -19,6 +24,15 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
 
     <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={jakartaWoff2} as="font" type="font/woff2" crossorigin />

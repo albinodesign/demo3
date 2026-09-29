@@ -33,7 +33,7 @@ const bannerClass = bannerStyles[site.banner?.variant ?? 'info'] ?? 'bg-primary'
 <header data-cms-section="header" class="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur">
   <div class="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="/" class="flex items-center gap-2.5" aria-label={`${site.name} – Startseite`}>
-      <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
+      <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-white">
         <WindowIcon class="h-5 w-5" />
       </span>
       <span class="font-headline text-lg font-extrabold tracking-tight text-ink">
@@ -53,7 +53,7 @@ const bannerClass = bannerStyles[site.banner?.variant ?? 'info'] ?? 'bg-primary'
     <div class="flex items-center gap-3">
       <a
         href={`tel:${site.phoneHref}`}
-        class="hidden items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark sm:flex"
+        class="hidden items-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark sm:flex"
       >
         <PhoneIcon class="h-4 w-4" />
         <span data-cms-field="site.phone">{site.phone}</span>

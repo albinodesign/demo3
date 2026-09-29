@@ -62,16 +62,21 @@ const { hero, badges, cardText, cardFieldId, site } = Astro.props;
     </div>
 
     <div class="relative">
+      {/*
+        Bild-Marker: eigenständiges <img>, kein srcset/sizes/<picture> — sonst bricht die
+        Vorschau (CMS-REFERENCE §6/§9). Ohne srcset wird bewusst kein Astro-`widths`
+        gesetzt. `alt` steht fest im Template: das CMS kennt kein Alt-Text-Konzept (§9).
+      */}
       <Image
         data-cms-field="home.hero.image"
         src={hero.image}
-        alt={hero.imageAlt}
+        alt="Klarwerk Fenster & Türen"
         width={800}
-        height={600}
+        height={450}
         loading="eager"
         fetchpriority="high"
         decoding="async"
-        class="w-full rounded-2xl shadow-xl"
+        class="aspect-video w-full rounded-2xl object-cover shadow-xl"
       />
       <div class="absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-xl bg-white px-5 py-4 shadow-lg sm:flex">
         <CheckCircleIcon class="h-8 w-8 text-trust" />

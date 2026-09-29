@@ -15,8 +15,7 @@ const cookie = site.cookie;
   data-cms-section="cookie"
   id="consent-banner"
   class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-200 bg-white p-4 shadow-2xl sm:p-6"
-  role="dialog"
-  aria-modal="true"
+  role="region"
   aria-labelledby="consent-title"
 >
   <div class="mx-auto max-w-7xl">
@@ -54,13 +53,15 @@ const cookie = site.cookie;
       </button>
       <button
         id="consent-customize"
-        data-label-settings={cookie.customizeLabel}
-        data-label-save={cookie.saveLabel}
         class="min-h-11 rounded-lg px-6 py-2.5 text-sm font-medium text-ink-muted underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         aria-expanded="false"
         aria-controls="consent-settings"
       >
-        <span data-cms-field="site.cookie.customizeLabel">{cookie.customizeLabel}</span>
+        {/* Zwei getrennte, markierte Spans: beide sichtbaren Texte sind CMS-Felder.
+            Der Text wird nur umgeschaltet, nie überschrieben — sonst verliert ein
+            CMS-Update seinen Marker. */}
+        <span data-cms-field="site.cookie.customizeLabel" data-label-state="settings">{cookie.customizeLabel}</span>
+        <span data-cms-field="site.cookie.saveLabel" data-label-state="save" class="hidden">{cookie.saveLabel}</span>
       </button>
     </div>
   </div>
@@ -121,10 +122,11 @@ const cookie = site.cookie;
       var open = settings.classList.toggle('hidden') === false;
       customize.setAttribute('aria-expanded', String(open));
       if (open && stored) marketingBox.checked = !!stored.marketing;
-      // Button-Text aus data-Attributen (CMS-editierbar via site.cookie), Marker sitzt auf innerem Span
-      var label = customize.querySelector('[data-cms-field="site.cookie.customizeLabel"]');
-      if (label) label.textContent = open ? customize.getAttribute('data-label-save') : customize.getAttribute('data-label-settings');
-      else customize.textContent = open ? customize.getAttribute('data-label-save') : customize.getAttribute('data-label-settings');
+      // Nur umschalten — der Textinhalt der CMS-Felder bleibt unangetastet.
+      var labelSettings = customize.querySelector('[data-label-state="settings"]');
+      var labelSave = customize.querySelector('[data-label-state="save"]');
+      if (labelSettings) labelSettings.classList.toggle('hidden', open);
+      if (labelSave) labelSave.classList.toggle('hidden', !open);
       if (!open) save(marketingBox.checked);
     });
   })();

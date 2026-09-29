@@ -9,7 +9,8 @@ import { getCollection, render } from 'astro:content';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts
-    .filter((post) => !post.data.draft)
+    // Öffentlich nur, wenn `draft` explizit `false` ist. Fehlendes Flag = Entwurf (§5/§10).
+    .filter((post) => post.data.draft === false)
     .map((post) => ({ params: { slug: post.data.slug }, props: { post } }));
 }
 

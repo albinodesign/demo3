@@ -255,6 +255,8 @@ const blogPageSchema = z.object({
   subtitle: z.string().max(200),
   readMoreLabel: z.string().max(30),
   backLabel: z.string().max(40),
+  emptyTitle: z.string().max(60),
+  emptyText: z.string().max(200),
 });
 
 export type BlogPageContent = z.infer<typeof blogPageSchema>;
@@ -283,7 +285,9 @@ const blog = defineCollection({
     coverImage: z.string().max(2000),
     coverImageAlt: z.string().max(200),
     excerpt: z.string().max(500),
-    draft: z.boolean().default(false),
+    // CMS-REFERENCE §5/§10: `draft` wird tolerant gelesen — **fehlend = nicht öffentlich**.
+    // Deshalb kein `.default(false)`: ein fehlendes Flag darf keinen Artikel veröffentlichen.
+    draft: z.boolean().optional(),
   }),
 });
 

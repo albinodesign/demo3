@@ -38,16 +38,19 @@ Diese Daten leben **ausschließlich** in `src/content/site.json`. Marketingtexte
 
 ### Farb-Variablen (Tailwind v4 `@theme`, `src/styles/global.css`)
 
+> Brand-Entscheidung: Die Akzentfarbe ist **Markenblau**, nicht Bernstein. Die Tabelle
+> unten ist der Stand, der im Code tatsächlich umgesetzt ist (`global.css`).
+
 | Token | Hex | Verwendung |
 |---|---|---|
-| `--color-primary` | `#1B4F72` | Tiefes Vertrauensblau — Buttons, Überschriften-Akzente |
-| `--color-primary-dark` | `#123A55` | Hover/Active, Footer |
-| `--color-accent` | `#E8A33D` | Warmes Handwerker-Amber — CTAs, Highlights |
-| `--color-accent-dark` | `#C58425` | CTA-Hover |
-| `--color-surface` | `#F7F8FA` | Helle Sektions-Hintergründe |
+| `--color-primary` | `#132E57` | Tiefes Navy — Buttons, Überschriften-Akzente, Header-Icon |
+| `--color-primary-dark` | `#0C1E3A` | Hover/Active, Footer |
+| `--color-accent` | `#2456CC` | Markenblau — primäre CTAs, Highlights, Fokusringe |
+| `--color-accent-dark` | `#1A4199` | CTA-Hover |
+| `--color-surface` | `#F1F4F9` | Helle Sektions-Hintergründe |
 | `--color-ink` | `#1C2430` | Fließtext |
 | `--color-ink-muted` | `#55606E` | Sekundärtext |
-| `--color-trust` | `#2E7D4F` | Trust-Badges, Erfolg/Verifizierung |
+| `--color-trust` | `#132E57` | Vertrauens-Badges, Abzeichen (gleich Navy wie `primary`) |
 
 ### Typografie
 

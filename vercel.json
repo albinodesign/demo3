@@ -12,7 +12,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://*.supabase.co data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://*.supabase.co data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; frame-ancestors 'self' https://agency-cms-teal.vercel.app; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests"
         },
         {
           "key": "X-Content-Type-Options",
@@ -37,7 +37,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://*.supabase.co data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; frame-ancestors 'self' http://localhost:* https://*.vercel.app; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://*.supabase.co data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; frame-ancestors 'self' http://localhost:* https://*.vercel.app https://agency-cms-teal.vercel.app; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests"
         },
         {
           "key": "X-Content-Type-Options",
