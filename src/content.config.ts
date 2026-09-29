@@ -27,11 +27,16 @@ const site = defineCollection({
       city: z.string().max(40),
     }),
     phone: z.string(),
+    // `phoneHref` wird NICHT mehr gelesen: CMS-REFERENCE §10 verlangt, das `tel:`-Ziel
+    // aus `phone` abzuleiten. Der Schlüssel bleibt im Schema und in site.json erhalten,
+    // damit keine Kundendaten verloren gehen (siehe src/lib/content.ts).
     phoneHref: z.string(),
     email: z.string().email(),
     hours: z.object({
       monThu: z.string(),
       fri: z.string(),
+      // Ebenfalls ein Legacy-Duplikat: die strukturierten Daten werden zur Build-Zeit
+      // aus `monThu`/`fri` abgeleitet (CMS-REFERENCE §10), damit sie nicht auseinanderlaufen.
       schema: z.array(z.string()).min(1),
     }),
     banner: z.object({
@@ -206,6 +211,9 @@ const kontaktSchema = z.object({
 
 export type HomeContent = z.infer<typeof homeSchema>;
 export type KontaktContent = z.infer<typeof kontaktSchema>;
+// Die Schemas selbst werden von src/lib/content.ts für die strikte Prüfung je Seite
+// gebraucht (CMS-REFERENCE §10: keine behauptete Typsicherheit aus Teil-Schemata).
+export { homeSchema, kontaktSchema, impressumSchema, datenschutzSchema, blogPageSchema };
 
 const impressumSchema = z.object({
   title: z.string().max(60),
@@ -276,7 +284,8 @@ const pages = defineCollection({
 const blog = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/blog' }),
   schema: z.object({
-    title: z.string().max(200),
+    // §8: title ist Pflicht, 1–200 Zeichen.
+    title: z.string().min(1).max(200),
     slug: z
       .string()
       .max(80)

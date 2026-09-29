@@ -8,11 +8,12 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   image: {
-    // Lokale Assets sind Standard; *.supabase.co für spätere CMS-Bilder freigegeben
+    // CMS-REFERENCE §9.4: den KONKRETEN Supabase-Projekt-Host eintragen, keine Wildcard.
+    // Ohne diesen Eintrag schlägt der Build fehl, sobald das erste CMS-Bild hochgeladen wird.
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**.supabase.co',
+        hostname: 'kolmzvevdvprhvfedswf.supabase.co',
       },
     ],
   },

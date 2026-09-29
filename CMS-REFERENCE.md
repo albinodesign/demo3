@@ -1,37 +1,55 @@
 # CMS-REFERENCE.md — Verbindlicher Contract: Agency CMS ↔ Website
 
-- **Version:** 1.4 · **Stand:** 2026-09-28 · **CMS-Kompatibilität:** `main` ab `fix/preview-referrer` (Nachfolger von `fix/reference-1-1`)
-- **Diese Datei gewinnt:** Bei Widerspruch zwischen dieser Referenz, `AGENTS.md` und `README.md` gilt **immer diese Datei**.
-- **Adressat:** KI-Coding-Agenten und Entwickler, die eine Website **neu** CMS-kompatibel bauen. Kein Vorwissen über das CMS nötig.
+- **Version:** 1.5 · **Stand:** 2026-09-29
+- **Geprüft gegen:** CMS-Repo `main`, Commit `6e42853` (Testsuite: 91 Tests bestanden)
+- **Diese Datei gewinnt:** Bei Widerspruch zwischen dieser Referenz, `AGENTS.md`, `README.md`, `requirements.md` und den Agentur-Prompts gilt **immer diese Datei**.
+- **Adressat:** KI-Coding-Agenten und Entwickler, die eine Website **neu** CMS-kompatibel bauen oder eine bestehende umbauen. Kein Vorwissen über das CMS nötig.
+- **Einzige Quelle der Wahrheit:** Diese Datei liegt im CMS-Repo. Die Prompts enthalten **keine** CMS-Detailregeln mehr, sondern verweisen hierher.
 
-## 1. Überblick & Zweck
+---
 
-Das Agency CMS lässt nicht-technische Kunden Texte, Bilder und Blog-Artikel ihrer Website selbst bearbeiten. Das CMS schreibt Änderungen per GitHub-API als Commits auf den Branch `main`; Vercel deployed automatisch. Die Website muss dafür drei Dinge liefern: (a) ein **Manifest**, das alle editierbaren Felder beschreibt, (b) **Content-Dateien** in festem Format, (c) eine **Vorschau-Brücke** (Script + DOM-Marker), damit Tippen sofort sichtbar wird und Klicks Felder finden.
+## 1. Kurzfassung
 
-**Wer die Referenz missachtet:** Felder erscheinen nicht im Editor (falsche Pfade), Publish schlägt fehl (falsche Typen/Listen), die Vorschau bleibt stumm (fehlende Marker/Brücke) oder wird manipulierbar (fehlende Origin-Checks).
+Das Agency CMS lässt Kunden Texte, Bilder und Blog-Artikel selbst bearbeiten. Das CMS schreibt Änderungen per GitHub-API als Commits auf `main`; Vercel deployed automatisch.
 
-## 2. Quick Reference
+Die Website muss dafür genau drei Dinge liefern:
+
+| # | Lieferung | Ohne sie passiert |
+|---|---|---|
+| **a** | **Manifest** `src/content/cms.manifest.json` | Felder erscheinen nicht im Editor |
+| **b** | **Content-Dateien** `src/content/site.json` + `src/content/pages/*.json` | Publish schlägt fehl (Typen/Pfade) |
+| **c** | **Vorschau-Brücke** (Script + DOM-Marker) | Tippen ist unsichtbar, Klicks ins Leere |
+
+**Standardziel:** Jeder sichtbare Text und jedes sichtbare Bild auf allen Seiten ist per CMS editierbar. Ausnahmen sind nur, was das CMS technisch nicht kann — und die sind in Abschnitt 5 **abschließend** aufgelistet. Alles andere ist Pflicht.
+
+---
+
+## 2. Registry — feste Werte
+
+Diese Werte sind **nicht verhandelbar** und **nirgends zu raten**. Ein Platzhalter hier ist die häufigste Ursache für eine tote Vorschau.
 
 | Was | Wert |
 |---|---|
-| Manifest-Pfad (im Website-Repo) | `src/content/cms.manifest.json` |
-| Einzeldatei | `src/content/site.json` |
-| Seiten-Dateien | `src/content/pages/[name].json` (nur `[A-Za-z0-9][A-Za-z0-9._-]*`, max. 200 Zeichen, kein `..`) |
-| Blog-Artikel | `src/content/blog/[slug].md`, nur `[a-z0-9-]` |
-| Branch | `main` (Vercel-Produktion **muss** `main` deployen) |
-| JSON-Schreibformat (CMS-seitig) | `JSON.stringify(data, null, 2)` — die Website darf Dateien **nie** umschreiben; unbekannte Schlüssel immer stehen lassen |
-| Nachrichten CMS → Website | `CMS_FIELD_UPDATE`, `CMS_SELECT_MODE` |
-| Nachrichten Website → CMS | `CMS_FIELD_SELECT`, `CMS_BRIDGE_READY` (ab Bridge v2) |
-| DOM-Marker | `data-cms-section="[sektion-id]"`, `data-cms-field="[feld-id]"` |
-| Iframe-Erkennung | nur wenn `window.self !== window.top` |
-| Banner-Objekt | `site.banner` = `{ enabled, variant, text }` |
-| Bild-URLs aus dem CMS | öffentliche `https://…`-URLs (Supabase-Bucket `cms-media`) |
-| Maxima | Pfad: 20 Segmente / 500 Zeichen / Index ≤ 9999 · `maxLength` ≤ 10000 · Banner-Text ≤ 160 · Blog: Titel ≤ 200, Excerpt ≤ 500, Alt ≤ 200, Inhalt ≤ 100.000 |
+| **CMS-Origin (Produktion)** | `https://agency-cms-teal.vercel.app` |
+| CMS-Origin (lokal, nur Entwicklung) | `http://localhost:3000` |
+| Manifest-Pfad | `src/content/cms.manifest.json` |
+| Unternehmensdaten | `src/content/site.json` |
+| Seiteninhalte | `src/content/pages/[name].json` |
+| Blog-Artikel | `src/content/blog/[slug].md` |
+| Branch | `main` — Vercel **muss** `main` als Produktion deployen |
+| JSON-Schreibformat (CMS-seitig) | `JSON.stringify(data, null, 2)` |
+| Supabase-Storage-Bucket für Bilder | `cms-media` (öffentlich) |
+
+> **Regel:** Taucht in einer Website `cms.deine-agentur.de`, `cms.example.com`, `cms.invalid` oder ein leerer Wert auf, ist das ein **Fehler**, kein Platzhalter zum Ausfüllen. Sofort ersetzen durch `https://agency-cms-teal.vercel.app`.
+
+---
 
 ## 3. Manifest-Format
 
 ```json
 {
+  "version": 2,
+  "features": { "blog": true },
   "sections": [
     {
       "id": "hero",
@@ -40,53 +58,107 @@ Das Agency CMS lässt nicht-technische Kunden Texte, Bilder und Blog-Artikel ihr
       "fields": [
         { "id": "hero.title", "label": "Titel", "type": "text", "file": "src/content/pages/home.json", "path": "hero.title", "placeholder": "Willkommen …", "maxLength": 90 },
         { "id": "hero.bild", "label": "Hintergrundbild", "type": "image", "file": "src/content/pages/home.json", "path": "hero.image", "aspectRatio": "16:9" },
-        { "id": "preis.betrag", "label": "Preis (€)", "type": "number", "file": "src/content/pages/preise.json", "path": "preis.betrag" }
+        { "id": "hero.preis", "label": "Preis (€)", "type": "number", "file": "src/content/pages/home.json", "path": "hero.price" }
       ]
     }
-  ],
-  "features": { "blog": true }
+  ]
 }
 ```
 
-| Schlüssel | Pflicht | Regeln |
+### 3.1 Schlüssel
+
+| Schlüssel | Pflicht | Regel (gegen den CMS-Code geprüft) |
 |---|---|---|
-| `sections[].id` | ja (Fallback `section-N` + Warnung) | beliebig, seitenweit eindeutig empfohlen |
-| `sections[].title` | ja (Fallback-Kette + Warnung) | Anzeigetext im Editor |
-| `sections[].page` | nein | Gruppiert Tabs im Editor (wirksam); ohne Angabe rät der Editor per Heuristik (ID/Titel, sonst Dateiname) |
-| `sections[].fields[]` | ja | leere Sektionen werden ausgeblendet + Warnung |
-| `fields[].id` | ja | **global eindeutig** — Duplikat bricht den **gesamten** Publish ab (400) |
-| `fields[].label` | ja (Fallback `title` → `id`) | Anzeigetext |
-| `fields[].type` | ja | einer der 9 Typen (Abschnitt 4); unbekannt → `text` + Warnung |
-| `fields[].file` | ja | nur `src/content/site.json` oder `src/content/pages/*.json`, sonst 400 |
-| `fields[].path` | ja | Dot-Path, `items[0].x` ≡ `items.0.x`; verboten: `__proto__`/`constructor`/`prototype`, leere Segmente, nicht-numerische Klammern |
-| `fields[].placeholder` | nein | Beispieltext |
-| `fields[].maxLength` | nein | ganze Zahl 1–10000; Überlänge blockiert Publish dieser Datei |
-| `fields[].aspectRatio` | nein | nur Hinweis im Editor, und nur bei exakt `"16:9"` (andere Werte werden ignoriert) |
-| `features.blog` | nein | `true` oder `{ "enabled": true }` zeigt den Blog-Tab |
+| `version` | nein | Wird vom CMS **nicht ausgewertet**. Nur Konvention — `2` setzen, damit die Datei lesbar bleibt. |
+| `sections[].id` | ja | Beliebig. Fehlt er, vergibt das CMS `section-N` **und zeigt eine Warnung** im Editor. |
+| `sections[].title` | ja | Anzeigetext. Fallback-Kette im CMS: `label` → `title` → `sectionLabel` → `id` → `section`. |
+| `sections[].page` | nein | **Wirksam.** Gruppiert die Seiten-Tabs im Editor. Ohne Angabe rät der Editor per Stichwort-Heuristik über ID/Titel, sonst über den Dateinamen. **Für Kundenprojekte immer setzen** — die Vorschau-URL leitet sich daraus ab. |
+| `sections[].fields[]` | ja | Leere Sektionen werden ausgeblendet **und** gemeldet. |
+| `fields[].id` | ja | **Global eindeutig — zwingend.** |
+| `fields[].label` | ja | Anzeigetext. Fallback `title` → `id`. Deutsche, nutzerverständliche Beschriftung. |
+| `fields[].type` | ja | Einer der 9 Typen aus Abschnitt 4. |
+| `fields[].file` | ja | Nur `src/content/site.json` oder `src/content/pages/*.json`. |
+| `fields[].path` | ja | Dot-Path, siehe 3.3. |
+| `fields[].placeholder` | nein | Beispieltext im Editor. |
+| `fields[].maxLength` | nein | **Ganze Zahl 1–10000.** Alles andere blockiert den Publish dieser Datei. |
+| `fields[].aspectRatio` | nein | Nur bei `type: "image"`. Erlaubt sind **exakt** `"16:9"`, `"1:1"`, `"4:3"`. Andere Werte werden ignoriert (kein Fehler). |
+| `features.blog` | nein | `true` oder `{ "enabled": true }` blendet den Blog-Tab ein. |
 
-**Feld-IDs:** Nur `[a-z0-9._-]` verwenden (klein, ohne Leerzeichen). IDs mit Leerzeichen, Quotes oder `<>"'` werden vom CMS **stillschweigend verworfen** (kein Fehler, kein Hinweis) — der Klick aus der Vorschau landet dann im Leeren. IDs außerdem global eindeutig halten (Duplikat bricht den gesamten Publish ab).
+### 3.2 Zwei Regeln, die den ganzen Publish blockieren
 
-Alternative Wurzelformen (`[ … ]`, `{ "fields": […] }`) werden akzeptiert. Das Manifest muss nach Normalisierung **mindestens eine Sektion mit Feldern** ergeben, sonst gilt es als ungültig.
+> **Regel 1 — IDs müssen global eindeutig sein.**
+> Zwei Felder mit derselben `id` ⇒ das CMS lehnt **jede** Veröffentlichung mit HTTP 400 ab: *„Feld X ist doppelt vergeben … es wurde nichts veröffentlicht, Entwürfe bleiben erhalten."* Das ist der häufigste Totalausfall in der Praxis. Es gibt keine Teilveröffentlichung als Ausweg.
+>
+> **Regel 2 — Ein Schreibziel, ein Feld.**
+> Zwei Felder dürfen **nicht** auf dasselbe Paar `file` + `path` zeigen. `items[0].x` und `items.0.x` gelten als dasselbe Ziel. Für einen mehrfach dargestellten Wert wird **ein** Feld angelegt und an allen Stellen mit derselben ID markiert.
 
-## 4. Unterstützte Feldtypen
+### 3.3 Feld-IDs und Pfade
 
-| Typ | Editor | Beispielwert in JSON | Validierung (Entwurf → Publish) |
+**Feld-IDs:** Verwende `[a-z0-9._-]`, klein, ohne Leerzeichen. Großbuchstaben im camelCase (`site.header.ctaLabel`) funktionieren und sind erlaubt.
+
+Trotzdem zwei echte Fallen:
+
+1. **Das Manifest lädt IDs ohne Zeichenfilter.** Eine ID wie `Titel "Hero"` wird *nicht* verworfen — sie erscheint ganz normal im Editor.
+2. **Der Klick-Pfad filtert aber.** Der Editor verwirft eingehende `CMS_FIELD_SELECT`-Nachrichten still, sobald die ID eines von `< > " ' \`` oder Leerzeichen enthält (`isSafeFieldId`).
+
+Ergebnis: Solche Felder sind im CMS sichtbar, reagieren aber auf keinen Klick. Saubere IDs sind deshalb keine Formalität.
+
+**Pfade:**
+- Höchstens **20 Ebenen**, höchstens **500 Zeichen**, Listen-Index höchstens **9999**.
+- Verboten als Segment: `__proto__`, `constructor`, `prototype`.
+- Verboten: leere Abschnitte (`a..b`), nicht-numerische Klammern (`[name]`, `[0`).
+- `items[0].title` und `items.0.title` sind dasselbe Ziel.
+
+---
+
+## 4. Die 9 Feldtypen
+
+| Typ | Editor | Wert in der JSON-Datei | Prüfung Entwurf → Publish |
 |---|---|---|---|
-| `text` | einzeilig | `"Willkommen"` | beliebig (leer ok); `"true"` bleibt Text |
+| `text` | einzeilig | `"Willkommen"` | beliebig, leer erlaubt; `"true"` bleibt Text |
 | `textarea` | mehrzeilig | `"Zeile 1\nZeile 2"` | wie `text` |
-| `image` | Upload + URL | `"https://….supabase.co/…/foto.jpg"` | http(s) oder sicherer relativer Pfad (`/bilder/x.jpg`, `logo.png`); verboten: `javascript:`/`data:`, `..`, Leerzeichen/Quotes |
-| `number` | Eingabe | `19.9` (echte Zahl!) | Entwurf: `"42"`, `"19,90"` ok; Publish: **echte endliche Zahl**, leeres Feld blockiert |
-| `email` | Eingabe | `"info@beispiel.de"` | Form `a@b.cc` |
-| `phone` | Eingabe | `"+49 171 123456"` | beginnt mit `+(`/Ziffer, mind. 5 Zeichen |
-| `url` | Eingabe | `"https://beispiel.de"` | wie `image`, zusätzlich `http://` ok |
-| `date` | Datum | `"2026-09-26"` | exakt `JJJJ-MM-TT` + echtes Kalenderdatum |
-| `boolean` | An/Aus-Schalter | `true` (echt!) | Entwurf: `"true"`/`"false"`; Publish: **echter Boolean**, leer blockiert |
+| `image` | Upload + URL | `"https://….supabase.co/…/foto.jpg"` | http(s) **oder** sicherer interner Pfad (`/bilder/x.jpg`, `logo.png`); abgelehnt: `javascript:`, `data:`, `..`, Leerzeichen, Quotes |
+| `number` | Zahlfeld | `19.9` — **echte JSON-Zahl** | Entwurf: `"42"`, `"19,90"` ok. Publish: echte endliche Zahl; leer blockiert die Datei |
+| `email` | Textfeld | `"info@beispiel.de"` | Form `a@b.cc` |
+| `phone` | Textfeld | `"+49 171 123456"` | beginnt mit `+` oder Ziffer, mindestens 5 Zeichen |
+| `url` | Textfeld | `"https://beispiel.de"` | wie `image`, zusätzlich `http://` erlaubt |
+| `date` | Datum | `"2026-09-26"` | exakt `JJJJ-MM-TT` **und** echtes Kalenderdatum |
+| `boolean` | Schalter | `true` — **echter JSON-Boolean** | Entwurf: `"true"`/`"false"`. Publish: echter Boolean; leer blockiert die Datei |
 
-Regel für alle Typen: Der Endstand nach Publish enthält **niemals** `null`, falsche Typen oder überlange Texte in deklarierten Feldern — sonst wird die Datei zurückgehalten (400 je Datei, Rest geht trotzdem live).
+**Grundregel aller Typen:** Der Endstand nach Publish enthält in deklarierten Feldern **niemals** `null`, falsche Typen oder überlange Texte. Sonst bleibt die Datei Entwurf (400 mit Grund), saubere Dateien gehen trotzdem live (`partial: true`).
 
-## 5. Content-Datei-Struktur
+**Keine anderen Feldtypen.** `color`, `select`, `richtext`, `link`, `toggle`, `date-range` o. ä. existieren nicht. Ein unbekannter Typ wird im Editor stillschweigend zu `text` **und** gemeldet — im Publish wird er dagegen **hart abgelehnt**. Deshalb: Manifest und Code-Stand prüfen, bevor man Typen erfindet.
 
-`src/content/site.json` (`banner` exakt so — flach heißt hier nur: die Banner-Pfade `banner.enabled`, `banner.variant`, `banner.text` liegen direkt unter `banner`; der Rest der Datei darf beliebig strukturiert sein):
+---
+
+## 5. Grenzen des CMS — was es nicht kann
+
+**Das Wichtigste zum Nachschlagen.** Diese Punkte sind technische Grenzen, keine Design-Vorgaben. Wer sie umgehen „löst", erzeugt Felder, die in der Vorschau nichts tun.
+
+| # | Das CMS kann **nicht** | Stattdessen |
+|---|---|---|
+| **L1** | **Keine Alt-Texte für Content-Bilder.** Es gibt kein Feld dafür. | `alt` fest im Template (sprechend formuliert). Editierbar ist nur das **Bild selbst**. `coverImageAlt` im Blog-Frontmatter ist eine eigene Sache (siehe 8). |
+| **L2** | **Keine Listen vergrößern oder verkleinern.** | Bestehende Einträge sind wie normale Felder änderbar. Neue Einträge legt die Agentur im Repo an. |
+| **L3** | **Keine Listeneinträge löschen.** | Wird vom CMS abgelehnt (400). |
+| **L4** | **Keine Steuerfelder live in der Vorschau.** | Werte, die nur ein Aussehen steuern (Banner `enabled`/`variant`, Sternebewertung, Platzhalter-Attribute) brauchen **keinen** Marker. Sie wirken nach dem Veröffentlichen — das ist korrekt, kein Fehler. |
+| **L5** | **Kein CSS-Hintergrundbild editierbar.** | Jedes sichtbare Bild als eigenständiges `<img>` ausgeben. |
+| **L6** | **Keine Markdown-Dateien als Feldziel.** | Nur `.json` unter `src/content/site.json` und `src/content/pages/`. Blog läuft über die Blog-API (Abschnitt 8). |
+| **L7** | **Keine Bildbearbeitung.** | Kein Zuschneiden, Drehen oder Filtern. Die Website muss das Layout für beliebige Seitenverhältnisse tolerieren. |
+| **L8** | **Kein Feld für Ziele/Links.** | `tel:`-, `mailto:`- und Button-URLs werden aus Telefon/E-Mail bzw. festen Pfaden abgeleitet und sind nicht frei editierbar. |
+
+### 5.1 Fallstrick: Bild in Astro-`<Image>` mit `widths`
+
+Die Brücke setzt bei `IMG` eine **neue `src`** und **entfernt `srcset`**. Erzeugt Astro ein `srcset` (das passiert bei `widths`/`sizes` oder `<Picture>`), bricht die Vorschau damit die responsive Darstellung ab — sichtbar andere Proportionen als auf der Live-Seite.
+
+> **Regel:** Am `data-cms-field` eines Bildfeldes **kein `widths`, kein `sizes`, kein `<Picture>`** verwenden. Feste `width`/`height` für stabile Maße sind erlaubt und gewünscht. Ohne diese Einschränkung entsteht kein `srcset`, und `src`/Alt/`srcset`-Verhalten der Brücke ist unkritisch.
+>
+> Vor dem Umbau prüfen: `grep 'srcset=' dist/**/*.html` — findet sich `srcset` an einem Bild-Marker, ist das ein Fehler.
+
+---
+
+## 6. Content-Dateien
+
+### 6.1 `src/content/site.json`
 
 ```json
 {
@@ -95,66 +167,77 @@ Regel für alle Typen: Der Endstand nach Publish enthält **niemals** `null`, fa
 }
 ```
 
-`src/content/pages/home.json` (beliebig tief; **Listen sind fest** — kein Wachstum, kein Kürzen per Entwurf; bestehende Einträge wie normale Felder änderbar, neue legt die Agentur im Repo an):
+Der Rest der Datei ist frei. Das `banner`-Objekt muss **exakt** `{ enabled, variant, text }` sein — unbekannte Schlüssel darin werden abgelehnt. Standard für neue Websites: `{ "enabled": false, "variant": "info", "text": "" }`. Bei `enabled: false` darf `variant` jeder der drei erlaubten Stile sein, `text` darf leer bleiben.
+
+### 6.2 `src/content/pages/home.json`
+
+Beliebig tief. **Listen sind fest** (siehe L2).
 
 ```json
 {
   "hero": { "title": "Willkommen", "image": "https://….supabase.co/…/hero.jpg" },
-  "faq": { "items": [{ "frage": "Wie schnell?", "antwort": "In 48h." }] }
+  "faq": { "items": [{ "frage": "Wie schnell?", "antwort": "In 48 Stunden." }] }
 }
 ```
 
-`src/content/blog/willkommen.md` (Frontmatter exakt diese Schlüssel):
+Dateiname: `src/content/pages/<name>.json`, wobei `<name>` auf `[A-Za-z0-9][A-Za-z0-9._-]*` passt. Maximale Pfadlänge 200 Zeichen.
 
-```markdown
----
-title: "Willkommen im Blog"
-slug: "willkommen"
-date: "2026-09-26"
-coverImage: "https://….supabase.co/…/cover.jpg"
-coverImageAlt: "Werkstatt von innen"
-excerpt: "Erster Artikel in zwei Sätzen."
-draft: false
+### 6.3 Website-Pflichten für Content-Dateien
+
+- **Nie umformatieren.** JSON wird vom CMS als `JSON.stringify(data, null, 2)` zurückgeschrieben; andere Einrückung erzeugt Rauschen im Diff und in der Historie.
+- **Fremde Schlüssel stehen lassen.** Der CMS entfernt nichts, was es nicht kennt — aber die Website sollte auch keine fremden Schlüssel erzeugen.
+- **Kundenwerte nie „korrigieren".** Auch nicht offensichtliche Testreste: das ist eine Entscheidung der Agentur, nicht des Umbau-Agenten.
+
 ---
 
-Artikeltext in Markdown …
-```
+## 7. DOM-Marker und Vorschau-Brücke
 
-Regeln: `slug` aus Titel (klein, ä→ae/ö→oe/ü→ue/ß→ss, nur `[a-z0-9-]`, max. 80 Zeichen). `date` ist **optional** (leer = heute). `coverImage` max. 2000 Zeichen, nur http(s) oder interner `/`-Pfad. `coverImageAlt` leer → Titel gilt. `draft` wird tolerant gelesen (fehlend = nicht öffentlich). **Website-Pflicht:** Content-Dateien nie umformatieren, nie Schlüssel löschen, fremde Schlüssel stehen lassen.
+### 7.1 Marker
 
-## 6. DOM-Marker
+- `data-cms-section="<sektions-id>"` — Strukturinformation, reserviert für spätere Sprünge. Immer setzen.
+- `data-cms-field="<feld-id>"` — am **innersten editierbaren Element**.
 
-Jede Sektion trägt die Sektions-ID, jedes editierbare Element die Feld-ID aus dem Manifest. Mehrfachvorkommen derselben Feld-ID sind erlaubt (alle werden aktualisiert). Verhalten pro Tag: `IMG` → `src` neu + `srcset` entfernen; `SOURCE` → `srcset` neu; alles andere → `textContent` neu.
+> **Marker-Regel:** Der Marker sitzt **immer am innersten Element mit dem Text bzw. dem Bild**. Nie auf einem Wrapper, der noch einen anderen Marker enthält — die Brücke setzt `textContent` und würde den inneren Marker dabei löschen.
+>
+> Verschachteltes Markup (Icons, `<strong>`, `<br>`) gehört **in** das markierte Element, nicht darum herum.
 
 ```astro
 ---
-// Regel: data-cms-field sitzt IMMER am innersten editierbaren Element.
-// Kein Marker auf einem Wrapper, der noch einen anderen Marker enthält –
-// die Bridge setzt textContent und würde innere Marker dabei löschen.
 import { getEntry } from "astro:content";
 const home = await getEntry("pages", "home");
+const site = await getEntry("site");
 ---
 <section data-cms-section="hero">
   <h1 data-cms-field="hero.title">{home.data.hero.title}</h1>
-  <img data-cms-field="hero.bild" src={home.data.hero.image} alt="Hero" />
-  <a href={`mailto:${site.data.kontakt.mail}`}>
-    <span data-cms-field="kontakt.mail">{site.data.kontakt.mail}</span>
+  <img data-cms-field="hero.image" src={home.data.hero.image} alt="Hochwertige Fensterfassade" width="800" height="600" />
+  <a href={`tel:${site.data.firma.telefon}`}>
+    <span data-cms-field="kontakt.telefonAnzeige">{site.data.firma.telefon}</span>
   </a>
-  <p data-cms-field="kontakt.mailtext">Antwort in 48 Stunden</p>
 </section>
 ```
 
-Hinweis: `data-cms-section` dient der Struktur und ist für künftige Sprünge reserviert — aktuell springt das CMS nur zu `data-cms-field`. Beide Marker trotzdem immer setzen.
+Bei **mehrfach dargestellten Werten** tragen **alle** Vorkommen dieselbe `data-cms-field` — die Brücke aktualisiert sie gemeinsam. Beispiel: Telefonnummer in Header, Kontakt, Footer und Impressum; Firmenname in Footer, Impressum und JSON-LD.
 
-## 7. Preview-Protokoll
+Bei **leeren oder zunächst ausgeblendeten Inhalten** (z. B. ein Akkordeon-Panel, ein `hidden`-Attribut) trotzdem markieren. Die Brücke aktualisiert auch Elemente, die gerade nicht sichtbar sind.
 
-Vier Nachrichten, zwei Richtungen. **Niemals** `postMessage(…, "*")` — immer konkrete Origins (Agentur trägt CMS-Domain + `http://localhost:3000` für lokal ein).
+### 7.2 Brücke — bitte verbatim übernehmen
+
+Dieses Skript gehört in `<head>` des **Root-Layouts**, damit es auf jeder Seite wirkt. Es ist gegen den CMS-Code geprüft.
+
+> **Vier Regeln, die in diesem Skript nicht verhandelbar sind:**
+> 1. **Niemals `postMessage(…, "*")`.** Antworten gehen immer an den verifizierten Origin (`cmsOrigin` bzw. das Ergebnis von `cmsTargetOrigin()`).
+> 2. **`event.origin` wird immer gegen `CMS_ORIGINS` geprüft**, `event.source` immer gegen `window.parent`.
+> 3. **`textContent`, nie `innerText`.** `innerText` ersetzt das Element samt Kindknoten und zerstört Icons und verschachteltes Markup.
+> 4. **Kein `window.location.origin` in `CMS_ORIGINS`.** Die eigene Website ist keine CMS-Origin; sonst gilt jede Seite desselben Origins als CMS.
 
 ```html
 <script is:inline>
   if (window.self !== window.top) {
-    const CMS_ORIGINS = ["https://cms.deine-agentur.de", "http://localhost:3000"];
-    let selectMode = true; // true = „Finden", false = „Surfen"
+    const CMS_ORIGINS = [
+      "https://agency-cms-teal.vercel.app",
+      "http://localhost:3000",
+    ];
+    let selectMode = true; // true = "Finden", false = "Surfen"
     // Gemerkte CMS-Herkunft aus geprüften CMS-Nachrichten (stärker als
     // document.referrer): Nach Navigation über einen In-Preview-Link ist der
     // Referrer die Website-Seite, der gemerkte Origin bleibt die CMS-Domain.
@@ -200,86 +283,208 @@ Vier Nachrichten, zwei Richtungen. **Niemals** `postMessage(…, "*")` — immer
 </script>
 ```
 
-Nachrichten: `CMS_FIELD_UPDATE { field, value }` (CMS→Seite, sofort beim Tippen), `CMS_SELECT_MODE { enabled }` (CMS→Seite, auch bei jedem Iframe-Neuladen), `CMS_FIELD_SELECT { field }` (Seite→CMS, nur Feld-ID, nie Inhalte), `CMS_BRIDGE_READY { version: 2 }` (Seite→CMS, einmal je geladener Seite nach der ersten geprüften CMS-Nachricht — damit das CMS weiß, dass diese Bridge Klicks auch nach In-Preview-Navigation zustellt). Unbekannte/ungültige Nachrichten werden **still ignoriert** (keine Fehler, kein Fallback).
+### 7.3 Protokoll
 
-**Fallen, die still bleiben (gewollt, aber wissen):** Das Antwort-Ziel für `CMS_FIELD_SELECT` ist der **gemerkte Origin aus geprüften CMS-Nachrichten** (`event.origin`, vom Browser garantiert, gegen `CMS_ORIGINS` geprüft) — `document.referrer` dient nur noch als Fallback für die erste Nachricht. Kam noch keine CMS-Nachricht an (direkter Aufruf ohne CMS, strenge Referrer-Policy), sendet das Script **nichts** — Finden-Klicks versanden lautlos. `CMS_ORIGINS` muss **Scheme + Host + Port exakt** enthalten (`https://cms.deine-agentur.de` ≠ `http://…`, Port `:3000` zählt mit), sonst bricht jeweils eine Richtung still. Umgekehrt deaktiviert der Editor bei ungültiger Preview-URL (kein https, Tippfehler) Vorschau **und** Empfang kommentarlos — das ist Absicht (Sicherheit), kein Bug. Brücken ohne `CMS_BRIDGE_READY` (vor v1.2) verlieren Finden-Klicks nach In-Preview-Navigation weiterhin still — das CMS warnt dann per Hinweis.
+| Richtung | Nachricht | Zweck |
+|---|---|---|
+| CMS → Website | `CMS_FIELD_UPDATE { field, value }` | Wert sofort setzen (beim Tippen) |
+| CMS → Website | `CMS_SELECT_MODE { enabled }` | „Finden" / „Surfen" umschalten; wird bei **jedem** Iframe-Neuladen erneut gesendet |
+| Website → CMS | `CMS_FIELD_SELECT { field }` | Nur die Feld-ID, **nie** Inhalte |
+| Website → CMS | `CMS_BRIDGE_READY { version: 2 }` | Einmal je geladener Seite, nachdem die erste geprüfte CMS-Nachricht ankam |
 
-## 8. Banner-System
+Unbekannte oder ungültige Nachrichten werden **still ignoriert** — kein Fehler, kein Fallback.
 
-`site.banner` in `src/content/site.json`: `{ "enabled": boolean, "variant": "vacation"|"emergency"|"info", "text": string ≤ 160 Zeichen }`. Regeln: `enabled: true` braucht Stil **und** Text; vorhandene Werte müssen **auch bei `enabled: false`** gültig sein; unbekannte Schlüssel verboten. Standard für neue Websites: `{ "enabled": false, "variant": "info", "text": "" }`.
+### 7.4 Vier Fallen, die bewusst still bleiben
 
-```astro
-{site.data.banner?.enabled && (
-  <div class={`banner banner--${site.data.banner.variant}`}>
-    {site.data.banner.text}
-  </div>
-)}
+1. **`CMS_ORIGINS` muss Scheme + Host + Port exakt treffen.** `https://…` ≠ `http://…`, und ein Port `:3000` zählt mit. Ein falscher Wert bricht **je Richtung** lautlos.
+2. **Kein Platzhalter-Domainwert.** Siehe Abschnitt 2.
+3. **`document.referrer` ist nur Fallback.** Kam noch keine CMS-Nachricht an (Direktaufruf ohne CMS, strenge Referrer-Policy), sendet das Skript nichts — Finden-Klicks gehen dann lautlos verloren. Genau dafür gibt es `CMS_BRIDGE_READY`.
+4. **Kein `X-Frame-Options` auf der Website.** Der Header blockiert das CMS-Iframe unabhängig von CSP. Siehe Abschnitt 9.
+
+### 7.5 Vorschau-URL je Seiten-Tab
+
+Der Editor leitet die Vorschau-Adresse aus den Manifest-Dateinamen ab: `src/content/pages/<slug>.json` → `<preview_url>/<slug>`. `home`, `index`, `start`, `startseite` → Basis-URL.
+
+> **Folge für den Manifest-Aufbau:** Wenn ein Tab Sektionen aus **mehreren** Seiten-Dateien zusammenführt, zeigt die Vorschau nur die **häufigste** Datei. Leg Impressum und Datenschutz also nicht in denselben `page`-Wert, sonst ist eines der beiden in der Vorschau unsichtbar. Je Tab eine Seite.
+
+---
+
+## 8. Blog
+
+**Blog nur, wenn die Website einen hat.** Erkennung: Gibt es einen Blog-Bereich, eine Artikelliste, Artikeldetailseiten oder vorhandene Beiträge? Dann ja. Gibt es nichts davon: `features.blog: false` und keine Blog-Routen. **Einen Blog zu erfinden ist eine Erweiterung und gehört nicht ungefragt in einen Umbau.**
+
+```markdown
+---
+title: "Willkommen im Blog"
+slug: "willkommen"
+date: "2026-09-26"
+coverImage: "https://….supabase.co/…/cover.jpg"
+coverImageAlt: "Werkstatt von innen"
+excerpt: "Erster Artikel in zwei Sätzen."
+draft: false
+---
+
+Artikeltext in Markdown …
 ```
 
-## 9. Bild-Handling
+| Feld | Regel |
+|---|---|
+| `title` | Pflicht, 1–200 Zeichen |
+| `slug` | aus dem Titel: klein, ä→ae/ö→oe/ü→ue/ß→ss, nur `[a-z0-9-]`, maximal 80 Zeichen |
+| `date` | optional; leer = heute. Format `JJJJ-MM-TT` |
+| `coverImage` | optional, höchstens 2000 Zeichen, http(s) oder interner `/`-Pfad |
+| `coverImageAlt` | optional, höchstens 200 Zeichen, **leer = Titel gilt** |
+| `excerpt` | optional, höchstens 500 Zeichen |
+| `draft` | optional; **fehlend = nicht öffentlich**. Auf **allen** öffentlichen Ausgaben filtern: Übersicht, Detailseite, Sitemap, strukturierte Daten, Suche |
 
-Das CMS lädt hoch (lange Seite ≤ 1600 px, ≤ ~500 KB, Original ≤ 15 MB, **kein SVG**), die Website rendert nur: normale `<img src="https://…">`, keine Build-Config nötig. `coverImageAlt` aus dem Blog-Frontmatter als `alt`, Fallback Titel. TODO: Alt-Texte für Content-Bilder kennt das CMS derzeit nicht — dort sprechende Dateinamen oder festen `alt` im Template verwenden.
+Blogbeiträge werden ausschließlich über die CMS-Blog-API verwaltet, nicht über Manifest-Felder. Sie sind damit bewusst **kein** Teil der „jeder sichtbare Text"-Regel.
 
-## 10. Validierung & Schemas (Kurzform für Templates)
+---
+
+## 9. Hosting- und Sicherheitskonfiguration
+
+### 9.1 Warum das Thema überhaupt auftaucht
+
+Das CMS bettet die Website in ein `<iframe>` ein. Dafür muss die Website das Einbetten erlauben — ohne die eigene Absicherung aufzugeben.
+
+### 9.2 `vercel.json`
+
+Zwei getrennte Regelblöcke. **Nur** Vercel-Preview-Domains dürfen breit sein; die Live-Domain bleibt streng.
+
+```json
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.beispiel-domain.de" }],
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://<projekt>.supabase.co data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://api.web3forms.com"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "vercel.app" }],
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://<projekt>.supabase.co data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; frame-ancestors 'self' http://localhost:* https://agency-cms-teal.vercel.app; base-uri 'self'; form-action 'self' https://api.web3forms.com"
+        }
+      ]
+    }
+  ]
+}
+```
+
+> **Beide Blöcke brauchen einen `has`-Guard.** Ohne ihn greift der lockere Block auch auf der Live-Domain und die Produktion ist faktisch mit eingebettet. `frame-ancestors 'self'` allein reicht **nicht**, um ein anderes CMS zu erlauben — die CMS-Origin muss **explizit** genannt werden. Kein `https://*.vercel.app` als Ersatz für den Produktionsschutz.
+
+### 9.3 `public/_headers` (Netlify/Cloudflare-Stil)
+
+Wenn eine `_headers`-Datei existiert: **kein `X-Frame-Options`** darin. Die Datei wird sonst unter Umständen nach den Vercel-Headern ausgeliefert und blockiert die Vorschau.
+
+### 9.4 `astro.config.mjs`
+
+```js
+image: {
+  remotePatterns: [
+    { protocol: "https", hostname: "<projekt>.supabase.co" },
+  ],
+}
+```
+
+**Pflicht**, sobald Bilder aus dem CMS kommen. Ohne diesen Eintrag schlägt der Website-Build fehl, sobald der Kunde das erste Bild hochlädt. Kein Wildcard unter `image.domains`; den **konkreten** Supabase-Projekt-Host eintragen.
+
+`image.service.config.limitInputPixels: false` nicht setzen — das deaktiviert Astros Schutz gegen über große Bilder.
+
+---
+
+## 10. Validierung & Schemas
 
 ```ts
-const BLOG_RE = /^src\/content\/blog\/[a-z0-9-]+\.md$/;
-const blogOk = (f: any) =>
-  typeof f.title === "string" && f.title.trim().length <= 200 &&
-  ((f.date ?? "") === "" || (/^\d{4}-\d{2}-\d{2}$/.test(f.date) && !Number.isNaN(Date.parse(f.date)))) &&
-  (f.coverImage ?? "").length <= 2000 &&
-  (f.excerpt ?? "").length <= 500 && (f.coverImageAlt ?? "").length <= 200 &&
-  (f.draft === undefined || typeof f.draft === "boolean") && BLOG_RE.test(`src/content/blog/${f.slug}.md`);
+// src/content.config.ts — die Prüfung muss beim Laden wirklich laufen.
+const banner = z.object({
+  enabled: z.boolean(),
+  variant: z.enum(["vacation", "emergency", "info"]),
+  text: z.string().max(160),
+});
+
+const blog = z.object({
+  title: z.string().min(1).max(200),
+  slug: z.string().regex(/^[a-z0-9-]+$/),
+  date: z.string().optional(),
+  coverImage: z.string().max(2000).optional(),
+  coverImageAlt: z.string().max(200).optional(),
+  excerpt: z.string().max(500).optional(),
+  draft: z.boolean().optional(),
+});
 ```
 
-Content: Pfade ≤ 20 Segmente / 500 Zeichen / Index ≤ 9999; Dateien ≤ 200 Zeichen Pfadlänge; freie Werte ≤ 20.000 Zeichen. Fehlerverhalten: Publish prüft je Datei — fehlerhafte Dateien bleiben Entwurf (400 je Datei mit Grund), saubere gehen live (`partial: true` möglich).
+Grundsätze: `text`, `number` und `boolean` sauber trennen. Telefon-Anzeige, `tel:`-/`mailto:`-Ziele, Öffnungszeiten und strukturierte Daten aus **derselben** Quelle ableiten — sonst widersprechen sie sich nach der ersten Kundenänderung. Keine Teil-Schemata mit anschließend behaupteter vollständiger Typsicherheit.
 
-## 11. Website-Kompatibilitäts-Checkliste
+---
 
-**Ablage:** Diese Datei gehört ins **Root des Website-Repos** (nicht verlinken, sondern als Datei kopieren oder per Template ausrollen) — dort findet sie jeder Website-Agent.
+## 11. Selbst-Check
 
-- [ ] Manifest unter `src/content/cms.manifest.json`, ≥ 1 Sektion mit Feldern, IDs global eindeutig, nur `[a-z0-9._-]` (klein, ohne Leerzeichen)
-- [ ] Alle `file`-Ziele erlaubt, alle `path`-Pfade existieren in den Dateien
-- [ ] Alle Typen aus Abschnitt 4, Zahlen/Booleans als echte JSON-Typen in den Dateien
-- [ ] `site.json` mit gültigem `banner`-Objekt (Abschnitt 8)
-- [ ] Jede Sektion `data-cms-section`, jedes editierbare Element `data-cms-field` (exakte IDs, Marker immer am innersten Element, nie verschachtelt)
-- [ ] Standardziel: **jeder sichtbare Text und jedes sichtbare Bild** auf allen Seiten ist als Feld im Manifest und mit Marker versehen (Ausnahmen nur auf Kundenwunsch + im Report begründet)
-- [ ] Brücken-Script aus Abschnitt 7 verbatim mit echten `CMS_ORIGINS` (Scheme + Host + Port exakt), nur im Iframe aktiv
-- [ ] Kein `postMessage("*")`, `CSS.escape` verwendet, Klick nur mit gültigem Ziel-Origin (gemerkter CMS-Origin, Fallback `document.referrer`), `CMS_BRIDGE_READY` (v2) wird gesendet
-- [ ] Vorschau-URL ist `https://…` (sonst bleibt die Editor-Vorschau stumm)
-- [ ] Blog: Frontmatter-Schlüssel + Grenzen, Slugs `[a-z0-9-]` ≤ 80, `draft`-Flag beachtet
-- [ ] Branch `main` wird von Vercel als Produktion deployed; Content-Dateien werden nie umgeschrieben/gelöscht
-- [ ] Listen: **keine darf wachsen oder schrumpfen**; bestehende Einträge wie normale Felder pflegen, neue legt die Agentur im Repo an
+Die Prüfliste ist maschinell prüfbar. Im Website-Repo ausführen:
+
+```bash
+node scripts/cms-check.mjs
+```
+
+Der Check meldet als **Fehler** (blockiert den Kundenbetrieb) unter anderem: doppelte Feld-IDs, gleiche Schreibziele, `postMessage(…, "*")`, `X-Frame-Options`, Platzhalter-Domains, fehlende CMS-Origin in `frame-ancestors`, fehlendes `image.remotePatterns`. Als **Warnung**: Felder ohne Marker, unbekannte Typen, `aspectRatio`-Werte außerhalb der drei erlaubten, `srcset` an einem Bild-Marker.
+
+**Verbindliche Checkliste zusätzlich zum Skript** — Dinge, die ein Skript nicht beurteilen kann:
+
+- [ ] Jeder **sichtbare Text** auf allen Seiten ist aus einer Content-Datei bezogen und trägt `data-cms-field` mit exakt der Manifest-ID.
+- [ ] Jedes **sichtbare Bild** ist ein eigenständiges `<img>` mit `data-cms-field` — auch in Karten, Grids, Slidern und Hintergrund-Sektionen. Keine CSS-Hintergrundbilder (L5).
+- [ ] Kein `data-cms-field` auf einem Wrapper, der einen anderen Marker enthält.
+- [ ] Telefon, E-Mail, `tel:`/`mailto:` und strukturierte Daten kommen aus **einer** Quelle und stimmen überein.
+- [ ] Brücke steht verbatim aus Abschnitt 7.2 im Root-Layout, mit echten Origins aus Abschnitt 2.
+- [ ] `vercel.json`: kein `X-Frame-Options`, Live-Domain mit `has`-Guard und `frame-ancestors 'self'`, Preview-Host mit expliziter CMS-Origin.
+- [ ] `astro.config.mjs` enthält `image.remotePatterns` für den Supabase-Host.
+- [ ] Branch `main` wird als Produktion deployed; `package.json` hat ein **Build-Skript**, das `astro build` aufruft.
+- [ ] Blog, falls vorhanden: `draft` wird auf allen öffentlichen Ausgaben gefiltert (Übersicht, Detail, Sitemap, JSON-LD, Suche).
+- [ ] `astro check` und `astro build` laufen mit Exit-Code 0 durch.
+- [ ] Keine Platzhalter in ausgelieferten Inhalten: keine `cms.invalid`/`example.com`, keine Lorem-Ipsum-Reste, keine Teststrings.
+
+---
 
 ## 12. Häufige Fehler
 
 | Fehler | Konsequenz | Richtig |
 |---|---|---|
-| `postMessage(…, "*")` / fehlender Origin-Check | fremde Seiten schreiben Vorschau um | Abschnitt 7 verbatim |
-| Feld-ID-Typo im Template | Feld nicht klickbar/aktualisierbar | IDs aus Manifest kopieren, nie tippen |
-| `type: "emial"` im Manifest | wird still `text` (+ Warnung) | Typen aus Abschnitt 4 |
-| Zahl als `"19,90"` in JSON-Datei | Publish blockiert Datei | echte Zahl `19.9` schreiben |
-| Liste per Entwurf verlängert/gekürzt | Publish blockiert Datei („feste Liste") | Einträge im Website-Repo anlegen (Agentur) |
-| Banner-Stil `"party"` erfunden | Publish blockiert `site.json` | nur `vacation`/`emergency`/`info` |
-| Content-Datei neu formatiert/gelöscht | Diff/History unbrauchbar, Publish-Fehler | Dateien nur lesen, nie schreiben |
-| `data-cms-field` auf Wrapper statt Ziel | falsches Element blinkt / innere Marker werden gelöscht | Marker ans innerste editierbare Element, nie verschachteln |
+| Zwei Felder mit derselben `id` | **Jede Veröffentlichung 400** | Abschnitt 3.2, `cms-check` |
+| Zwei Felder auf dasselbe `file`+`path` | Publish-Abweisung | ein Feld, alle Vorkommen markiert |
+| `CMS_ORIGINS` mit `cms.deine-agentur.de` oder leer | Vorschau komplett stumm | Abschnitt 2 |
+| `postMessage(…, "*")` | fremde eingebettete Seiten schreiben die Vorschau um | Abschnitt 7.2 verbatim |
+| `X-Frame-Options: DENY` | CMS-Iframe bleibt leer | entfernen, `frame-ancestors` nutzen |
+| `frame-ancestors 'self'` ohne CMS-Origin | Vorschau bleibt leer | CMS-Origin explizit nennen |
+| `lockerer` CSP-Block ohne `has`-Guard | Live-Domain mit eingebettet | zwei Blöcke, beide mit Guard |
+| `innerText` statt `textContent` | Icons/Markup werden beim Tippen zerstört | Abschnitt 7.2 |
+| Kein `CSS.escape` | Selektor-Injection bei Sonderzeichen | Abschnitt 7.2 |
+| `data-cms-field` auf einem Wrapper | innerer Marker wird gelöscht | Abschnitt 7.1 |
+| Feld-ID im Template abgetippt statt kopiert | Feld aktualisiert sich nicht | IDs aus dem Manifest kopieren |
+| `alt` als CMS-Feld | Feld ohne Wirkung in der Vorschau | L1 |
+| `<Image>`/`<Picture>` mit `widths` am Bild-Marker | responsive Darstellung bricht in der Vorschau ab | Abschnitt 5.1 |
+| `type: "emial"` | still `text` im Editor, hart abgelehnt beim Publish | Abschnitt 4 |
+| Zahl als `"19,90"` in der JSON-Datei | Publish blockiert die Datei | echte Zahl `19.9` |
+| Per Entwurf Liste verlängern/gekürzen | Publish blockiert die Datei | im Repo anlegen (L2) |
+| Banner-Stil `"party"` | Publish blockiert `site.json` | nur `vacation`/`emergency`/`info` |
+| Content-Datei umformatiert oder umgeschrieben | Diff/Historie unbrauchbar | nie schreiben, nur lesen |
+| `image.remotePatterns` fehlt | Build bricht beim ersten CMS-Bild | Abschnitt 9.4 |
+| Platzhalter in `.env.example` (`cms.example.com`) | Wert bleibt leer, Vorschau tot | Abschnitt 2 |
 
-## 13. Änderungshistorie
+---
 
-- **1.0 (2026-09-26):** Ersterstellung aus CMS-`main` (Merge-PR #1 + Verlauf-Hotfix). Abgedeckt: Manifest, 9 Feldtypen, Content-Dateien, Marker, sicheres Preview-Protokoll, Banner, Bilder, Blog-Validierung, Listenmodelle.
-- **1.2 (2026-09-26):** Bridge v2 gegen die `document.referrer`-Falle: Antwort-Ziel für `CMS_FIELD_SELECT` ist der gemerkte Origin aus geprüften CMS-Nachrichten (Referrer nur Fallback), neue Nachricht `CMS_BRIDGE_READY { version: 2 }` je geladener Seite; CMS warnt nur noch bei Brücken ohne READY.
-- **1.1 (2026-09-26):** `page` funktioniert jetzt wirklich; `listenmodelle` und FAQ-Feature komplett entfernt (alle Listen fest, Einträge normal änderbar); DOM-Marker-Beispiel korrigiert; Feld-ID-/Preview-/`aspectRatio`-Hinweise ergänzt; Blog-Validierung präzisiert (`date` optional, `coverImage`-Regel, `draft` tolerant); Sicherheitshinweise zu `document.referrer` und `CMS_ORIGINS` ergänzt; Ablageort festgelegt (Root des Website-Repos).
-- TODOs: Alt-Texte für Content-Bilder (CMS-Konzept fehlt); `data-cms-section`-Auswertung (reserviert, CMS springt nur zu Feldern).
-- **1.3 (2026-09-28):** Neuer Abschnitt 14 (verbindlicher Umbau-Workflow) aus bewährtem Website-Umbau übernommen.
-- **1.4 (2026-09-28):** Standardziel klargestellt: jeder sichtbare Text und jedes sichtbare Bild ist per CMS editierbar (neuer Checklisten-Punkt in Abschnitt 11, Vorgabe in Abschnitt 14).
+## 13. Pflege
 
-## 14. Umbau-Workflow für bestehende Websites
+Diese Datei ist die einzige Stelle, an der CMS-Detailregeln stehen. Die Agentur-Prompts (`prompts/01-meta.md`, `02-predeployment.md`, `03-konvertierung.md` im CMS-Repo) verweisen hierher und enthalten **keine** eigenen CMS-Regeln.
 
-Verbindlicher Ablauf für jeden Neu- oder Umbau einer Website. Abweichungen nur auf ausdrückliche Kundenanweisung.
-
-1. **Lesen:** Diese Referenz vollständig lesen, dann Bestand aufnehmen: Manifest, Content-Dateien, Schemas/Validierung, Templates (Marker-Stand), Bridge-Script, Hosting-Header (`frame-ancestors`!), Bild-Domains, Branch/Deployment, Blog-Stand.
-2. **Fragen:** Vor dem Start Klärungsfragen stellen und Antworten abwarten. Standardziel (gilt, sofern der Kunde nichts anderes vorgibt): **jeder sichtbare Text und jedes sichtbare Bild** auf allen Seiten ist per CMS editierbar. Pflichtpunkte: Scope bestätigen (alles Sichtbare vs. eingeschränkt ohne URLs/Nav/SEO/Keys), Bild-Umfang (Hinweis: kein SVG, kein Alt-Konzept), Listen-Verständnis (fest — nur Ändern, kein Hinzufügen/Entfernen), Blog (bleibt aus / wird aktiviert / wird neu gebaut), Ergebnis (nur Analyse vs. Analyse + Umbau).
-3. **Analyse-Report:** Grün/Rot-Bericht nach Checkliste (Abschnitt 11), jede Lücke mit Datei und Zeile. Erst nach Freigabe umbauen.
-4. **Phasen-Umbau:** (a) Content-Dateien + Schemas erweitern, (b) Manifest ergänzen — bestehende Feld-IDs niemals umbenennen oder löschen, (c) Templates mit Markern versehen (innerstes Element, **alle** Vorkommen, Span-in-Link bei `tel:`/`mailto:`), (d) Zusatz-Features (z. B. Blog nach Abschnitt 5/10), (e) verifizieren.
-5. **Pflicht-Verifikation:** Typecheck fehlerfrei, Produktions-Build Exit 0, Manifest-Selbstcheck (IDs global eindeutig und ohne Leerzeichen/Quotes/`<>"'`, alle Pfade existent, nur Typen aus Abschnitt 4, Maxima eingehalten), Marker-Abdeckung (jedes Feld hat einen Marker — Ausnahmen wie Zahlen ohne Textelement, Alt-Texte oder Laufzeit-Meldungen im Report begründen), alle Routen HTTP 200, Bridge auf jeder Seite vorhanden.
-6. **Commit & Push:** Commit pro Umbau; vor jedem Push per Fetch prüfen, ob parallele CMS-Commits (Kundenedits) vorliegen — dann per Rebase integrieren und per Diff belegen, dass Kundendaten erhalten sind. Content-Dateien nie umformatieren, fremde Schlüssel nie löschen, Kundenwerte nie „korrigieren".
+**Änderungsregel (für die Agentur):**
+1. Jede Änderung wird gegen den **CMS-Code** geprüft, nicht gegen Erwartungen. Bestehende Tests: `npm run test:unit` und `npm run test`.
+2. Die **Versionszeile oben** wird mit Datum angehoben.
+3. Änderungen werden in das betroffene Website-Repo **ausgerollt** (Datei kopieren). `cms-check.mjs` meldet abweichende Versionszeilen.
+4. Was der Code nicht kann, wandert nach Abschnitt 5 — nicht in eine Prompt-Liste und nicht in ein TODO.
+5. Die Versionshistorie liegt in `CMS-REFERENCE-HISTORY.md` im CMS-Repo, **nicht** in dieser Datei. Diese Datei enthält nur geltende Regeln.

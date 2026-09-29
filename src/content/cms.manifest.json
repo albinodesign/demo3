@@ -246,7 +246,7 @@
     {
       "id": "impressum",
       "title": "Impressum – Rechtstexte",
-      "page": "Rechtliches",
+      "page": "Impressum",
       "fields": [
         { "id": "impressum.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/impressum.json", "path": "title", "maxLength": 60 },
         { "id": "impressum.companyHeading", "label": "Abschnitt: Firmendaten", "type": "text", "file": "src/content/pages/impressum.json", "path": "companyHeading", "maxLength": 80 },
@@ -266,7 +266,7 @@
     {
       "id": "datenschutz",
       "title": "Datenschutz – Rechtstexte",
-      "page": "Rechtliches",
+      "page": "Datenschutz",
       "fields": [
         { "id": "datenschutz.title", "label": "Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "title", "maxLength": 60 },
         { "id": "datenschutz.controllerHeading", "label": "Verantwortlicher: Überschrift", "type": "text", "file": "src/content/pages/datenschutz.json", "path": "controllerHeading", "maxLength": 60 },

@@ -3,12 +3,18 @@
  * cms-check.mjs — Maschineller Kompatibilitäts-Check Website ↔ Agency CMS
  *
  * Prüft die Website gegen den verbindlichen Contract in CMS-REFERENCE.md
- * (Abschnitte 3, 4, 5, 7, 8, 10, 11) und die Security-Regeln aus vercel.json.
+ * (Abschnitte 2, 3, 4, 5, 7, 8, 9, 10, 11).
  *
  * Aufruf:  node scripts/cms-check.mjs [--dist dist] [--cms-origin https://…]
  * Exit:    0 = keine Fehler (Warnungen erlaubt), 1 = Fehler gefunden.
  *
- * Es werden nur Standardbibliotheken benutzt (Node >= 18).
+ * Fehler blockieren den Kundenbetrieb (CMS-REFERENCE §11): doppelte Feld-IDs,
+ * gleiche Schreibziele, postMessage(...,"*"), X-Frame-Options, Platzhalter-
+ * Domains, fehlende CMS-Origin in frame-ancestors, fehlendes image.remotePatterns.
+ * Warnungen: Felder ohne Marker, unbekannte Typen, aspectRatio außerhalb der drei
+ * erlaubten Werte, srcset an einem Bild-Marker.
+ *
+ * Stand des Contracts: wird aus CMS-REFERENCE.md gelesen und im Kopf ausgegeben.
  */
 
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
@@ -22,16 +28,20 @@ const argOf = (name, fallback) => {
 };
 
 const DIST = join(ROOT, argOf('--dist', 'dist'));
-/** Erwartete CMS-Herkunft. Default = Produktions-CMS der Agentur. */
+/** CMS-Origin laut CMS-REFERENCE §2 Registry — feste Werte, nicht raten. */
 const CMS_ORIGIN = argOf('--cms-origin', process.env.CMS_ORIGIN || 'https://agency-cms-teal.vercel.app');
-const LOCALHOST_ORIGIN = 'http://localhost:3000';
 
 const TYPES = new Set(['text', 'textarea', 'image', 'number', 'email', 'phone', 'url', 'date', 'boolean']);
 const BANNER_VARIANTS = new Set(['vacation', 'emergency', 'info']);
+/** §3.1: erlaubt sind exakt diese drei Werte; andere werden ignoriert. */
+const ASPECT_RATIOS = new Set(['16:9', '1:1', '4:3']);
 const ID_RE = /^[A-Za-z0-9._-]+$/;
+/** §3.3 / isSafeFieldId: der Klick-Pfad verwirft diese Zeichen still. */
+const UNSAFE_ID_CHARS = /[\s<>"'\\`]/;
 const PAGE_FILE_RE = /^src\/content\/pages\/[A-Za-z0-9][A-Za-z0-9._-]*\.json$/;
 const SITE_FILE = 'src/content/site.json';
 const BLOG_FILE_RE = /^src\/content\/blog\/[a-z0-9-]+\.md$/;
+const PLACEHOLDER_ORIGINS = /cms\.deine-agentur\.de|cms\.example\.com|cms\.example\.org|cms\.invalid|example\.com/i;
 
 const errors = [];
 const warnings = [];
@@ -120,12 +130,14 @@ if (manifest.features && typeof manifest.features.blog === 'boolean') {
 
 const seenIds = new Map();
 const fieldById = new Map();
-const idsWithUppercase = [];
+const writeTargets = new Map();
 
 for (const section of sections) {
   if (!section.id) err('MANIFEST', `Sektion ohne id: ${JSON.stringify(section.title ?? '')}`);
   if (!section.title) warn('MANIFEST', `Sektion "${section.id}" ohne Titel (Fallback im Editor).`);
-  if (!section.page) warn('MANIFEST', `Sektion "${section.id}" ohne page (Editor rät per Heuristik).`);
+  if (!section.page) {
+    warn('MANIFEST', `Sektion "${section.id}" ohne page — §3.1: für Kundenprojekte immer setzen, die Vorschau-URL leitet sich daraus ab.`);
+  }
   if (Array.isArray(section.fields) && section.fields.length === 0) {
     warn('MANIFEST', `Sektion "${section.id}" hat keine Felder (wird ausgeblendet).`);
   }
@@ -137,20 +149,20 @@ for (const section of sections) {
       err('FELD-ID', `${where}: Feld ohne id → ${JSON.stringify(f.label)}`);
       continue;
     }
-    // CMS-REFERENCE §3: verworfen (stillschweigend) werden IDs mit Leerzeichen,
-    // Quotes oder <>"'. Großbuchstaben sind nicht als Verwerfungsgrund genannt.
-    if (/[\s<>"'`]/.test(f.id)) {
+    // §3.3: Das Manifest lädt IDs ohne Zeichenfilter, der Klick-Pfad (isSafeFieldId)
+    // verwirft diese Zeichen aber still — solche Felder reagieren auf keinen Klick.
+    if (UNSAFE_ID_CHARS.test(f.id)) {
       err(
         'FELD-ID',
-        `${where}: id "${f.id}" enthält Leerzeichen/Quotes/<>"' — das CMS verwirft die ID ` +
-          'stillschweigend, der Vorschau-Klick landet im Leeren.'
+        `${where}: id "${f.id}" enthält Leerzeichen/Quotes/<>"' oder Backslash — das Manifest lädt sie, ` +
+          'der Editor verwirft aber eingehende CMS_FIELD_SELECT still. Feld erscheint, ist aber nicht klickbar.'
       );
     } else if (!ID_RE.test(f.id)) {
       err('FELD-ID', `${where}: id "${f.id}" enthält unzulässige Zeichen (erlaubt: [a-zA-Z0-9._-]).`);
     }
-    if (/[A-Z]/.test(f.id)) idsWithUppercase.push(f.id);
+    // §3.2 Regel 1 — blockiert JEDE Veröffentlichung.
     if (seenIds.has(f.id)) {
-      err('FELD-ID', `id "${f.id}" ist nicht global eindeutig (auch in "${seenIds.get(f.id)}") — bricht den gesamten Publish ab.`);
+      err('FELD-ID', `id "${f.id}" ist nicht global eindeutig (auch in "${seenIds.get(f.id)}") — §3.2 Regel 1: bricht jede Veröffentlichung mit 400 ab.`);
     } else {
       seenIds.set(f.id, where);
       fieldById.set(f.id, f);
@@ -165,18 +177,22 @@ for (const section of sections) {
         err('MAXLENGTH', `${f.id}: maxLength muss ganze Zahl 1–10000 sein (ist ${JSON.stringify(f.maxLength)}).`);
       }
     }
-    if (f.aspectRatio !== undefined && f.aspectRatio !== '16:9') {
-      err('ASPECTRATIO', `${f.id}: aspectRatio "${f.aspectRatio}" wird vom CMS ignoriert (nur "16:9").`);
+    if (f.aspectRatio !== undefined) {
+      if (f.type !== 'image') {
+        warn('ASPECTRATIO', `${f.id}: aspectRatio ist laut §3.1 nur bei type "image" erlaubt.`);
+      } else if (!ASPECT_RATIOS.has(f.aspectRatio)) {
+        warn('ASPECTRATIO', `${f.id}: aspectRatio "${f.aspectRatio}" wird vom CMS ignoriert — erlaubt sind exakt 16:9, 1:1, 4:3.`);
+      }
     }
 
-    // Alt-Texte: das CMS hat bewusst kein Alt-Konzept (CMS-REFERENCE §9/§13).
+    // §5 L1 / §12: `alt` als CMS-Feld ist wirkungslos.
     const altHint = `${f.id} ${f.label ?? ''} ${f.path ?? ''}`.toLowerCase();
     if (/\balt\b|alt-?text|bildbeschreibung/.test(altHint)) {
-      err('ALT-TEXT', `${f.id}: Manifest-Feld für einen Alt-Text existiert, obwohl das CMS kein Alt-Konzept hat — im Editor sichtbar, ohne Wirkung.`);
+      err('ALT-TEXT', `${f.id}: Manifest-Feld für einen Alt-Text — §5 L1: das CMS kennt kein Alt-Text-Konzept, das Feld wäre sichtbar, aber wirkungslos.`);
     }
-    // Keine Felder für Linkziele (tel:, mailto:, Button-URLs) — die sind abgeleitet.
+    // §5 L8: Linkziele werden abgeleitet und sind nicht frei editierbar.
     if (f.type === 'url' || /tel:|mailto:|link-?url|ziel-?url|button-?url/.test(altHint)) {
-      err('LINKZIEL', `${f.id}: Manifest-Feld für ein Linkziel (url/tel:/mailto:) — Linkziele sind abgeleitet und dürfen nicht editierbar sein.`);
+      err('LINKZIEL', `${f.id}: Feld für ein Linkziel (url/tel:/mailto:) — §5 L8: Linkziele sind abgeleitet, nicht editierbar.`);
     }
 
     if (!f.file) {
@@ -198,10 +214,29 @@ for (const section of sections) {
       err('PFAD', `${f.id}: path "${f.path}" hat leere/nicht-numerische Segmente.`);
     }
 
+    // §3.3 Pfadgrenzen.
+    if (f.path.split(/\.|\[|\]/).filter(Boolean).length > 20 || f.path.length > 500) {
+      err('PFAD', `${f.id}: path "${f.path}" überschreitet 20 Ebenen bzw. 500 Zeichen.`);
+    }
+
     if (!existsSync(join(ROOT, f.file))) {
       err('PFAD', `${f.id}: Zieldatei ${f.file} existiert nicht.`);
       continue;
     }
+
+    // §3.2 Regel 2: ein Schreibziel, ein Feld. `items[0].x` und `items.0.x` sind dasselbe Ziel.
+    const normalised = f.path.replace(/\[(\d+)\]/g, '.$1');
+    const targetKey = `${f.file} :: ${normalised}`;
+    if (writeTargets.has(targetKey)) {
+      err(
+        'SCHREIBZIEL',
+        `${f.id} und "${writeTargets.get(targetKey)}" zeigen beide auf ${targetKey} — ` +
+          '§3.2 Regel 2: Publish-Abweisung. Ein Feld anlegen und an allen Stellen markieren.'
+      );
+    } else {
+      writeTargets.set(targetKey, f.id);
+    }
+
     const data = readJson(f.file);
     const res = getPath(data, f.path);
     if (!res.found) {
@@ -238,16 +273,29 @@ for (const section of sections) {
   }
 }
 
-if (idsWithUppercase.length) {
-  warn(
-    'FELD-ID-GROSS-AGG',
-    `${idsWithUppercase.length} Feld-IDs enthalten Großbuchstaben (${idsWithUppercase.slice(0, 6).join(', ')} …). ` +
-      'CMS-REFERENCE §3 empfiehlt "[a-z0-9._-]"; als verworfen sind dort nur IDs mit Leerzeichen/Quotes/' +
-      '<>"\'' + ' genannt — das Verhalten bei Großbuchstaben im echten CMS ist nicht verifiziert.'
-  );
+// §7.5: Ein Seiten-Tab darf nur aus EINER Content-Datei bestehen. Sonst zeigt die
+// Vorschau nur die häufigste Datei und die andere ist unsichtbar.
+const pageFiles = new Map();
+for (const section of sections) {
+  const page = section.page;
+  if (!page) continue;
+  if (!pageFiles.has(page)) pageFiles.set(page, new Map());
+  for (const f of section.fields ?? []) {
+    if (!pageFiles.get(page).has(f.file)) pageFiles.get(page).set(f.file, []);
+    pageFiles.get(page).get(f.file).push(section.id);
+  }
+}
+for (const [page, files] of pageFiles) {
+  if (files.size > 1) {
+    err(
+      'VORSCHAU-TAB',
+      `page "${page}" führt ${files.size} Content-Dateien zusammen (${[...files.keys()].join(', ')}) — ` +
+        '§7.5: die Vorschau zeigt nur die häufigste Datei, die andere bleibt unsichtbar. Je Tab eine Seite.'
+    );
+  }
 }
 
-// Listenfelder: alle Indizes abgedeckt? (Listen wachsen nicht per Entwurf)
+// Listenfelder: alle Indizes abgedeckt? (§5 L2 — Listen wachsen nicht per Entwurf)
 for (const section of sections) {
   const grouped = new Map();
   for (const f of section.fields ?? []) {
@@ -321,48 +369,88 @@ if (existsSync(blogDir)) {
 if (existsSync(join(ROOT, 'vercel.json'))) {
   const vercel = readJson('vercel.json');
   const rules = vercel.headers ?? [];
-  const flat = JSON.stringify(vercel);
-  if (/X-Frame-Options/i.test(flat)) {
-    err('SECURITY', 'X-Frame-Options ist gesetzt — blockiert das CMS-Iframe. Darf nirgends vorkommen.');
+  if (/X-Frame-Options/i.test(JSON.stringify(vercel))) {
+    err('SECURITY', 'X-Frame-Options ist gesetzt — blockiert das CMS-Iframe unabhängig von CSP. Darf nirgends vorkommen (§7.4/§12).');
   }
   const cspRules = rules.filter((r) => (r.headers ?? []).some((h) => h.key.toLowerCase() === 'content-security-policy'));
-  if (cspRules.length === 0) err('SECURITY', 'Kein Content-Security-Policy in vercel.json.');
+  if (cspRules.length === 0) err('SECURITY-CSP', 'Kein Content-Security-Policy in vercel.json.');
+
+  let sawCmsOrigin = false;
+  let sawLiveStrict = false;
   for (const rule of cspRules) {
     const csp = rule.headers.find((h) => h.key.toLowerCase() === 'content-security-policy').value;
-    const guarded = Array.isArray(rule.has) && rule.has.some((h) => h.type === 'host');
-    const guardText = rule.has
-      ? `has: ${rule.has.map((h) => `${h.type}=${h.value}`).join(', ')}`
-      : 'ohne has-Guard (gilt für ALLE Hosts inkl. Live-Domain)';
+    const guard = Array.isArray(rule.has) && rule.has.length > 0
+      ? rule.has.map((h) => `${h.type}=${h.value}`).join(', ')
+      : null;
+    const label = `${rule.source}${guard ? ` [has: ${guard}]` : ' [OHNE has-Guard]'}`;
     const fa = /frame-ancestors([^;]*)/.exec(csp);
     if (!fa) {
-      err('SECURITY-CSP', `CSP (${rule.source}, ${guardText}) enthält kein frame-ancestors → CMS-Iframe wird geblockt.`);
+      err('SECURITY-CSP', `CSP ${label} enthält kein frame-ancestors → jede Einbettung blockiert.`);
       continue;
     }
     const list = fa[1].trim();
+
+    // §9.2: BEIDE Blöcke brauchen einen has-Guard. Ohne ihn greift der lockere
+    // Block auch auf der Live-Domain und hebt den Produktionsschutz auf.
+    if (!guard) {
+      err('SECURITY-CSP', `CSP-Block ${rule.source} hat keinen has-Guard — §9.2: er gilt dann auch für die Live-Domain.`);
+    }
     if (list.includes("'none'")) {
-      err('SECURITY-CSP', `CSP (${rule.source}, ${guardText}): frame-ancestors 'none' blockiert jede Einbettung.`);
+      err('SECURITY-CSP', `CSP ${label}: frame-ancestors 'none' blockiert jede Einbettung.`);
       continue;
     }
-    // Konkrete Origin zuerst; ersatzweise eine Wildcard, die die Origin abdeckt.
-    const host = new URL(CMS_ORIGIN).host;
-    const covered =
-      list.includes(CMS_ORIGIN) ||
-      (host.endsWith('.vercel.app') && /https:\/\/\*\.vercel\.app/.test(list));
-    if (!covered) {
-      err(
-        'SECURITY-CSP',
-        `CSP (${rule.source}, ${guardText}) erlaubt die CMS-Origin ${CMS_ORIGIN} nicht in ` +
-          `frame-ancestors "${list}" → das CMS-Iframe wird auf diesem Host geblockt.`
-      );
-    } else if (!list.includes(CMS_ORIGIN)) {
-      warn(
-        'SECURITY-CSP',
-        `CSP (${rule.source}, ${guardText}) erlaubt die CMS-Origin nur über die Wildcard ` +
-          `"https://*.vercel.app" statt konkret "${CMS_ORIGIN}". Funktional, aber präziser wäre die konkrete Origin.`
-      );
+    // §12: kein https://*.vercel.app als Ersatz für den Produktionsschutz.
+    if (/frame-ancestors[^;]*\*\.?vercel\.app/.test(list)) {
+      err('SECURITY-CSP', `CSP ${label}: frame-ancestors nutzt die Wildcard *.vercel.app — §9.2/§12 verbietet das als Ersatz für den Produktionsschutz.`);
     }
-    if (!guarded) {
-      warn('SECURITY-CSP', `Regel ${rule.source} ohne has-Guard gilt für alle Hosts inkl. der Live-Domain.`);
+    if (list.includes(CMS_ORIGIN)) {
+      sawCmsOrigin = true;
+    }
+    // Live-Domain: streng, nur 'self'.
+    const isLive = /klarwerk-fenster\.de/.test(guard ?? '');
+    if (isLive) {
+      const strict = list.split(/\s+/).every((t) => t === "'self'");
+      if (!strict) {
+        err('SECURITY-CSP', `CSP ${label}: die Live-Domain muss frame-ancestors 'self' behalten, ist aber "${list}".`);
+      } else {
+        sawLiveStrict = true;
+      }
+    }
+  }
+  if (!sawCmsOrigin) {
+    err('SECURITY-CSP', `Die CMS-Origin ${CMS_ORIGIN} kommt in keinem frame-ancestors vor — das CMS-Iframe wird überall geblockt.`);
+  }
+  if (!sawLiveStrict) {
+    warn('SECURITY-CSP', 'Kein CSP-Block mit has-Guard auf der Live-Domain gefunden — Produktionsschutz unklar.');
+  }
+}
+
+// §9.3: public/_headers darf kein X-Frame-Options enthalten.
+const headersFile = join(ROOT, 'public/_headers');
+if (existsSync(headersFile) && /X-Frame-Options/i.test(readFileSync(headersFile, 'utf8'))) {
+  err('SECURITY', 'public/_headers enthält X-Frame-Options — die Datei wird ggf. nach den Vercel-Headern ausgeliefert und blockiert die Vorschau (§9.3).');
+}
+
+// §9.4: image.remotePatterns mit konkretem Supabase-Host ist Pflicht.
+const astroConfig = join(ROOT, 'astro.config.mjs');
+if (!existsSync(astroConfig)) err('ASTRO-CONFIG', 'astro.config.mjs fehlt.');
+else {
+  const cfg = readFileSync(astroConfig, 'utf8');
+  if (!/remotePatterns/.test(cfg)) {
+    err('ASTRO-CONFIG', 'image.remotePatterns fehlt — §9.4: ohne den Eintrag schlägt der Build beim ersten CMS-Bild fehl.');
+  }
+  if (!/protocol:\s*['"]https['"]/.test(cfg)) {
+    warn('ASTRO-CONFIG', 'remotePatterns ohne protocol https.');
+  }
+  if (/hostname:\s*['"]\*\*/.test(cfg) || /domains\s*:\s*\[/.test(cfg)) {
+    warn('ASTRO-CONFIG', 'Wildcard bzw. image.domains — §9.4 verlangt den konkreten Supabase-Projekt-Host.');
+  }
+  const supabaseHosts = [...cfg.matchAll(/hostname:\s*['"]([^'"]+)['"]/g)].map((m) => m[1]);
+  // Der Host muss auch in der CSP img-src stehen, sonst blockiert der Browser das Bild.
+  const cspText = existsSync(join(ROOT, 'vercel.json')) ? readFileSync(join(ROOT, 'vercel.json'), 'utf8') : '';
+  for (const h of supabaseHosts.filter((x) => x.endsWith('.supabase.co') && !x.includes('*'))) {
+    if (cspText && !cspText.includes(h)) {
+      err('ASTRO-CONFIG', `Supabase-Host ${h} fehlt in der CSP img-src — die Bilder werden im Browser blockiert.`);
     }
   }
 }
@@ -384,11 +472,15 @@ else {
       err('BRIDGE', `CMS_ORIGINS enthält nicht die CMS-Origin ${CMS_ORIGIN} (gefunden: ${origins.join(', ') || '—'}).`);
     }
     for (const o of origins) {
-      if (/deine-agentur|example\.com|example\.org|cms\.invalid|localhost:\d+[^,]/.test(o) && o !== LOCALHOST_ORIGIN) {
-        err('BRIDGE', `CMS_ORIGINS enthält den Platzhalter "${o}".`);
+      if (PLACEHOLDER_ORIGINS.test(o)) {
+        err('BRIDGE', `CMS_ORIGINS enthält den Platzhalter "${o}" — §2: sofort durch ${CMS_ORIGIN} ersetzen.`);
       }
       if (o === 'window.location.origin' || o === 'location.origin') {
-        err('BRIDGE', `CMS_ORIGINS enthält "${o}" — das ist die Website selbst, nicht das CMS.`);
+        err('BRIDGE', `CMS_ORIGINS enthält "${o}" — §7.2 Regel 4: die eigene Website ist keine CMS-Origin.`);
+      }
+      // §7.4: Scheme + Host + Port müssen exakt treffen.
+      if (o.includes('agency-cms-teal') && o !== CMS_ORIGIN) {
+        err('BRIDGE', `CMS_ORIGINS enthält "${o}" — erwartet wird exakt ${CMS_ORIGIN} (Scheme/Port zählen).`);
       }
     }
   }
@@ -441,6 +533,10 @@ if (htmlFiles.length === 0) {
     }
 
     // Bild-Marker: eigenständiges <img>, kein srcset/sizes, kein <picture>
+    // §5 L5: Jedes sichtbare Bild als eigenständiges <img>, kein CSS-Hintergrundbild.
+    if (/background-image\s*:/i.test(body) || /bg-\[url\(/i.test(body)) {
+      err('BILD-HINTERGRUND', `${page}: CSS-Hintergrundbild gefunden — §5 L5: sichtbare Bilder müssen eigenständige <img>-Elemente sein, sonst sind sie nicht editierbar.`);
+    }
     for (const id of imageFields) {
       for (const m of body.matchAll(new RegExp(`<img([^>]*data-cms-field="${id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*)>`, 'g'))) {
         const attrs = m[1];
@@ -489,26 +585,77 @@ if (htmlFiles.length === 0) {
     }
   }
 
-  // Draft-Artikel dürfen nicht ausgeliefert werden
+  // §8: draft auf ALLEN öffentlichen Ausgaben filtern — Übersicht, Detail, JSON-LD.
   if (existsSync(blogDir)) {
     for (const name of readdirSync(blogDir).filter((n) => n.endsWith('.md'))) {
       const raw = readFileSync(join(ROOT, 'src/content/blog', name), 'utf8');
       const d = /^draft:\s*(\S+)/m.exec(raw);
-      const isDraft = !d || d[1] !== 'false'; // fehlend = laut Contract nicht öffentlich
+      const isDraft = !d || d[1] !== 'false'; // fehlend = laut §8 nicht öffentlich
       const slug = name.replace(/\.md$/, '');
       const built = existsSync(join(DIST, 'blog', slug, 'index.html'));
       if (isDraft && built) {
         err('DRAFT', `Artikel "${slug}" ist Entwurf (draft=${d ? d[1] : 'fehlt'}), liegt aber in dist/ — wird öffentlich ausgeliefert.`);
       }
+      if (built) {
+        // Übersicht darf keinen Entwurf verlinken.
+        const list = existsSync(join(DIST, 'blog/index.html'))
+          ? readFileSync(join(DIST, 'blog/index.html'), 'utf8')
+          : '';
+        for (const other of readdirSync(blogDir).filter((n) => n.endsWith('.md'))) {
+          if (other === name) continue;
+          const otherRaw = readFileSync(join(blogDir, other), 'utf8');
+          const otherDraft = /^draft:\s*(\S+)/m.exec(otherRaw);
+          const otherIsDraft = !otherDraft || otherDraft[1] !== 'false';
+          const otherSlug = other.replace(/\.md$/, '');
+          if (list.includes(`href="/blog/${otherSlug}"`) && otherIsDraft) {
+            err('DRAFT', `Die Übersicht verlinkt auf den Entwurf "${otherSlug}" — §8: Entwürfe dürfen nirgends öffentlich auftauchen.`);
+          }
+        }
+      }
     }
+  }
+
+  // §11: keine Platzhalter/Teststrings in ausgelieferten Inhalten. Heuristik —
+  // §6.3 verbietet dem Umbau-Agenten, Kundenwerte zu korrigieren, daher nur Hinweis.
+  const TEST_STRINGS = /\b(lorem ipsum|dolor sit amet|PLATZHALTER|asdf|qwerty|BOWWW|TODO|FIXME|XXX)\b/i;
+  for (const file of htmlFiles) {
+    const page = '/' + relative(DIST, file).replace(/index\.html$/, '').replace(/\\/g, '/');
+    const text = visibleHtml(readFileSync(file, 'utf8')).replace(/<[^>]+>/g, ' ');
+    const hit = TEST_STRINGS.exec(text);
+    if (hit) {
+      warn(
+        'TESTSTRING',
+        `${page}: vermuteter Test-/Platzhaltertext "${hit[0]}" in ausgeliefertem Inhalt — §11 fordert das nicht; ` +
+          '§6.3 verbietet dem Umbau-Agenten die Korrektur, daher bitte im CMS bereinigen.'
+      );
+    }
+  }
+}
+
+// §11: package.json braucht ein Build-Skript mit astro build.
+if (existsSync(join(ROOT, 'package.json'))) {
+  const pkg = readJson('package.json');
+  if (!/astro build/.test(pkg.scripts?.build ?? '')) {
+    err('BUILD-SKRIPT', 'package.json: Das Skript "build" ruft nicht "astro build" auf — §11 verlangt das.');
   }
 }
 
 // ------------------------------------------------------------------ Report ---
 const line = '─'.repeat(72);
+// §13.3: cms-check meldet abweichende Versionszeilen.
+let contractVersion = 'unbekannt';
+const refPath = join(ROOT, 'CMS-REFERENCE.md');
+if (existsSync(refPath)) {
+  const m = /\*\*Version:\*\*\s*([0-9]+\.[0-9]+)/.exec(readFileSync(refPath, 'utf8'));
+  if (m) contractVersion = m[1];
+  else warn('CONTRACT', 'CMS-REFERENCE.md hat keine lesbare Versionszeile — §13.2 verlangt "Version: X.Y · Stand: JJJJ-MM-TT".');
+} else {
+  err('CONTRACT', 'CMS-REFERENCE.md fehlt im Repo-Root — §11/§13: die Datei gehört dorthin.');
+}
+
 console.log(line);
 console.log(`cms-check — ${fields.length} Felder / ${sections.length} Sektionen / ${htmlFiles.length} HTML-Dateien`);
-console.log(`CMS-Origin erwartet: ${CMS_ORIGIN}`);
+console.log(`Contract: CMS-REFERENCE.md ${contractVersion}   ·   CMS-Origin erwartet: ${CMS_ORIGIN}`);
 console.log(line);
 
 report(warnings, 'WARNUNGEN — nicht blockierend');

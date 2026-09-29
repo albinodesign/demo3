@@ -10,8 +10,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "check:cms": "node scripts/cms-check.mjs",
+    "check:cms:test": "node scripts/self-test.mjs",
     "check:images": "node scripts/check-cms-images.mjs --strict",
-    "release:check": "npm run check && npm run check:images && npm run build && npm run check:cms",
+    "release:check": "npm run check && npm run check:cms:test && npm run build && npm run check:cms && npm run check:images",
     "astro": "astro"
   },
   "dependencies": {
